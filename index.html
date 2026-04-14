@@ -1,0 +1,2175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tai Lin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── Reset ───────────────────────────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* ── Design tokens ───────────────────────────────────────── */
+      :root {
+        --cover-bg: #1a1916;
+        --interior-bg: #f5f0e8;
+        --cover-text: #e8e4dc;
+        --interior-text: #2c2820;
+        --gold: #c49a3c;
+        --gold-dark: #9a6f2a;
+        --ink-muted: #6b6456;
+        --ink-faint: #b8b0a2;
+        --border-dark: #2a2a28;
+        --border-light: #d8d0c0;
+        --nav-h: 56px;
+      }
+
+      /* ── Base ────────────────────────────────────────────────── */
+      html,
+      body {
+        height: 100%;
+        overflow: hidden; /* page-turn model — no document scroll */
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      /* ── Chapter views ───────────────────────────────────────── */
+      .chapter {
+        position: fixed;
+        inset: 0;
+        bottom: var(--nav-h);
+        overflow-y: auto;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .chapter.active {
+        display: block;
+      }
+
+      .chapter.visible {
+        opacity: 1;
+      }
+
+      /* Cover stays dark */
+      #cover {
+        background: var(--cover-bg);
+        color: var(--cover-text);
+      }
+
+      /* All interior pages use warm parchment */
+      .chapter.interior {
+        background: var(--interior-bg);
+        color: var(--interior-text);
+      }
+
+      /* ── Placeholder content (Step 1 only) ───────────────────── */
+      .placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100%;
+        padding: 48px;
+        text-align: center;
+        gap: 16px;
+      }
+
+      .placeholder-label {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      .placeholder-title {
+        font-family: "DM Serif Display", serif;
+        font-size: 36px;
+        line-height: 1.1;
+      }
+
+      #cover .placeholder-title {
+        color: var(--cover-text);
+      }
+      .interior .placeholder-title {
+        color: var(--interior-text);
+      }
+
+      .placeholder-body {
+        font-family: "Lora", serif;
+        font-size: 15px;
+        line-height: 1.7;
+        max-width: 520px;
+      }
+
+      #cover .placeholder-body {
+        color: #7a7672;
+      }
+      .interior .placeholder-body {
+        color: var(--ink-muted);
+      }
+
+      /* ── Bottom navigation bar ───────────────────────────────── */
+      #nav-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: var(--nav-h);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        z-index: 100;
+        transition:
+          background 0.3s ease,
+          border-color 0.3s ease;
+      }
+
+      #nav-bar.dark {
+        background: #111110;
+        border-top: 0.5px solid var(--border-dark);
+      }
+
+      #nav-bar.light {
+        background: #ede8df;
+        border-top: 0.5px solid var(--border-light);
+      }
+
+      .nav-btn {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px 0;
+        transition: color 0.15s;
+        min-width: 120px;
+      }
+
+      .nav-btn:disabled {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #nav-bar.dark .nav-btn {
+        color: #4a4a44;
+      }
+      #nav-bar.dark .nav-btn:not(:disabled):hover {
+        color: var(--gold);
+      }
+      #nav-bar.light .nav-btn {
+        color: var(--ink-faint);
+      }
+      #nav-bar.light .nav-btn:not(:disabled):hover {
+        color: var(--gold-dark);
+      }
+
+      #nav-prev {
+        text-align: left;
+      }
+      #nav-next {
+        text-align: right;
+      }
+
+      #nav-indicator {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-align: center;
+        flex: 1;
+        padding: 0 16px;
+        transition: color 0.3s;
+      }
+
+      #nav-bar.dark #nav-indicator {
+        color: #3a3a36;
+      }
+      #nav-bar.light #nav-indicator {
+        color: var(--ink-faint);
+      }
+
+      /* ── Cover nav override ──────────────────────────────────── */
+      #nav-bar.cover-mode {
+        justify-content: center;
+        height: 64px; /* slightly taller — more presence */
+      }
+
+      #nav-bar.cover-mode #nav-prev,
+      #nav-bar.cover-mode #nav-indicator {
+        display: none;
+      }
+
+      #nav-bar.cover-mode #nav-next {
+        font-size: 13px;
+        letter-spacing: 0.14em;
+        color: var(--gold);
+        text-align: center;
+        min-width: auto;
+        padding: 10px 32px;
+        border: 0.5px solid #3a3632;
+        border-radius: 2px;
+        transition: color 0.2s, border-color 0.2s;
+      }
+
+      #nav-bar.cover-mode #nav-next:hover {
+        color: #e8c870;
+        border-color: #6a5020;
+      }
+
+      /* ── Cover clickable + hint ──────────────────────────────── */
+      #cover {
+        overflow: hidden; /* cover never scrolls — one static view */
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+      }
+
+      /* Restore pointer on links so they still feel interactive */
+      #cover a {
+        cursor: pointer;
+      }
+
+      .cover-hint {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #2e2e2a;
+        text-align: center;
+        padding: 14px 0 10px;
+        transition: color 0.3s;
+        user-select: none;
+      }
+
+      #cover:hover .cover-hint {
+        color: #4a4a42;
+      }
+
+      #cover.active {
+        display: flex;
+      }
+
+      .cover-inner {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 0;
+      }
+
+      /* Hero ---------------------------------------------------- */
+      .hero {
+        padding: 64px 56px 48px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: center;
+        width: 100%;
+        max-width: 1100px;
+      }
+
+      .hero-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        color: var(--gold);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      .hero-name {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(56px, 8vw, 88px);
+        line-height: 0.92;
+        color: #f0ece4;
+        letter-spacing: -0.02em;
+        margin-bottom: 28px;
+      }
+
+      .hero-name em {
+        font-style: italic;
+        color: var(--gold);
+      }
+
+      .hero-thesis {
+        font-family: "Lora", serif;
+        font-size: 15px;
+        line-height: 1.75;
+        color: #7a7672;
+        max-width: 440px;
+        margin-bottom: 36px;
+      }
+
+      .hero-links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .hero-link {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        color: #c8c4bc;
+        text-decoration: none;
+        border: 0.5px solid #3a3a36;
+        padding: 8px 14px;
+        border-radius: 2px;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+
+      .hero-link:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+      }
+
+      /* Right column -------------------------------------------- */
+      .hero-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 20px;
+      }
+
+      .availability-badge {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        color: #4a8c5c;
+        border: 0.5px solid #2a5c38;
+        background: #0f1f15;
+        padding: 7px 14px;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .pulse-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #4a8c5c;
+        flex-shrink: 0;
+        animation: pulse 2.2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* Stat grid ----------------------------------------------- */
+      .stat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: #2a2a28;
+        border: 0.5px solid #2a2a28;
+        border-radius: 3px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 260px;
+      }
+
+      .stat-cell {
+        background: #161614;
+        padding: 18px 20px;
+      }
+
+      .stat-num {
+        font-family: "DM Serif Display", serif;
+        font-size: 30px;
+        color: #f0ece4;
+        line-height: 1;
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: #4a4a44;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+
+      /* ── Table of Contents ───────────────────────────────────── */
+      .toc-inner {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 64px 56px 80px;
+      }
+
+      .toc-header {
+        margin-bottom: 56px;
+        padding-bottom: 24px;
+        border-bottom: 0.5px solid var(--border-light);
+      }
+
+      .page-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 12px;
+      }
+
+      .page-title {
+        font-family: "DM Serif Display", serif;
+        font-size: 40px;
+        line-height: 1.05;
+        color: var(--interior-text);
+        letter-spacing: -0.01em;
+      }
+
+      .toc-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .toc-entry {
+        display: flex;
+        align-items: baseline;
+        gap: 20px;
+        padding: 22px 0;
+        border-bottom: 0.5px solid var(--border-light);
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
+
+      .toc-entry:last-child {
+        border-bottom: none;
+      }
+
+      .toc-entry:hover .toc-chapter-title {
+        color: var(--gold-dark);
+      }
+
+      .toc-entry:hover .toc-num {
+        color: var(--gold-dark);
+      }
+
+      .toc-num {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        color: var(--gold);
+        text-transform: uppercase;
+        min-width: 28px;
+        flex-shrink: 0;
+        padding-top: 6px;
+        transition: color 0.15s;
+      }
+
+      .toc-body {
+        display: flex;
+        align-items: baseline;
+        flex: 1;
+        gap: 0;
+        min-width: 0;
+      }
+
+      .toc-chapter-title {
+        font-family: "DM Serif Display", serif;
+        font-size: 24px;
+        line-height: 1.15;
+        color: var(--interior-text);
+        white-space: nowrap;
+        transition: color 0.15s;
+      }
+
+      .toc-leaders {
+        flex: 1;
+        margin: 0 14px;
+        border-bottom: 1px dotted #c8bfb0;
+        position: relative;
+        top: -4px;
+        min-width: 24px;
+      }
+
+      .toc-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      /* ── Interior chapter layout ─────────────────────────────── */
+      .ch-inner {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 64px 56px 96px;
+      }
+
+      /* Chapter header */
+      .ch-header {
+        margin-bottom: 48px;
+        padding-bottom: 28px;
+        border-bottom: 0.5px solid var(--border-light);
+      }
+
+      .ch-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 14px;
+      }
+
+      .ch-title {
+        font-family: "DM Serif Display", serif;
+        font-size: 42px;
+        line-height: 1.05;
+        color: var(--interior-text);
+        letter-spacing: -0.01em;
+      }
+
+      /* Body prose */
+      .ch-body {
+        font-family: "Lora", serif;
+        font-size: 16px;
+        line-height: 1.85;
+        color: var(--interior-text);
+      }
+
+      .ch-body p + p {
+        margin-top: 24px;
+      }
+
+      /* Drop cap */
+      .drop-cap::first-letter {
+        font-family: "DM Serif Display", serif;
+        font-size: 4.8em;
+        line-height: 0.72;
+        float: left;
+        margin: 0.06em 0.1em 0 0;
+        color: var(--gold-dark);
+      }
+
+      /* Pull quote */
+      .pull-quote {
+        margin: 44px 0;
+        padding: 4px 0 4px 28px;
+        border-left: 2.5px solid var(--gold-dark);
+      }
+
+      .pull-quote p {
+        font-family: "Lora", serif;
+        font-style: italic;
+        font-size: 20px;
+        line-height: 1.55;
+        color: var(--interior-text);
+      }
+
+      /* Aside block */
+      .aside {
+        margin: 40px 0;
+        padding: 20px 24px;
+        border-left: 2px solid var(--gold);
+        background: rgba(196, 154, 60, 0.05);
+      }
+
+      .aside-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 10px;
+      }
+
+      .aside p {
+        font-family: "Lora", serif;
+        font-size: 14px;
+        line-height: 1.75;
+        color: var(--ink-muted);
+      }
+
+      /* Stat row */
+      .stat-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border: 0.5px solid var(--border-light);
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 44px 0;
+      }
+
+      .stat-row-cell {
+        padding: 20px 20px 16px;
+        border-right: 0.5px solid var(--border-light);
+      }
+
+      .stat-row-cell:last-child {
+        border-right: none;
+      }
+
+      .stat-row-num {
+        font-family: "DM Serif Display", serif;
+        font-size: 26px;
+        color: var(--interior-text);
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+
+      .stat-row-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+
+      /* ── Agent section (Ch III) ──────────────────────────────── */
+      .agent-section {
+        margin-top: 48px;
+        padding-top: 40px;
+        border-top: 0.5px solid var(--border-light);
+      }
+
+      .agent-section:first-of-type {
+        margin-top: 36px;
+      }
+
+      .agent-header {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+
+      .agent-name {
+        font-family: "DM Serif Display", serif;
+        font-size: 32px;
+        color: var(--interior-text);
+        line-height: 1;
+      }
+
+      .agent-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold);
+        padding: 3px 8px;
+        border: 0.5px solid var(--gold);
+        border-radius: 2px;
+      }
+
+      /* Technical detail list */
+      .tech-list {
+        list-style: none;
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .tech-list li {
+        font-family: "Lora", serif;
+        font-size: 14px;
+        line-height: 1.65;
+        color: var(--ink-muted);
+        padding-left: 20px;
+        position: relative;
+      }
+
+      .tech-list li::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: var(--gold-dark);
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+      }
+
+      .tech-list code {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        background: rgba(154, 111, 42, 0.08);
+        color: var(--gold-dark);
+        padding: 1px 5px;
+        border-radius: 2px;
+      }
+
+      /* Inline code in prose */
+      .ch-body code {
+        font-family: "DM Mono", monospace;
+        font-size: 13px;
+        background: rgba(154, 111, 42, 0.08);
+        color: var(--gold-dark);
+        padding: 1px 5px;
+        border-radius: 2px;
+      }
+
+      /* Outcome section */
+      .outcome-section {
+        margin-top: 52px;
+        padding-top: 36px;
+        border-top: 0.5px solid var(--border-light);
+      }
+
+      .outcome-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 16px;
+      }
+
+      /* ── Code block (Ch IV+) ─────────────────────────────────── */
+      .code-block {
+        background: #141312;
+        border: 0.5px solid #2e2c28;
+        border-radius: 3px;
+        padding: 22px 24px;
+        margin: 36px 0;
+        overflow-x: auto;
+      }
+
+      .code-block-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #4a4a44;
+        margin-bottom: 14px;
+      }
+
+      .code-block pre {
+        font-family: "DM Mono", monospace;
+        font-size: 12.5px;
+        line-height: 1.75;
+        color: #c0bbb2;
+        margin: 0;
+        white-space: pre;
+      }
+
+      .code-block .cm {
+        color: #5a5a52;
+      } /* comment */
+      .code-block .ck {
+        color: var(--gold);
+      } /* keyword / highlight */
+      .code-block .cs {
+        color: #8fba8f;
+      } /* string / path */
+
+      /* ── Architecture table (Ch IV) ──────────────────────────── */
+      .arch-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 36px 0;
+        border: 0.5px solid var(--border-light);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .arch-table th {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        padding: 12px 18px;
+        text-align: left;
+        border-bottom: 0.5px solid var(--border-light);
+        background: rgba(0, 0, 0, 0.02);
+      }
+
+      .arch-table td {
+        font-family: "Lora", serif;
+        font-size: 14px;
+        line-height: 1.55;
+        padding: 14px 18px;
+        border-bottom: 0.5px solid var(--border-light);
+        vertical-align: top;
+        color: var(--interior-text);
+      }
+
+      .arch-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .arch-table td:first-child {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--gold-dark);
+        white-space: nowrap;
+      }
+
+      .arch-table td:nth-child(2) {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--ink-muted);
+        white-space: nowrap;
+      }
+
+      /* Allow / block lists */
+      .permission-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--border-light);
+        border: 0.5px solid var(--border-light);
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 32px 0;
+      }
+
+      .permission-col {
+        background: var(--interior-bg);
+        padding: 20px 22px;
+      }
+
+      .permission-col-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+
+      .permission-col-label.allow {
+        color: #4a7c4a;
+      }
+      .permission-col-label.block {
+        color: #8a4a4a;
+      }
+
+      .permission-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .permission-list li {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        line-height: 1.4;
+        padding-left: 18px;
+        position: relative;
+        color: var(--ink-muted);
+      }
+
+      .allow .permission-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #4a7c4a;
+        font-size: 10px;
+      }
+
+      .block .permission-list li::before {
+        content: "✕";
+        position: absolute;
+        left: 0;
+        color: #8a4a4a;
+        font-size: 10px;
+      }
+
+      /* ── Timeline (Ch VI) ────────────────────────────────────── */
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        margin-top: 8px;
+      }
+
+      .timeline-item {
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        gap: 36px;
+        padding: 32px 0;
+        border-bottom: 0.5px solid var(--border-light);
+      }
+
+      .timeline-item:last-child {
+        border-bottom: none;
+      }
+
+      .timeline-period {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--ink-faint);
+        line-height: 1.6;
+        padding-top: 3px;
+      }
+
+      .timeline-role {
+        font-family: "DM Sans", sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--interior-text);
+        margin-bottom: 3px;
+      }
+
+      .timeline-company {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--gold-dark);
+        letter-spacing: 0.04em;
+        margin-bottom: 14px;
+      }
+
+      .timeline-bullets {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .timeline-bullets li {
+        font-family: "Lora", serif;
+        font-size: 14px;
+        line-height: 1.65;
+        color: var(--ink-muted);
+        padding-left: 18px;
+        position: relative;
+      }
+
+      .timeline-bullets li::before {
+        content: "–";
+        position: absolute;
+        left: 0;
+        color: var(--ink-faint);
+        font-family: "DM Mono", monospace;
+      }
+
+      .timeline-note {
+        font-family: "Lora", serif;
+        font-style: italic;
+        font-size: 13px;
+        color: var(--ink-faint);
+        margin-top: 10px;
+      }
+
+      /* ── Capability table (Ch II) ────────────────────────────── */
+      .cap-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 36px 0;
+        border: 0.5px solid var(--border-light);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .cap-table th {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        padding: 11px 18px;
+        text-align: left;
+        border-bottom: 0.5px solid var(--border-light);
+        background: rgba(0,0,0,0.02);
+      }
+
+      .cap-table td {
+        font-family: "Lora", serif;
+        font-size: 14px;
+        line-height: 1.5;
+        padding: 13px 18px;
+        border-bottom: 0.5px solid var(--border-light);
+        vertical-align: top;
+        color: var(--interior-text);
+      }
+
+      .cap-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .cap-table td:first-child {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--gold-dark);
+        white-space: nowrap;
+      }
+
+      .cap-badge {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 2px 7px;
+        border-radius: 2px;
+        white-space: nowrap;
+      }
+
+      .cap-badge.customer {
+        color: #4a7c4a;
+        background: rgba(74, 124, 74, 0.08);
+        border: 0.5px solid rgba(74, 124, 74, 0.25);
+      }
+
+      .cap-badge.admin {
+        color: #8a5a2a;
+        background: rgba(196, 154, 60, 0.08);
+        border: 0.5px solid rgba(196, 154, 60, 0.25);
+      }
+
+      /* Layer heading inside chapter */
+      .layer-heading {
+        font-family: "DM Serif Display", serif;
+        font-size: 22px;
+        color: var(--interior-text);
+        margin: 44px 0 16px;
+        padding-top: 36px;
+        border-top: 0.5px solid var(--border-light);
+      }
+
+      .layer-num {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold);
+        display: block;
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── Cover ──────────────────────────────────────────────── -->
+    <div id="cover" class="chapter" data-index="0">
+      <div class="cover-inner">
+        <div class="hero">
+          <div class="hero-grid">
+            <!-- Left: identity -->
+            <div>
+              <div class="hero-eyebrow">
+                Founding Engineer · AI Infrastructure
+              </div>
+              <h1 class="hero-name">Tai<br /><em>Lin</em></h1>
+              <p class="hero-thesis">
+                Building the infrastructure layer that makes autonomous AI
+                agents safe, observable, and auditable in production.
+                Specialized in capital markets systems where probabilistic
+                models meet deterministic requirements.
+              </p>
+              <div class="hero-links">
+                <a
+                  class="hero-link"
+                  href="https://github.com/TaiPanda96"
+                  target="_blank"
+                  rel="noopener"
+                  >GitHub ↗</a
+                >
+                <a
+                  class="hero-link"
+                  href="https://linkedin.com/in/tai-lin-122682105"
+                  target="_blank"
+                  rel="noopener"
+                  >LinkedIn ↗</a
+                >
+                <a class="hero-link" href="mailto:taishanlin1996@gmail.com"
+                  >Email ↗</a
+                >
+              </div>
+            </div>
+
+            <!-- Right: signal -->
+            <div class="hero-right">
+              <div class="availability-badge">
+                <div class="pulse-dot"></div>
+                Available for consulting
+              </div>
+              <div class="stat-grid">
+                <div class="stat-cell">
+                  <div class="stat-num">6+</div>
+                  <div class="stat-label">Agents shipped</div>
+                </div>
+                <div class="stat-cell">
+                  <div class="stat-num">$200K</div>
+                  <div class="stat-label">ARR scaled</div>
+                </div>
+                <div class="stat-cell">
+                  <div class="stat-num">5yr</div>
+                  <div class="stat-label">Finance domain</div>
+                </div>
+                <div class="stat-cell">
+                  <div class="stat-num">0→1</div>
+                  <div class="stat-label">Founding eng.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cover hint -->
+        <div class="cover-hint">click anywhere · or press &rarr; to open</div>
+
+      </div>
+    </div>
+
+    <!-- ── Table of Contents ──────────────────────────────────── -->
+    <div id="toc" class="chapter interior" data-index="1">
+      <div class="toc-inner">
+        <div class="toc-header">
+          <div class="page-eyebrow">Tai Lin — Portfolio</div>
+          <h2 class="page-title">Table of<br />Contents</h2>
+        </div>
+
+        <ol class="toc-list">
+          <li class="toc-entry" onclick="goTo(2)">
+            <span class="toc-num">I</span>
+            <div class="toc-body">
+              <span class="toc-chapter-title">Who I Am &amp; What I Build</span>
+              <span class="toc-leaders"></span>
+              <span class="toc-tag">Introduction</span>
+            </div>
+          </li>
+          <li class="toc-entry" onclick="goTo(3)">
+            <span class="toc-num">II</span>
+            <div class="toc-body">
+              <span class="toc-chapter-title">The AI Agent Harness</span>
+              <span class="toc-leaders"></span>
+              <span class="toc-tag">Platform</span>
+            </div>
+          </li>
+          <li class="toc-entry" onclick="goTo(4)">
+            <span class="toc-num">III</span>
+            <div class="toc-body">
+              <span class="toc-chapter-title">Millie &amp; Penny</span>
+              <span class="toc-leaders"></span>
+              <span class="toc-tag">AI Agents</span>
+            </div>
+          </li>
+          <li class="toc-entry" onclick="goTo(5)">
+            <span class="toc-num">IV</span>
+            <div class="toc-body">
+              <span class="toc-chapter-title">The Night Agent</span>
+              <span class="toc-leaders"></span>
+              <span class="toc-tag">Agentic CI/CD</span>
+            </div>
+          </li>
+          <li class="toc-entry" onclick="goTo(6)">
+            <span class="toc-num">V</span>
+            <div class="toc-body">
+              <span class="toc-chapter-title">The Financial Engines</span>
+              <span class="toc-leaders"></span>
+              <span class="toc-tag">Core Systems</span>
+            </div>
+          </li>
+          <li class="toc-entry" onclick="goTo(7)">
+            <span class="toc-num">VI</span>
+            <div class="toc-body">
+              <span class="toc-chapter-title">Before HighFi</span>
+              <span class="toc-leaders"></span>
+              <span class="toc-tag">Prior Work</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- ── Chapter I ──────────────────────────────────────────── -->
+    <div id="ch1" class="chapter interior" data-index="2">
+      <div class="ch-inner">
+        <div class="ch-header">
+          <div class="ch-eyebrow">Chapter I · Introduction</div>
+          <h2 class="ch-title">Who I Am &amp;<br />What I Build</h2>
+        </div>
+
+        <div class="ch-body">
+          <p class="drop-cap">
+            The work I do sits at an uncomfortable intersection. Language models
+            are probabilistic — they generate, approximate, and occasionally
+            hallucinate. Financial systems are deterministic — they settle,
+            audit, and carry real legal and financial consequences. My job is to
+            build the infrastructure layer between them: the harnesses,
+            guardrails, and engines that let autonomous agents operate in
+            contexts where failure is not a performance problem, it's a
+            compliance problem.
+          </p>
+
+          <p>
+            I didn't arrive here through a conventional path. Three years at BMO
+            as a business analyst in capital markets and commercial banking gave
+            me something most engineers don't carry: I read the legal
+            agreements. I defined the requirements for credit systems. I
+            understood how financial infrastructure actually works before I ever
+            wrote a line of production code. That domain depth is not incidental
+            to the work — it's the foundation that makes the technical decisions
+            trustworthy.
+          </p>
+
+          <p>
+            Then I taught myself to code. Joined Utradea as one of its first
+            engineers, shipped paid production features within months, led a
+            100+ API migration post-merger, built the company's first OpenAI
+            integration. By the time I joined HighFi as a founding engineer in
+            2023, the path from capital markets operations to autonomous agent
+            infrastructure felt less like a career pivot and more like an
+            inevitable convergence.
+          </p>
+
+          <div class="pull-quote">
+            <p>
+              "The question isn't whether the model is capable. It's whether
+              your infrastructure is ready for what the model might do."
+            </p>
+          </div>
+
+          <p>
+            At HighFi, I design and build the systems that make autonomous
+            operation safe: a typed agent harness with structured step tracing
+            and full audit trails, a role-based capability registry that gates
+            LLM tool access by customer and user role, a config-driven
+            calculation engine that replaces per-customer engineering sprints,
+            and a nightly CI pipeline that autonomously implements specs behind
+            a zero-trust security layer. Each of these is an infrastructure
+            problem as much as an AI problem.
+          </p>
+
+          <div class="stat-row">
+            <div class="stat-row-cell">
+              <div class="stat-row-num">6+</div>
+              <div class="stat-row-label">Agents in production</div>
+            </div>
+            <div class="stat-row-cell">
+              <div class="stat-row-num">$200K</div>
+              <div class="stat-row-label">ARR scaled</div>
+            </div>
+            <div class="stat-row-cell">
+              <div class="stat-row-num">5yr</div>
+              <div class="stat-row-label">Finance domain</div>
+            </div>
+            <div class="stat-row-cell">
+              <div class="stat-row-num">0→1</div>
+              <div class="stat-row-label">Founding engineer</div>
+            </div>
+          </div>
+
+          <p>
+            This portfolio is not a digitized resume. It is the story behind the
+            bullet points — the architectural decisions, the tradeoffs that had
+            consequences, the design choices that only make sense in context. It
+            is written for engineers and founders doing due diligence, and for
+            potential clients evaluating whether the domain credibility is real.
+            The six chapters that follow each follow the same structure: what
+            was broken or missing, what I built, and what changed.
+          </p>
+
+          <div class="aside">
+            <div class="aside-label">Why this portfolio exists</div>
+            <p>
+              A resume is a compression artifact. It reduces months of hard
+              architectural decisions to a single bullet point. This format
+              exists because the most important signal — the reasoning behind
+              the decisions — doesn't survive that compression. The case studies
+              that follow are an attempt to recover it.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Chapter II ─────────────────────────────────────────── -->
+    <div id="ch2" class="chapter interior" data-index="3">
+      <div class="ch-inner">
+
+        <div class="ch-header">
+          <div class="ch-eyebrow">Chapter II · Platform</div>
+          <h2 class="ch-title">The AI Agent Harness</h2>
+        </div>
+
+        <div class="ch-body">
+
+          <p class="drop-cap">In a regulated financial context, an agent that fails silently is not a bug — it's a compliance risk. Before the harness existed, each new agent at HighFi required rebuilding the same scaffolding from scratch: logging setup, error collection, step tracking, Slack notifications. No two agents had consistent observability. There was no shared audit trail. When something went wrong, reconstructing what the agent had done required reading logs by hand. The harness was built to solve this once, at the infrastructure level, so no individual agent ever has to solve it again.</p>
+
+          <p>The architecture has three layers: an execution contract that every agent inherits, a step tracing system that makes every action observable, and a capability registry that controls what each agent is allowed to do based on who is asking.</p>
+
+          <!-- Layer 1 -->
+          <h3 class="layer-heading">
+            <span class="layer-num">Layer 1</span>
+            The Execution Contract
+          </h3>
+
+          <p>Every agent extends <code>BaseAgent&lt;TDeps, TInput, TOutput&gt;</code>. The three generics are the entire contract: what context the agent needs, what it accepts, what it returns. Typed dependency injection means agents declare their requirements explicitly — no hidden globals, no ambient context. The <code>execute</code> method is the only thing a subclass must implement. Everything else — tracing, error collection, Slack observability — is inherited.</p>
+
+          <div class="code-block">
+            <div class="code-block-label">BaseAgent — execution contract</div>
+            <pre><span class="ck">abstract class</span> BaseAgent&lt;<span class="ck">TDeps</span>, <span class="ck">TInput</span>, <span class="ck">TOutput</span>&gt; {
+  <span class="ck">abstract readonly</span> agentId: <span class="ck">string</span>
+  <span class="ck">constructor</span>(deps: <span class="ck">TDeps</span>)
+
+  <span class="cm">// Inherited — every subclass gets these for free</span>
+  <span class="ck">protected</span> startStep(stepName: <span class="ck">string</span>, input: unknown): <span class="ck">StepTrace</span>
+  <span class="ck">protected</span> finishStep(trace: <span class="ck">StepTrace</span>, output: unknown): <span class="ck">StepTrace</span>
+  <span class="ck">protected</span> failStep(trace: <span class="ck">StepTrace</span>, error: unknown): <span class="ck">StepTrace</span>
+  <span class="ck">protected</span> createOnStepFinish(stepPrefix: <span class="ck">string</span>): <span class="ck">OnStepFinishCallback</span>
+  withSlackNotifications(handler: <span class="ck">SlackStepTraceHandler</span>, user?: <span class="ck">string</span>): <span class="ck">this</span>
+
+  <span class="cm">// Must be implemented by each subclass</span>
+  <span class="ck">abstract</span> execute(input: <span class="ck">TInput</span>): Promise&lt;<span class="ck">AgentHandoff</span>&lt;<span class="ck">TOutput</span>&gt;&gt;
+}</pre>
+          </div>
+
+          <p>In practice, a new agent is a short file. The <code>SentinelAgent</code> below — which monitors DeFi portfolio health — exists as a complete, production-ready agent in about 20 lines:</p>
+
+          <div class="code-block">
+            <div class="code-block-label">SentinelAgent — a new agent in ~20 lines</div>
+            <pre><span class="ck">class</span> SentinelAgent <span class="ck">extends</span> BaseAgent&lt;<span class="ck">SentinelDeps</span>, <span class="ck">SentinelInput</span>, <span class="ck">SentinelOutput</span>&gt; {
+  <span class="ck">readonly</span> agentId = <span class="cs">'sentinel-agent'</span>
+
+  <span class="ck">async</span> execute(input: <span class="ck">SentinelInput</span>): Promise&lt;<span class="ck">AgentHandoff</span>&lt;<span class="ck">SentinelOutput</span>&gt;&gt; {
+    <span class="ck">const</span> step = <span class="ck">this</span>.startStep(<span class="cs">'analyzePortfolio'</span>, { portfolioId: input.portfolioId })
+    <span class="ck">try</span> {
+      <span class="ck">const</span> result = <span class="ck">await</span> someAnalysis(<span class="ck">this</span>.deps.morpho, <span class="ck">this</span>.deps.prisma, input)
+      <span class="ck">this</span>.finishStep(step, result)
+      <span class="ck">return this</span>.succeed({ riskLevel: result.riskLevel })
+    } <span class="ck">catch</span> (error) {
+      <span class="ck">this</span>.failStep(step, error)
+      <span class="ck">return this</span>.fail({ riskLevel: <span class="cs">'HIGH'</span> }, [error <span class="ck">as</span> Error])
+    }
+  }
+}</pre>
+          </div>
+
+          <!-- Layer 2 -->
+          <h3 class="layer-heading">
+            <span class="layer-num">Layer 2</span>
+            Step Tracing
+          </h3>
+
+          <p>Every call to <code>startStep</code> creates a <code>StepTrace</code> — a timestamped record of what the agent was doing, what it received as input, and what it produced as output. When <code>finishStep</code> or <code>failStep</code> is called, the duration is computed and the trace is pushed to an accumulated list. At the end of execution, every step the agent took is captured in the <code>AgentHandoff</code> it returns. The audit trail is a side effect of running the agent, not a separate instrumentation task.</p>
+
+          <div class="code-block">
+            <div class="code-block-label">StepTrace — one record per agent step</div>
+            <pre><span class="ck">interface</span> StepTrace {
+  id:        <span class="ck">string</span>          <span class="cm">// randomUUID()</span>
+  agentId:   <span class="ck">string</span>          <span class="cm">// which agent produced this step</span>
+  stepName:  <span class="ck">string</span>          <span class="cm">// e.g. 'analyzePortfolio', 'llm-reasoning:step'</span>
+  input:     unknown          <span class="cm">// what was passed in</span>
+  output:    unknown          <span class="cm">// what was produced</span>
+  timestamp: <span class="ck">Date</span>
+  durationMs: <span class="ck">number</span>
+  status:    <span class="cs">'pending'</span> | <span class="cs">'complete'</span> | <span class="cs">'error'</span>
+  metadata?: Record&lt;<span class="ck">string</span>, unknown&gt;
+}</pre>
+          </div>
+
+          <p><code>createOnStepFinish</code> wires this tracing directly into the Vercel AI SDK's <code>onStepFinish</code> callback, so every LLM reasoning step — including tool call sequences — is captured automatically. No manual instrumentation required at the model layer.</p>
+
+          <!-- Layer 3 -->
+          <h3 class="layer-heading">
+            <span class="layer-num">Layer 3</span>
+            The Capability Registry
+          </h3>
+
+          <p>The registry answers one question at request time: given this customer and this user, which tools is the agent allowed to call? The decision is not purely role-based — it is state-based. A customer must have active facilities in the database before customer-facing capabilities are unlocked. Admin capabilities are gated separately. The model's authorized toolset and system prompt are both constructed from this evaluation — the model only receives guidance for tools it is permitted to use.</p>
+
+          <div class="code-block">
+            <div class="code-block-label">getAvailableCapabilities — state-based access control</div>
+            <pre><span class="ck">async function</span> getAvailableCapabilities(ctx, { customer, isAdmin }) {
+  <span class="ck">const</span> facilityCount = <span class="ck">await</span> ctx.prisma.facility.count({
+    where: { customerId: customer.id }
+  })
+
+  <span class="ck">if</span> (facilityCount &gt; 0) {
+    <span class="cm">// Customer-facing tools require at least one active facility</span>
+    push(FUNDING_REQUEST_SUPPORT, FEES_SUPPORT, FACILITY_REPORTING)
+  }
+
+  <span class="ck">if</span> (isAdmin) {
+    <span class="cm">// DeFi and Morpho tools are admin-only, regardless of facility state</span>
+    push(DEFI_OPERATIONS, MORPHO_MARKET_ANALYSIS)
+  }
+}</pre>
+          </div>
+
+          <table class="cap-table">
+            <thead>
+              <tr>
+                <th>Capability</th>
+                <th>Access condition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>funding-request-support</td>
+                <td><span class="cap-badge customer">Customer</span>&nbsp; Active facilities in database</td>
+              </tr>
+              <tr>
+                <td>fees-support</td>
+                <td><span class="cap-badge customer">Customer</span>&nbsp; Active facilities in database</td>
+              </tr>
+              <tr>
+                <td>facility-reporting</td>
+                <td><span class="cap-badge customer">Customer</span>&nbsp; Active facilities in database</td>
+              </tr>
+              <tr>
+                <td>defi-operations</td>
+                <td><span class="cap-badge admin">Admin only</span></td>
+              </tr>
+              <tr>
+                <td>morpho-market-analysis</td>
+                <td><span class="cap-badge admin">Admin only</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="aside">
+            <div class="aside-label">The ToolManifest pattern</div>
+            <p>Each capability ships with a <code>ToolManifest</code> — a structured object containing <code>promptGuidance</code>, <code>workflows</code>, <code>examples</code>, and <code>constraints</code>. When an authorized toolset is assembled, the manifests for each capability are injected into the system prompt. The model receives workflow instructions only for what it's allowed to do. This is what makes the dynamic system prompt possible — it's not a static string, it's a capability manifest rendered at runtime.</p>
+          </div>
+
+          <div class="outcome-section">
+            <div class="outcome-label">Outcome</div>
+            <div class="pull-quote" style="margin-top: 0;">
+              <p>Six agents in production. A new agent is <code>extends BaseAgent</code>, typed deps, and an <code>execute</code> implementation. Observability, step tracing, authorization, and Slack notifications are inherited. Every execution produces a complete audit trail automatically.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Chapter III ────────────────────────────────────────── -->
+    <div id="ch3" class="chapter interior" data-index="4">
+      <div class="ch-inner">
+        <div class="ch-header">
+          <div class="ch-eyebrow">Chapter III · AI Agents</div>
+          <h2 class="ch-title">Millie &amp; Penny</h2>
+        </div>
+
+        <div class="ch-body">
+          <p class="drop-cap">
+            The core problem with LLM agents in a multi-tenant regulated context
+            is not capability — it's authorization. A single-prompt agent either
+            over-exposes tools to users who shouldn't have them, or becomes so
+            restrictive it can't do anything useful. The challenge compounds
+            when a single platform serves customers with fundamentally different
+            permission models, and when a single customer has users with
+            different roles. Millie and Penny were built to solve this problem
+            in two different surfaces: Slack and the in-app dashboard.
+          </p>
+
+          <p>
+            Both agents share the same underlying infrastructure — the
+            <code>BaseAgent</code> harness, the capability registry, the
+            <code>Conversation</code> and <code>Message</code> models in
+            PostgreSQL. What differs is the surface, the execution model, and
+            the context each one carries into a session.
+          </p>
+
+          <!-- Millie -->
+          <div class="agent-section">
+            <div class="agent-header">
+              <h3 class="agent-name">Millie</h3>
+              <span class="agent-tag">Slack Agent</span>
+            </div>
+
+            <p>
+              Millie lives inside a customer's Slack workspace and handles
+              capital markets operations: funding requests, SOFR rate updates,
+              facility reporting, and DeFi portfolio queries. The design
+              challenge was building an agent that could safely execute 15-step
+              multi-tool sequences across a regulated financial workflow —
+              inside a Slack thread — with full auditability at every step and
+              correct permissions for whoever was asking.
+            </p>
+
+            <p>
+              Every Millie request begins with a capability resolution step.
+              Based on the requesting user's role and the customer's configured
+              permissions, an authorized toolset is constructed dynamically. A
+              customer operations user sees funding request tools. An admin gets
+              DeFi portfolio tools on top. The system prompt is not static — it
+              is generated at runtime from the capability registry, injecting
+              per-capability workflow manifests for each authorized tool. The
+              model only knows about tools it is allowed to call.
+            </p>
+
+            <ul class="tech-list">
+              <li>
+                <code
+                  >MillieSlackAgent extends BaseAgent&lt;AgentDeps,
+                  MillieSlackInput, MillieSlackOutput&gt;</code
+                >
+              </li>
+              <li>
+                Dynamically constructs authorized toolset per-request from the
+                capability registry
+              </li>
+              <li>15-step multi-tool execution via Claude claude-sonnet-4-5</li>
+              <li>
+                Full Slack webhook verification
+                (<code>@slack/events-api</code>), event deduplication, bot
+                message filtering
+              </li>
+              <li>
+                Conversation persistence in PostgreSQL — reconstructed as
+                <code>CoreMessage[]</code> per turn
+              </li>
+              <li>
+                Tool prefix audit trail feeding
+                <code>inferCapabilitiesFromTools()</code> for compliance logging
+              </li>
+            </ul>
+          </div>
+
+          <!-- Penny -->
+          <div class="agent-section">
+            <div class="agent-header">
+              <h3 class="agent-name">Penny</h3>
+              <span class="agent-tag">In-App Agent</span>
+            </div>
+
+            <p>
+              Penny is the in-app counterpart — a streaming Capital Markets AI
+              agent embedded in the HighFi dashboard. Where Millie handles
+              requests asynchronously inside a Slack thread, Penny surfaces in
+              the context of an active customer session: during a funding
+              request review, alongside an eligibility amendment workflow, or in
+              a read-only reporting mode. The context available to Penny is
+              richer and more structured than what Millie receives through a
+              Slack message.
+            </p>
+
+            <p>
+              The architecture is deliberately multi-modal. Claude and Gemini
+              2.0 Flash are both available at runtime, selectable by the user.
+              Three chat modes carry different system prompts and different tool
+              access. An <code>amendmentEdit</code> session injects the current
+              eligibility terms as structured context and grants CRUD access to
+              amendment workflows. A <code>report</code> session is read-only:
+              the model can query and explain, but cannot mutate. Every
+              session's system message is constructed fresh from customer data,
+              amendment context, and mode instructions.
+            </p>
+
+            <ul class="tech-list">
+              <li>
+                Streaming responses via Vercel AI SDK — 300s max execution
+                window
+              </li>
+              <li>
+                Multi-model: Claude + Gemini 2.0 Flash selectable at runtime
+              </li>
+              <li>
+                Three chat modes: <code>default</code>,
+                <code>amendmentEdit</code> (CRUD on eligibility terms),
+                <code>report</code> (read-only)
+              </li>
+              <li>
+                Dynamic system message per session: customer data + amendment
+                context + mode instructions
+              </li>
+              <li>
+                Shared <code>Conversation</code> / <code>Message</code> Prisma
+                models with Millie
+              </li>
+            </ul>
+          </div>
+
+          <!-- Outcome -->
+          <div class="outcome-section">
+            <div class="outcome-label">Outcome</div>
+            <div class="pull-quote" style="margin-top: 0">
+              <p>
+                Multi-step operations that previously required manual
+                back-office coordination now complete in a single Slack thread.
+                Penny replaced the manual reporting and funding request process
+                for HighFi's first enterprise customers — owned concept to live
+                deployment.
+              </p>
+            </div>
+
+            <div class="aside">
+              <div class="aside-label">The shared infrastructure advantage</div>
+              <p>
+                Because Millie and Penny share the same conversation models,
+                capability registry, and base agent harness, every improvement
+                to the platform benefits both. A new capability added to the
+                registry becomes available in both surfaces simultaneously. An
+                audit log improvement to <code>BaseAgent</code> propagates to
+                every agent. The infrastructure investment compounds.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Chapter IV ─────────────────────────────────────────── -->
+    <div id="ch4" class="chapter interior" data-index="5">
+      <div class="ch-inner">
+        <div class="ch-header">
+          <div class="ch-eyebrow">Chapter IV · Agentic CI/CD</div>
+          <h2 class="ch-title">The Night Agent</h2>
+        </div>
+
+        <div class="ch-body">
+
+          <p class="drop-cap">The obvious solution to a growing spec backlog on a small founding team is to have an AI agent write code overnight. The non-obvious problem is that this is also a serious security risk. A spec file is an untrusted input — written by humans, stored in version control, read directly by the model. If a spec contains a carefully crafted instruction and the agent executes it without restriction, the autonomous pipeline becomes an attack surface. The challenge here wasn't building the pipeline. It was making autonomous execution safe enough to actually trust.</p>
+
+          <p>The answer was a three-stage pipeline with explicit time budgets, typed handoffs between agents, and a security layer that operates below the model — at the shell level — so no prompt can override it.</p>
+
+          <h3 class="layer-heading">
+            <span class="layer-num">The Pipeline</span>
+            Three Agents, One Job
+          </h3>
+
+          <p>The pipeline runs nightly as a single GitHub Actions job with a 55-minute total budget. Three Claude Code instances run sequentially, each with a scoped role and an explicit timeout. A partial result is better than a stalled pipeline — each stage is designed to degrade gracefully if it runs out of time.</p>
+
+          <table class="arch-table">
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th>Agent</th>
+                <th>Budget</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Planner</td>
+                <td>10 min</td>
+                <td>Reads the spec and codebase, writes <code>tmp/implementation-plan.md</code></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Implementer</td>
+                <td>25 min</td>
+                <td>Reads the plan, writes and commits code incrementally</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>QA</td>
+                <td>8 min</td>
+                <td>Runs checks, reviews the diff, posts a PR comment, updates spec status</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 class="layer-heading">
+            <span class="layer-num">The Architecture</span>
+            Handoff Files as Agent Communication
+          </h3>
+
+          <p>The three agents are stateless — they share no runtime state and run in separate shell contexts. Coordination happens through files written to a <code>tmp/</code> handoff directory. The Planner writes an implementation plan. The Implementer reads it, produces code and commits, then writes a result summary. The QA agent reads both. If the Planner times out but produced a partial plan, the Implementer continues with what exists. Each stage is independently observable — the handoff files are committed alongside the code.</p>
+
+          <div class="code-block">
+            <div class="code-block-label">Agent coordination via handoff files</div>
+            <pre><span class="cm"># Stage 1 — Planner writes the plan</span>
+<span class="ck">Planner</span>      →  <span class="cs">tmp/implementation-plan.md</span>
+
+<span class="cm"># Stage 2 — Implementer reads plan, writes code, writes result</span>
+<span class="ck">Implementer</span>  ←  <span class="cs">tmp/implementation-plan.md</span>
+             →  <span class="cs">tmp/implementation-result.md</span>  +  git commits
+
+<span class="cm"># Stage 3 — QA reads both, posts PR comment, updates spec</span>
+<span class="ck">QA Agent</span>     ←  <span class="cs">tmp/implementation-plan.md</span>  +  <span class="cs">tmp/implementation-result.md</span>
+             →  PR comment  +  spec status update</pre>
+          </div>
+
+          <p>Redis and PostgreSQL spin up as services in the CI job — the Implementer's code is tested against real infrastructure before a human sees it. Typecheck, lint, and test all run before QA signs off. Post-processing always executes regardless of outcome: Prettier auto-formats any output and commits the diff.</p>
+
+          <h3 class="layer-heading">
+            <span class="layer-num">The Security Layer</span>
+            SHELL Interception + Spec Validation
+          </h3>
+
+          <p>Each Claude Code instance runs with <code>--dangerously-skip-permissions</code> — a flag that sounds alarming until you understand the design. The flag disables the CLI's own permission prompts. Safety is not handled at the prompt layer. It is handled at the shell layer, one level below, where it cannot be overridden by any model output.</p>
+
+          <p>The <code>SHELL</code> environment variable is set to a custom wrapper before the agent starts. Every bash command the agent attempts to run — regardless of what the model was instructed to do — routes through <code>safe-bash.sh</code>, into <code>safe-execute.ts</code>, and into the <code>SafeCommandExecutor</code> whitelist. Commands not on the list are rejected before execution. The model never receives confirmation that the command ran.</p>
+
+          <div class="code-block">
+            <div class="code-block-label">SHELL hijack — safety below the prompt layer</div>
+            <pre><span class="cm"># SHELL is set before the agent starts — intercepts every command</span>
+<span class="ck">SHELL</span>=scripts/safe-bash.sh <span class="cs">claude --dangerously-skip-permissions</span>
+
+<span class="cm"># Every bash invocation routes through this chain</span>
+<span class="cs">safe-bash.sh</span> → <span class="cs">safe-execute.ts</span> → <span class="ck">SafeCommandExecutor</span> → whitelist → execute or reject
+
+<span class="cm"># Spec files are validated before the model reads them</span>
+path traversal check → injection scan (<span class="cs">eval</span>, <span class="cs">exec</span>, <span class="cs">$(...)</span>) → 500KB size limit</pre>
+          </div>
+
+          <div class="permission-grid">
+            <div class="permission-col allow">
+              <div class="permission-col-label allow">Allowed</div>
+              <ul class="permission-list">
+                <li>git (commit, push, status, diff)</li>
+                <li>bun test / lint / typecheck</li>
+                <li>gh CLI (PR creation, status)</li>
+                <li>ls, cat, find, pwd</li>
+              </ul>
+            </div>
+            <div class="permission-col block">
+              <div class="permission-col-label block">Blocked</div>
+              <ul class="permission-list">
+                <li>rm, rmdir (filesystem destruction)</li>
+                <li>sudo, chmod (privilege escalation)</li>
+                <li>curl, wget (arbitrary network access)</li>
+                <li>arbitrary package installs</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="layer-heading">
+            <span class="layer-num">The Spec Lifecycle</span>
+            From Backlog to Reviewed PR
+          </h3>
+
+          <p>Specs carry a <code>status</code> field in their frontmatter. The pipeline moves specs through a defined lifecycle — but only under the right conditions. QA agent sign-off is required before a spec is marked complete. A timeout leaves the spec as <code>in-progress</code> for the next nightly run rather than marking it failed. A silent failure is a retry, not a terminal state.</p>
+
+          <div class="code-block">
+            <div class="code-block-label">Spec status lifecycle</div>
+            <pre><span class="cm"># Spec starts here when queued for implementation</span>
+status: <span class="cs">in-progress</span>
+
+    ↓  QA agent completes + all checks pass
+status: <span class="ck">completed</span>
+
+    ↓  QA agent completes + checks fail
+status: <span class="cs">blocked</span>
+
+    ↓  QA agent times out — no sign-off written
+status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — retried next night</span></pre>
+          </div>
+
+          <div class="outcome-section">
+            <div class="outcome-label">Outcome</div>
+            <div class="pull-quote" style="margin-top: 0;">
+              <p>Specs written during the day are implemented overnight. The security layer has blocked real injection attempts found in spec content. The team reviews PRs at 8 AM. Effective engineering capacity expanded without adding headcount.</p>
+            </div>
+
+            <div class="aside">
+              <div class="aside-label">The design principle that generalizes</div>
+              <p>The <code>SHELL</code> hijack pattern applies to any autonomous agent that executes shell commands in an untrusted environment. The key insight: safety should not be a prompt-level concern. Prompts can be overridden by model output. The shell cannot. Intercept at the lowest level, whitelist rather than blacklist, validate inputs before they reach the model. Prompt injection through spec content is not a theoretical risk — it is a practical one that this architecture was specifically designed to defeat.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Chapter V ──────────────────────────────────────────── -->
+    <div id="ch5" class="chapter interior" data-index="6">
+      <div class="ch-inner">
+        <div class="ch-header">
+          <div class="ch-eyebrow">Chapter V · Core Systems</div>
+          <h2 class="ch-title">The Financial Engines</h2>
+        </div>
+
+        <div class="ch-body">
+          <p class="drop-cap">
+            Every new customer at HighFi brings a legal agreement that defines
+            their eligibility rules, concentration limits, and borrowing base
+            formula. No two are identical. In a system with hardcoded logic,
+            each new customer means an engineering sprint, and each formula
+            change means a code deployment. In a regulated context, that's not
+            just a scaling problem — it's a risk. The answer was to make the
+            rules themselves the configuration, not the code.
+          </p>
+
+          <p>
+            Two engines underpin every funding operation on the platform. The
+            Calculation Engine evaluates financial formulas. The Assignment
+            Engine allocates receivables under constraints. Together they
+            translate a customer's legal agreement into deterministic,
+            auditable, production-grade outputs — without touching the codebase
+            when the terms change.
+          </p>
+
+          <!-- Calculation Engine -->
+          <div class="agent-section">
+            <div class="agent-header">
+              <h3 class="agent-name">Calculation Engine</h3>
+              <span class="agent-tag">Config-Driven</span>
+            </div>
+
+            <p>
+              The core insight was that a borrowing base formula is just an
+              expression tree. Variables have dependencies. Some are inputs —
+              raw receivable attributes. Others are derived — computed from
+              other formulas. The evaluation order is a topological sort of that
+              dependency graph. Instead of encoding the formula as a function,
+              you encode it as data: a set of named expressions with declared
+              dependencies, evaluated at runtime in the correct order.
+            </p>
+
+            <p>
+              This makes the engine entirely self-serve. An ops team member can
+              add a new eligibility criterion, modify a concentration limit, or
+              update a facility-level formula through configuration — no code
+              change, no deployment. The engine reads the config, builds the
+              dependency graph, and evaluates.
+            </p>
+
+            <ul class="tech-list">
+              <li>
+                Formulas expressed as runtime-evaluable expressions — not
+                hardcoded functions
+              </li>
+              <li>Dependency graph evaluation with topological ordering</li>
+              <li>
+                Unified model: eligibility, concentration, and facility-level
+                calculations in one pass
+              </li>
+              <li>
+                Self-serve configuration — ops teams modify rules without
+                engineering involvement
+              </li>
+            </ul>
+          </div>
+
+          <!-- Assignment Engine -->
+          <div class="agent-section">
+            <div class="agent-header">
+              <h3 class="agent-name">Assignment Engine</h3>
+              <span class="agent-tag">Deterministic</span>
+            </div>
+
+            <p>
+              The Assignment Engine takes a pool of receivables and a set of
+              facility constraints and produces an allocation: which receivables
+              are assigned to which facility, in what order, up to the borrowing
+              base limit. The algorithm is deliberately simple — priority-sorted
+              iteration with eligibility checks and concentration limit
+              enforcement at each step. Simple is correct. Correctness here is
+              non-negotiable.
+            </p>
+
+            <div class="pull-quote">
+              <p>
+                "In a capital markets context, results are presented to
+                counterparties and regulators. Non-determinism isn't a
+                performance problem — it's a trust problem."
+              </p>
+            </div>
+
+            <p>
+              The determinism guarantee means that given the same input — the
+              same receivables, the same facility config, the same customer
+              rules — the engine will always produce the same assignment. The
+              output is verifiable against the legal agreement, auditable at
+              every step, and reproducible on demand. This is the property that
+              makes it trustworthy enough to underpin real funding operations.
+            </p>
+
+            <ul class="tech-list">
+              <li>
+                Priority-sorted receivables iteration with per-step eligibility
+                evaluation
+              </li>
+              <li>
+                Borrowing base constraint enforcement — halts when facility
+                capacity is reached
+              </li>
+              <li>Concentration limit enforcement at each assignment step</li>
+              <li>
+                Add/remove strategy support for initial assignment and
+                incremental portfolio adjustments
+              </li>
+              <li>
+                Deterministic guarantee: same inputs always produce the same
+                assignment
+              </li>
+            </ul>
+          </div>
+
+          <div class="outcome-section">
+            <div class="outcome-label">Outcome</div>
+            <div class="pull-quote" style="margin-top: 0">
+              <p>
+                New customer onboarding no longer requires an engineering
+                sprint. Formula changes deploy without code releases. The
+                Assignment Engine underpins every funding operation — auditable,
+                verifiable, and reproducible against the legal agreement.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Chapter VI ─────────────────────────────────────────── -->
+    <div id="ch6" class="chapter interior" data-index="7">
+      <div class="ch-inner">
+        <div class="ch-header">
+          <div class="ch-eyebrow">Chapter VI · Prior Work</div>
+          <h2 class="ch-title">Before HighFi</h2>
+        </div>
+
+        <div class="ch-body">
+          <p class="drop-cap">
+            The through-line of this career is not "I learned to code." It is "I
+            came to understand financial systems from the inside, then built the
+            tools to fix them." The path from capital markets operations at BMO
+            to founding engineer at HighFi was not a pivot away from finance —
+            it was a deepening into it, with a technical toolkit added along the
+            way.
+          </p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-period">2021–2023</div>
+              <div>
+                <div class="timeline-role">
+                  Software Engineer → Software Engineer II
+                </div>
+                <div class="timeline-company">
+                  Utradea · Node.js · MongoDB · PostgreSQL · AWS · Redis
+                </div>
+                <ul class="timeline-bullets">
+                  <li>
+                    Joined with no formal CS background — self-taught, shipped
+                    paid production features within months
+                  </li>
+                  <li>
+                    Built the SEC filing Sentiment Parser: NLP classification
+                    pipeline surfacing actionable stock signals from filings
+                  </li>
+                  <li>
+                    Integrated Stripe payments end-to-end, enabling Utradea's
+                    first paid users and monetization foundation
+                  </li>
+                  <li>
+                    Led migration of 100+ stock market APIs post-merger with
+                    Financial Modeling Prep into the Node.js / MongoDB stack
+                  </li>
+                  <li>
+                    Architected AWS infrastructure for scale: RDS, ECS
+                    containers, load balancers, structured logging
+                  </li>
+                  <li>
+                    Piloted and shipped the first OpenAI API integration — the
+                    Financial Writer tool, built on real-time market data APIs
+                  </li>
+                  <li>
+                    Implemented multi-node Redis cluster with read/write
+                    replication for rate limiting by subscription tier
+                  </li>
+                </ul>
+                <p class="timeline-note">
+                  First production AI integration. First time seeing the gap
+                  between "model is capable" and "system is ready."
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-period">2018–2021</div>
+              <div>
+                <div class="timeline-role">
+                  Business Analyst → Senior Business Analyst
+                </div>
+                <div class="timeline-company">
+                  BMO Financial Group · Capital Markets &amp; Commercial Banking
+                </div>
+                <ul class="timeline-bullets">
+                  <li>
+                    Led decommissioning of a vendor risk management platform —
+                    owned business requirements and migration to in-house
+                    replacement
+                  </li>
+                  <li>
+                    Defined E2E requirements and drove cross-functional delivery
+                    for the Credit Flow for Commercial Banking transformation
+                  </li>
+                  <li>
+                    Owned E2E Client Portal Integration — streamlined business
+                    banking onboarding across legacy systems via API
+                  </li>
+                  <li>
+                    Introduced configurable credit compliance reporting
+                    templates, scaled across multiple lines of business
+                  </li>
+                </ul>
+                <p class="timeline-note">
+                  Three years reading legal agreements and credit policies. The
+                  domain depth that makes the HighFi work trustworthy was built
+                  here.
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-period">2017–2018</div>
+              <div>
+                <div class="timeline-role">
+                  Student Cohort — Venture Growth in Machine Learning
+                </div>
+                <div class="timeline-company">
+                  Creative Destruction Lab · Rotman Commerce
+                </div>
+                <ul class="timeline-bullets">
+                  <li>
+                    Worked alongside ML-native founders and operators during the
+                    early commercial wave of machine learning
+                  </li>
+                  <li>
+                    Developed early conviction: AI-native products are an
+                    infrastructure problem as much as a model problem
+                  </li>
+                </ul>
+                <p class="timeline-note">
+                  The conviction formed here — that the bottleneck is
+                  infrastructure, not capability — has driven every technical
+                  decision since.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="aside" style="margin-top: 40px">
+            <div class="aside-label">The unusual path</div>
+            <p>
+              Most founding engineers come from engineering. The domain
+              expertise gets added later, if at all. This path inverted that —
+              deep financial domain knowledge first, technical skills second. In
+              a space where the correctness of the system has real financial and
+              legal consequences, that ordering turns out to matter.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Navigation bar ─────────────────────────────────────── -->
+    <nav id="nav-bar" class="dark">
+      <button id="nav-prev" class="nav-btn" onclick="navigate(-1)">
+        ← Prev
+      </button>
+      <span id="nav-indicator"></span>
+      <button id="nav-next" class="nav-btn" onclick="navigate(1)">
+        Next →
+      </button>
+    </nav>
+
+    <script>
+      const CHAPTERS = [
+        { id: "cover", label: "Cover", theme: "dark" },
+        { id: "toc", label: "Contents", theme: "light" },
+        { id: "ch1", label: "I — Who I Am", theme: "light" },
+        { id: "ch2", label: "II — Agent Harness", theme: "light" },
+        { id: "ch3", label: "III — Millie & Penny", theme: "light" },
+        { id: "ch4", label: "IV — Night Agent", theme: "light" },
+        { id: "ch5", label: "V — Financial Engines", theme: "light" },
+        { id: "ch6", label: "VI — Before HighFi", theme: "light" },
+      ];
+
+      let current = 0;
+
+      function goTo(index) {
+        if (index < 0 || index >= CHAPTERS.length) return;
+
+        // Hide current
+        const prev = document.querySelector(".chapter.active");
+        if (prev) {
+          prev.classList.remove("visible");
+          setTimeout(() => prev.classList.remove("active"), 300);
+        }
+
+        // Show next after brief delay for fade
+        setTimeout(
+          () => {
+            current = index;
+            const el = document.getElementById(CHAPTERS[index].id);
+            el.classList.add("active");
+            // Scroll to top on chapter change
+            el.scrollTop = 0;
+            requestAnimationFrame(() => el.classList.add("visible"));
+            updateNav();
+          },
+          prev ? 150 : 0,
+        );
+      }
+
+      function navigate(dir) {
+        goTo(current + dir);
+      }
+
+      function updateNav() {
+        const chapter = CHAPTERS[current];
+        const navBar  = document.getElementById("nav-bar");
+        const prevBtn = document.getElementById("nav-prev");
+        const nextBtn = document.getElementById("nav-next");
+        const indicator = document.getElementById("nav-indicator");
+
+        if (current === 0) {
+          // Cover — special nav treatment
+          navBar.className = "dark cover-mode";
+          nextBtn.disabled = false;
+          nextBtn.textContent = "Open Portfolio →";
+          prevBtn.disabled = true;
+        } else {
+          // Interior — standard nav
+          navBar.className = chapter.theme === "dark" ? "dark" : "light";
+          indicator.textContent = chapter.label;
+
+          prevBtn.disabled = current === 0;
+          if (current > 0)
+            prevBtn.textContent = `← ${CHAPTERS[current - 1].label}`;
+
+          nextBtn.disabled = current === CHAPTERS.length - 1;
+          if (current < CHAPTERS.length - 1)
+            nextBtn.textContent = `${CHAPTERS[current + 1].label} →`;
+        }
+      }
+
+      // Cover — full surface is clickable (links exempt)
+      document.getElementById("cover").addEventListener("click", (e) => {
+        if (e.target.closest("a")) return;
+        goTo(1);
+      });
+
+      // Keyboard navigation
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") navigate(1);
+        if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   navigate(-1);
+      });
+
+      // Init
+      goTo(0);
+    </script>
+  </body>
+</html>

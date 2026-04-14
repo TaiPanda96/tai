@@ -1,0 +1,903 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap");
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .port {
+    font-family: "DM Sans", sans-serif;
+    background: #0e0e0d;
+    color: #e8e4dc;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .hero {
+    padding: 72px 48px 56px;
+    border-bottom: 0.5px solid #2a2a28;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: end;
+    max-width: 1100px;
+  }
+
+  .hero-eyebrow {
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: #c49a3c;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .hero-name {
+    font-family: "DM Serif Display", serif;
+    font-size: 72px;
+    line-height: 0.95;
+    color: #f0ece4;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: #c49a3c;
+  }
+
+  .hero-thesis {
+    font-size: 15px;
+    line-height: 1.65;
+    color: #9e9a92;
+    max-width: 420px;
+    margin-bottom: 32px;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .hero-link {
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: #e8e4dc;
+    text-decoration: none;
+    border: 0.5px solid #3a3a36;
+    padding: 8px 14px;
+    border-radius: 3px;
+    transition:
+      border-color 0.2s,
+      color 0.2s;
+    cursor: pointer;
+  }
+
+  .hero-link:hover {
+    border-color: #c49a3c;
+    color: #c49a3c;
+  }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+  }
+
+  .availability-badge {
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: #4a8c5c;
+    border: 0.5px solid #2a5c38;
+    background: #0f1f15;
+    padding: 6px 14px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4a8c5c;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+
+  .hero-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    border: 0.5px solid #2a2a28;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .hero-stat {
+    background: #161614;
+    padding: 16px 18px;
+  }
+
+  .hero-stat-num {
+    font-family: "DM Serif Display", serif;
+    font-size: 28px;
+    color: #f0ece4;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .hero-stat-label {
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+    color: #5a5a54;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ticker-wrap {
+    border-top: 0.5px solid #2a2a28;
+    border-bottom: 0.5px solid #2a2a28;
+    background: #0a0a09;
+    padding: 12px 0;
+    overflow: hidden;
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 0;
+    width: max-content;
+    animation: ticker 28s linear infinite;
+  }
+
+  .ticker-item {
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: #4a4a44;
+    text-transform: uppercase;
+    padding: 0 32px;
+    white-space: nowrap;
+  }
+
+  .ticker-item.accent {
+    color: #c49a3c;
+  }
+
+  @keyframes ticker {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .section {
+    padding: 56px 48px;
+    border-bottom: 0.5px solid #2a2a28;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #4a4a44;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 0.5px;
+    background: #2a2a28;
+  }
+
+  .role-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    margin-bottom: 32px;
+    gap: 24px;
+  }
+
+  .role-title {
+    font-family: "DM Serif Display", serif;
+    font-size: 28px;
+    color: #f0ece4;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .role-meta {
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    color: #5a5a54;
+    letter-spacing: 0.06em;
+  }
+
+  .role-period {
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    color: #4a4a44;
+    text-align: right;
+    padding-top: 4px;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: #2a2a28;
+    border: 0.5px solid #2a2a28;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1px;
+  }
+
+  .project-card {
+    background: #161614;
+    padding: 24px;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+  }
+
+  .project-card:hover {
+    background: #1c1c1a;
+  }
+
+  .project-card.full {
+    grid-column: 1 / -1;
+  }
+
+  .project-tag {
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #c49a3c;
+    margin-bottom: 10px;
+  }
+
+  .project-name {
+    font-family: "DM Serif Display", serif;
+    font-size: 20px;
+    color: #f0ece4;
+    margin-bottom: 8px;
+    line-height: 1.15;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #7a7a72;
+    margin-bottom: 16px;
+  }
+
+  .project-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .chip {
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: #5a5a54;
+    border: 0.5px solid #2a2a28;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .expand-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: "DM Mono", monospace;
+    font-size: 14px;
+    color: #3a3a36;
+    transition: color 0.15s;
+    line-height: 1;
+  }
+
+  .project-card:hover .expand-btn {
+    color: #c49a3c;
+  }
+
+  .expanded-content {
+    display: none;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 0.5px solid #2a2a28;
+  }
+
+  .expanded-content.open {
+    display: block;
+  }
+
+  .expanded-content ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .expanded-content li {
+    font-size: 12px;
+    line-height: 1.6;
+    color: #7a7a72;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .expanded-content li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #c49a3c;
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 32px;
+    padding: 24px 0;
+    border-bottom: 0.5px solid #1e1e1c;
+  }
+
+  .timeline-item:last-child {
+    border-bottom: none;
+  }
+
+  .timeline-period {
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    color: #4a4a44;
+    padding-top: 2px;
+    line-height: 1.5;
+  }
+
+  .timeline-content {
+  }
+
+  .timeline-role {
+    font-size: 15px;
+    font-weight: 500;
+    color: #c8c4bc;
+    margin-bottom: 4px;
+  }
+
+  .timeline-company {
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    color: #c49a3c;
+    margin-bottom: 10px;
+    letter-spacing: 0.04em;
+  }
+
+  .timeline-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .timeline-bullets li {
+    font-size: 13px;
+    line-height: 1.55;
+    color: #5a5a54;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .timeline-bullets li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: #3a3a36;
+  }
+
+  .writing-placeholder {
+    border: 0.5px dashed #2a2a28;
+    border-radius: 4px;
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .writing-placeholder p {
+    font-family: "DM Mono", monospace;
+    font-size: 12px;
+    color: #3a3a36;
+    letter-spacing: 0.08em;
+  }
+
+  .footer {
+    padding: 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .footer-left {
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    color: #3a3a36;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-email {
+    font-family: "DM Mono", monospace;
+    font-size: 12px;
+    color: #c49a3c;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    border-bottom: 0.5px solid #c49a3c44;
+    padding-bottom: 2px;
+  }
+</style>
+
+<div class="port">
+  <div class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">Founding Engineer · AI Infrastructure</div>
+        <div class="hero-name">Tai<br /><em>Lin</em></div>
+        <p class="hero-thesis">
+          Building the infrastructure layer that makes autonomous AI agents
+          safe, observable, and multi-tenant in production. Specialized in
+          capital markets systems where probabilistic models meet deterministic
+          requirements.
+        </p>
+        <div class="hero-links">
+          <a class="hero-link" href="https://github.com/TaiPanda96">GitHub ↗</a>
+          <a class="hero-link" href="https://linkedin.com/in/tai-lin-122682105"
+            >LinkedIn ↗</a
+          >
+          <a class="hero-link" href="mailto:taishanlin1996@gmail.com"
+            >Email ↗</a
+          >
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="availability-badge">
+          <div class="dot"></div>
+          Available for consulting
+        </div>
+        <div class="hero-stat-grid">
+          <div class="hero-stat">
+            <div class="hero-stat-num">6+</div>
+            <div class="hero-stat-label">Agents shipped</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">$200K</div>
+            <div class="hero-stat-label">ARR scaled</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">5yr</div>
+            <div class="hero-stat-label">Fin. domain</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">0→1</div>
+            <div class="hero-stat-label">Founding eng.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker-wrap">
+    <div class="ticker-inner" id="ticker">
+      <span class="ticker-item accent">TypeScript</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">LLM Orchestration</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item accent">Agent Infrastructure</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">Capital Markets</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item accent">Vercel AI SDK</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">PostgreSQL</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item accent">Multi-tenant Systems</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">GitHub Actions</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item accent">Redis</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">Next.js</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item accent">TypeScript</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">LLM Orchestration</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item accent">Agent Infrastructure</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">Capital Markets</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item accent">Vercel AI SDK</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">PostgreSQL</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item accent">Multi-tenant Systems</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">GitHub Actions</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item accent">Redis</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">Next.js</span>
+      <span class="ticker-item">·</span>
+    </div>
+  </div>
+
+  <div style="max-width: 1100px; margin: 0 auto">
+    <div class="section">
+      <div class="section-label">01 — Experience · HighFi</div>
+
+      <div class="role-header">
+        <div>
+          <div class="role-title">Founding Software Engineer</div>
+          <div class="role-meta">
+            HighFi · AI-enabled capital markets infrastructure · TypeScript ·
+            PostgreSQL · Next.js · Vercel AI SDK · GCP
+          </div>
+        </div>
+        <div class="role-period">Mar 2023 — Present</div>
+      </div>
+
+      <div class="project-grid">
+        <div class="project-card" onclick="toggleCard(this)">
+          <div class="expand-btn">+</div>
+          <div class="project-tag">Platform</div>
+          <div class="project-name">AI Agent Harness</div>
+          <p class="project-desc">
+            Type-safe agent framework powering 6+ agents across a multi-tenant
+            capital markets platform.
+          </p>
+          <div class="project-chips">
+            <span class="chip">BaseAgent&lt;TDeps,TInput,TOutput&gt;</span>
+            <span class="chip">AgentHandoff&lt;T&gt;</span>
+            <span class="chip">Step tracing</span>
+            <span class="chip">DI</span>
+          </div>
+          <div class="expanded-content">
+            <ul>
+              <li>
+                Typed dependency injection via generics — agents declare exactly
+                what context they need
+              </li>
+              <li>
+                Structured step tracing with startStep / finishStep / failStep
+                recording timestamps and durations
+              </li>
+              <li>
+                AgentHandoff&lt;T&gt; typed wrapper carrying output, accumulated
+                traces, and errors
+              </li>
+              <li>
+                Per-step Slack observability via SlackStepTraceHandler with
+                graceful degradation
+              </li>
+              <li>
+                Role-based capability registry gating LLM tool access by
+                customer config and user role
+              </li>
+              <li>
+                Dynamic system prompt generation with per-capability workflow
+                manifests injected at runtime
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="project-card" onclick="toggleCard(this)">
+          <div class="expand-btn">+</div>
+          <div class="project-tag">Agentic CI/CD</div>
+          <div class="project-name">Night Agent</div>
+          <p class="project-desc">
+            Fully autonomous, spec-driven development pipeline running nightly
+            in GitHub Actions.
+          </p>
+          <div class="project-chips">
+            <span class="chip">Claude Code</span>
+            <span class="chip">GitHub Actions</span>
+            <span class="chip">SafeCommandExecutor</span>
+          </div>
+          <div class="expanded-content">
+            <ul>
+              <li>
+                Parallel matrix CI jobs: Planner, Implementer, and QA Claude
+                Code instances on isolated branches
+              </li>
+              <li>
+                SafeCommandExecutor — whitelist-based bash interception, path
+                traversal prevention, prompt-injection scanning
+              </li>
+              <li>
+                Spec validation: content security scanning before feeding to
+                Claude CLI
+              </li>
+              <li>
+                Slack Block Kit notifications with 1-click PR creation for human
+                review at 8 AM
+              </li>
+              <li>
+                Zero-trust command surface for overnight autonomous code
+                generation
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="project-card" onclick="toggleCard(this)">
+          <div class="expand-btn">+</div>
+          <div class="project-tag">AI Agent · Slack</div>
+          <div class="project-name">Millie</div>
+          <p class="project-desc">
+            Context-aware capital markets agent in Slack with dynamic tool
+            authorization and 15-step multi-tool execution.
+          </p>
+          <div class="project-chips">
+            <span class="chip">Claude claude-sonnet-4-5</span>
+            <span class="chip">Slack Webhooks</span>
+            <span class="chip">PostgreSQL</span>
+          </div>
+          <div class="expanded-content">
+            <ul>
+              <li>
+                Dynamically builds authorized toolsets per-request based on
+                customer config and user role
+              </li>
+              <li>
+                Handles funding requests, SOFR rate updates, facility reporting,
+                and DeFi portfolio queries
+              </li>
+              <li>
+                Full webhook verification, event deduplication, and
+                thread-persistent conversation history
+              </li>
+              <li>
+                Tool prefix audit trail feeding inferCapabilitiesFromTools() on
+                every response
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="project-card" onclick="toggleCard(this)">
+          <div class="expand-btn">+</div>
+          <div class="project-tag">AI Agent · In-App</div>
+          <div class="project-name">Penny</div>
+          <p class="project-desc">
+            In-app Capital Markets AI Agent for real-time risk reporting,
+            funding requests, and ledger management.
+          </p>
+          <div class="project-chips">
+            <span class="chip">Claude + Gemini</span>
+            <span class="chip">Streaming</span>
+            <span class="chip">Multi-mode</span>
+          </div>
+          <div class="expanded-content">
+            <ul>
+              <li>
+                Streaming responses via Vercel AI SDK — 300s max, admin-scoped
+              </li>
+              <li>
+                Multi-model: Gemini 2.0 Flash and Claude selectable at runtime
+              </li>
+              <li>
+                Three chat modes: default, amendmentEdit (CRUD on eligibility
+                terms), report (read-only)
+              </li>
+              <li>
+                Concept to live deployment — replaced manual legacy processes in
+                funding operations
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-grid" style="margin-top: 1px">
+        <div class="project-card" onclick="toggleCard(this)">
+          <div class="expand-btn">+</div>
+          <div class="project-tag">Core System</div>
+          <div class="project-name">Financial Calculation Engine</div>
+          <p class="project-desc">
+            Config-driven engine with dependency graphs, runtime expressions,
+            and unified eligibility formulas.
+          </p>
+          <div class="project-chips">
+            <span class="chip">Dependency graphs</span>
+            <span class="chip">Runtime expressions</span>
+            <span class="chip">Self-serve config</span>
+          </div>
+          <div class="expanded-content">
+            <ul>
+              <li>
+                Supports dependency graphs, runtime-evaluable expressions, and
+                facility-level formulas
+              </li>
+              <li>
+                Unified eligibility, concentration, and borrowing base
+                calculations
+              </li>
+              <li>
+                Replaced rigid hardcoded logic with extensible self-serve
+                configuration
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="project-card" onclick="toggleCard(this)">
+          <div class="expand-btn">+</div>
+          <div class="project-tag">Core System</div>
+          <div class="project-name">Assignment Engine</div>
+          <p class="project-desc">
+            Core algorithm for deterministic receivables allocation under
+            borrowing base constraints.
+          </p>
+          <div class="project-chips">
+            <span class="chip">Borrowing base</span>
+            <span class="chip">Concentration limits</span>
+            <span class="chip">Deterministic</span>
+          </div>
+          <div class="expanded-content">
+            <ul>
+              <li>
+                Assigns receivables under borrowing base constraints with
+                priority-sorted outcomes
+              </li>
+              <li>
+                Enforces concentration limits and supports add/remove strategies
+              </li>
+              <li>
+                Deterministic outcomes guaranteed regardless of input ordering
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">02 — Experience · Prior</div>
+
+      <div class="timeline-item">
+        <div class="timeline-period">Jan 2022<br />Feb 2023</div>
+        <div class="timeline-content">
+          <div class="timeline-role">Software Engineer II</div>
+          <div class="timeline-company">
+            Utradea (merged with Financial Modeling Prep)
+          </div>
+          <ul class="timeline-bullets">
+            <li>
+              Led migration of 100+ stock market APIs post-merger into Node.js /
+              MongoDB stack
+            </li>
+            <li>
+              Architected AWS infrastructure: RDS, ECS containers, load
+              balancers, structured logging
+            </li>
+            <li>
+              Piloted and shipped first OpenAI API integration — Financial
+              Writer tool on real-time market APIs
+            </li>
+            <li>
+              Multi-node Redis cluster with read/write replication for rate
+              limiting by subscription tier
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-period">Mar 2021<br />Jan 2022</div>
+        <div class="timeline-content">
+          <div class="timeline-role">Software Engineer</div>
+          <div class="timeline-company">Utradea</div>
+          <ul class="timeline-bullets">
+            <li>
+              Self-taught; shipped paid production features within months of
+              joining with no CS background
+            </li>
+            <li>
+              Built SEC filing Sentiment Parser using NLP classification to
+              surface actionable stock signals
+            </li>
+            <li>
+              Integrated Stripe payments end-to-end, enabling Utradea's first
+              paid users
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-period">May 2018<br />Mar 2021</div>
+        <div class="timeline-content">
+          <div class="timeline-role">Business Analyst → Senior BA</div>
+          <div class="timeline-company">BMO Financial Group</div>
+          <ul class="timeline-bullets">
+            <li>
+              Led decommission of vendor risk platform; owned migration
+              requirements to in-house replacement
+            </li>
+            <li>
+              Drove E2E delivery for Credit Flow for Commercial Banking
+              transformation
+            </li>
+            <li>
+              Introduced config-driven credit compliance reporting scaled across
+              multiple lines of business
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">03 — Writing</div>
+      <div class="writing-placeholder">
+        <p>TECHNICAL DEEP DIVES COMING SOON</p>
+        <p style="margin-top: 8px; font-size: 10px">
+          Night Agent architecture · LLM authorization patterns · Agent harness
+          design
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">Toronto, ON · © 2025 Tai Lin</div>
+    <a href="mailto:taishanlin1996@gmail.com" class="footer-email"
+      >taishanlin1996@gmail.com</a
+    >
+  </div>
+</div>
+
+<script>
+  function toggleCard(card) {
+    const content = card.querySelector(".expanded-content");
+    const btn = card.querySelector(".expand-btn");
+    const isOpen = content.classList.contains("open");
+    content.classList.toggle("open", !isOpen);
+    btn.textContent = isOpen ? "+" : "−";
+  }
+</script>
