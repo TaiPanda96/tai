@@ -1,0 +1,165 @@
+/* ── Reset ───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Base ────────────────────────────────────────────────── */
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* ── Chapter views ───────────────────────────────────────── */
+.chapter {
+  position: fixed;
+  inset: 0;
+  bottom: var(--nav-h);
+  overflow-y: auto;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.chapter.active {
+  display: block;
+}
+
+.chapter.visible {
+  opacity: 1;
+}
+
+/* Cover stays dark */
+#cover {
+  background: var(--cover-bg);
+  color: var(--cover-text);
+}
+
+/* All interior pages use warm parchment */
+.chapter.interior {
+  background: var(--interior-bg);
+  color: var(--interior-text);
+}
+
+/* ── Bottom navigation bar ───────────────────────────────── */
+#nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  z-index: 100;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+#nav-bar.dark {
+  background: #111110;
+  border-top: 0.5px solid var(--border-dark);
+}
+
+#nav-bar.light {
+  background: #ede8df;
+  border-top: 0.5px solid var(--border-light);
+}
+
+.nav-btn {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: color 0.15s;
+  min-width: 120px;
+}
+
+.nav-btn:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#nav-bar.dark .nav-btn {
+  color: #4a4a44;
+}
+#nav-bar.dark .nav-btn:not(:disabled):hover {
+  color: var(--gold);
+}
+#nav-bar.light .nav-btn {
+  color: var(--ink-faint);
+}
+#nav-bar.light .nav-btn:not(:disabled):hover {
+  color: var(--gold-dark);
+}
+
+#nav-prev {
+  text-align: left;
+}
+#nav-next {
+  text-align: right;
+}
+
+#nav-indicator {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  flex: 1;
+  padding: 0 16px;
+  transition: color 0.3s;
+}
+
+#nav-bar.dark #nav-indicator {
+  color: #3a3a36;
+}
+#nav-bar.light #nav-indicator {
+  color: var(--ink-faint);
+}
+
+/* ── Cover nav override ──────────────────────────────────── */
+#nav-bar.cover-mode {
+  justify-content: center;
+  height: 64px;
+}
+
+#nav-bar.cover-mode #nav-prev,
+#nav-bar.cover-mode #nav-indicator {
+  display: none;
+}
+
+#nav-bar.cover-mode #nav-next {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--gold);
+  text-align: center;
+  min-width: auto;
+  padding: 10px 32px;
+  border: 0.5px solid #3a3632;
+  border-radius: 2px;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+#nav-bar.cover-mode #nav-next:hover {
+  color: #e8c870;
+  border-color: #6a5020;
+}
