@@ -31,6 +31,44 @@ body {
   transition: opacity 0.3s ease;
 }
 
+/* ── Ebook back header ───────────────────────────────────── */
+#ebook-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--ebook-header-h);
+  background: #ede8df;
+  border-bottom: 0.5px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  z-index: 100;
+}
+
+#ebook-header a {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-muted);
+  border: 0.5px solid var(--border-light);
+  padding: 5px 12px;
+  border-radius: 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+#ebook-header a:hover {
+  color: var(--gold-dark);
+  border-color: var(--gold-dark);
+}
+
+/* Push chapters below the ebook header when it's present */
+.has-ebook-header .chapter {
+  top: var(--ebook-header-h);
+}
+
 .chapter.active {
   display: block;
 }

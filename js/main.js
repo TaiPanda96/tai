@@ -25,4 +25,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   navigate(-1);
 });
 
-goTo(0);
+// If a chapter hash is in the URL (e.g. ebook.html#ch2), open that chapter directly
+const hashId = window.location.hash.slice(1);
+const hashIndex = CHAPTERS.findIndex(c => c.id === hashId);
+goTo(hashIndex >= 0 ? hashIndex : 0);

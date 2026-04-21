@@ -64,6 +64,33 @@ body {
   outline-offset: 2px;
 }
 
+/* ── Intro block ──────────────────────────────────────────────── */
+.intro-block {
+  background: var(--cover-bg);
+  padding: 0 64px 48px;
+  border-bottom: 0.5px solid var(--border-dark);
+}
+
+.intro-block p {
+  font-family: "Lora", serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink-muted);
+  max-width: 560px;
+}
+
+.intro-link {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 0.5px solid rgba(196, 154, 60, 0.35); /* gold at 35% */
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.intro-link:hover {
+  color: #e8c870;
+  border-color: rgba(232, 200, 112, 0.6); /* light gold at 60% */
+}
+
 /* ── Hero strip ───────────────────────────────────────────────── */
 .hero-strip {
   background: var(--cover-bg);
@@ -271,6 +298,13 @@ body {
 }
 
 /* ── Project card ─────────────────────────────────────────────── */
+a.project-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 .project-card {
   background: rgba(255, 255, 255, 0.03); /* white at 3% */
   border: 1px solid rgba(255, 255, 255, 0.08); /* white at 8% */
