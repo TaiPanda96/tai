@@ -1,7 +1,7 @@
 ---
 id: spec-002
 title: "Chronological timeline splash page (timeline.html)"
-status: pending
+status: completed
 priority: high
 scope: standard
 created: 2026-04-21
