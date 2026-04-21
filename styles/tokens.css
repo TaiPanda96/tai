@@ -1,0 +1,14 @@
+:root {
+  --cover-bg: #1a1916;
+  --interior-bg: #f5f0e8;
+  --cover-text: #e8e4dc;
+  --interior-text: #2c2820;
+  --gold: #c49a3c;
+  --gold-dark: #9a6f2a;
+  --ink-muted: #6b6456;
+  --ink-faint: #b8b0a2;
+  --border-dark: #2a2a28;
+  --border-light: #d8d0c0;
+  --nav-h: 56px;
+  --ebook-header-h: 44px;
+}

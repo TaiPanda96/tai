@@ -1,0 +1,682 @@
+/* ── Placeholder content ─────────────────────────────────── */
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: 48px;
+  text-align: center;
+  gap: 16px;
+}
+
+.placeholder-label {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.placeholder-title {
+  font-family: "DM Serif Display", serif;
+  font-size: 36px;
+  line-height: 1.1;
+}
+
+#cover .placeholder-title {
+  color: var(--cover-text);
+}
+.interior .placeholder-title {
+  color: var(--interior-text);
+}
+
+.placeholder-body {
+  font-family: "Lora", serif;
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+#cover .placeholder-body {
+  color: #7a7672;
+}
+.interior .placeholder-body {
+  color: var(--ink-muted);
+}
+
+/* ── Table of Contents ───────────────────────────────────── */
+.toc-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 64px 56px 80px;
+}
+
+.toc-header {
+  margin-bottom: 56px;
+  padding-bottom: 24px;
+  border-bottom: 0.5px solid var(--border-light);
+}
+
+.page-eyebrow {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+
+.page-title {
+  font-family: "DM Serif Display", serif;
+  font-size: 40px;
+  line-height: 1.05;
+  color: var(--interior-text);
+  letter-spacing: -0.01em;
+}
+
+.toc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.toc-entry {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 0.5px solid var(--border-light);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.toc-entry:last-child {
+  border-bottom: none;
+}
+
+.toc-entry:hover .toc-chapter-title {
+  color: var(--gold-dark);
+}
+
+.toc-entry:hover .toc-num {
+  color: var(--gold-dark);
+}
+
+.toc-num {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  text-transform: uppercase;
+  min-width: 28px;
+  flex-shrink: 0;
+  padding-top: 6px;
+  transition: color 0.15s;
+}
+
+.toc-body {
+  display: flex;
+  align-items: baseline;
+  flex: 1;
+  gap: 0;
+  min-width: 0;
+}
+
+.toc-chapter-title {
+  font-family: "DM Serif Display", serif;
+  font-size: 24px;
+  line-height: 1.15;
+  color: var(--interior-text);
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.toc-leaders {
+  flex: 1;
+  margin: 0 14px;
+  border-bottom: 1px dotted #c8bfb0;
+  position: relative;
+  top: -4px;
+  min-width: 24px;
+}
+
+.toc-tag {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Interior chapter layout ─────────────────────────────── */
+.ch-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 64px 56px 96px;
+}
+
+.ch-header {
+  margin-bottom: 48px;
+  padding-bottom: 28px;
+  border-bottom: 0.5px solid var(--border-light);
+}
+
+.ch-eyebrow {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.ch-title {
+  font-family: "DM Serif Display", serif;
+  font-size: 42px;
+  line-height: 1.05;
+  color: var(--interior-text);
+  letter-spacing: -0.01em;
+}
+
+/* Body prose */
+.ch-body {
+  font-family: "Lora", serif;
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--interior-text);
+}
+
+.ch-body p + p {
+  margin-top: 24px;
+}
+
+/* Drop cap */
+.drop-cap::first-letter {
+  font-family: "DM Serif Display", serif;
+  font-size: 4.8em;
+  line-height: 0.72;
+  float: left;
+  margin: 0.06em 0.1em 0 0;
+  color: var(--gold-dark);
+}
+
+/* Pull quote */
+.pull-quote {
+  margin: 44px 0;
+  padding: 4px 0 4px 28px;
+  border-left: 2.5px solid var(--gold-dark);
+}
+
+.pull-quote p {
+  font-family: "Lora", serif;
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--interior-text);
+}
+
+/* Aside block */
+.aside {
+  margin: 40px 0;
+  padding: 20px 24px;
+  border-left: 2px solid var(--gold);
+  background: rgba(196, 154, 60, 0.05);
+}
+
+.aside-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.aside p {
+  font-family: "Lora", serif;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-muted);
+}
+
+/* Stat row */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 0.5px solid var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 44px 0;
+}
+
+.stat-row-cell {
+  padding: 20px 20px 16px;
+  border-right: 0.5px solid var(--border-light);
+}
+
+.stat-row-cell:last-child {
+  border-right: none;
+}
+
+.stat-row-num {
+  font-family: "DM Serif Display", serif;
+  font-size: 26px;
+  color: var(--interior-text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-row-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ── Agent section (Ch III) ──────────────────────────────── */
+.agent-section {
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 0.5px solid var(--border-light);
+}
+
+.agent-section:first-of-type {
+  margin-top: 36px;
+}
+
+.agent-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.agent-name {
+  font-family: "DM Serif Display", serif;
+  font-size: 32px;
+  color: var(--interior-text);
+  line-height: 1;
+}
+
+.agent-tag {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 3px 8px;
+  border: 0.5px solid var(--gold);
+  border-radius: 2px;
+}
+
+/* Technical detail list */
+.tech-list {
+  list-style: none;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tech-list li {
+  font-family: "Lora", serif;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  padding-left: 20px;
+  position: relative;
+}
+
+.tech-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--gold-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+}
+
+.tech-list code {
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  background: rgba(154, 111, 42, 0.08);
+  color: var(--gold-dark);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+/* Inline code in prose */
+.ch-body code {
+  font-family: "DM Mono", monospace;
+  font-size: 13px;
+  background: rgba(154, 111, 42, 0.08);
+  color: var(--gold-dark);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+/* Outcome section */
+.outcome-section {
+  margin-top: 52px;
+  padding-top: 36px;
+  border-top: 0.5px solid var(--border-light);
+}
+
+.outcome-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 16px;
+}
+
+/* ── Code block (Ch IV+) ─────────────────────────────────── */
+.code-block {
+  background: #141312;
+  border: 0.5px solid #2e2c28;
+  border-radius: 3px;
+  padding: 22px 24px;
+  margin: 36px 0;
+  overflow-x: auto;
+}
+
+.code-block-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #4a4a44;
+  margin-bottom: 14px;
+}
+
+.code-block pre {
+  font-family: "DM Mono", monospace;
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: #c0bbb2;
+  margin: 0;
+  white-space: pre;
+}
+
+.code-block .cm { color: #5a5a52; }
+.code-block .ck { color: var(--gold); }
+.code-block .cs { color: #8fba8f; }
+
+/* ── Architecture table (Ch IV) ──────────────────────────── */
+.arch-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 36px 0;
+  border: 0.5px solid var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.arch-table th {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding: 12px 18px;
+  text-align: left;
+  border-bottom: 0.5px solid var(--border-light);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.arch-table td {
+  font-family: "Lora", serif;
+  font-size: 14px;
+  line-height: 1.55;
+  padding: 14px 18px;
+  border-bottom: 0.5px solid var(--border-light);
+  vertical-align: top;
+  color: var(--interior-text);
+}
+
+.arch-table tr:last-child td {
+  border-bottom: none;
+}
+
+.arch-table td:first-child {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--gold-dark);
+  white-space: nowrap;
+}
+
+.arch-table td:nth-child(2) {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+/* Allow / block lists */
+.permission-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-light);
+  border: 0.5px solid var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 32px 0;
+}
+
+.permission-col {
+  background: var(--interior-bg);
+  padding: 20px 22px;
+}
+
+.permission-col-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.permission-col-label.allow {
+  color: #4a7c4a;
+}
+.permission-col-label.block {
+  color: #8a4a4a;
+}
+
+.permission-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.permission-list li {
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  padding-left: 18px;
+  position: relative;
+  color: var(--ink-muted);
+}
+
+.allow .permission-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #4a7c4a;
+  font-size: 10px;
+}
+
+.block .permission-list li::before {
+  content: "✕";
+  position: absolute;
+  left: 0;
+  color: #8a4a4a;
+  font-size: 10px;
+}
+
+/* ── Timeline (Ch VI) ────────────────────────────────────── */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 36px;
+  padding: 32px 0;
+  border-bottom: 0.5px solid var(--border-light);
+}
+
+.timeline-item:last-child {
+  border-bottom: none;
+}
+
+.timeline-period {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--ink-faint);
+  line-height: 1.6;
+  padding-top: 3px;
+}
+
+.timeline-role {
+  font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--interior-text);
+  margin-bottom: 3px;
+}
+
+.timeline-company {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--gold-dark);
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+}
+
+.timeline-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timeline-bullets li {
+  font-family: "Lora", serif;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  padding-left: 18px;
+  position: relative;
+}
+
+.timeline-bullets li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--ink-faint);
+  font-family: "DM Mono", monospace;
+}
+
+.timeline-note {
+  font-family: "Lora", serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-top: 10px;
+}
+
+/* ── Capability table (Ch II) ────────────────────────────── */
+.cap-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 36px 0;
+  border: 0.5px solid var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.cap-table th {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding: 11px 18px;
+  text-align: left;
+  border-bottom: 0.5px solid var(--border-light);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.cap-table td {
+  font-family: "Lora", serif;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 13px 18px;
+  border-bottom: 0.5px solid var(--border-light);
+  vertical-align: top;
+  color: var(--interior-text);
+}
+
+.cap-table tr:last-child td {
+  border-bottom: none;
+}
+
+.cap-table td:first-child {
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  color: var(--gold-dark);
+  white-space: nowrap;
+}
+
+.cap-badge {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.cap-badge.customer {
+  color: #4a7c4a;
+  background: rgba(74, 124, 74, 0.08);
+  border: 0.5px solid rgba(74, 124, 74, 0.25);
+}
+
+.cap-badge.admin {
+  color: #8a5a2a;
+  background: rgba(196, 154, 60, 0.08);
+  border: 0.5px solid rgba(196, 154, 60, 0.25);
+}
+
+/* Layer heading inside chapter */
+.layer-heading {
+  font-family: "DM Serif Display", serif;
+  font-size: 22px;
+  color: var(--interior-text);
+  margin: 44px 0 16px;
+  padding-top: 36px;
+  border-top: 0.5px solid var(--border-light);
+}
+
+.layer-num {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 6px;
+}

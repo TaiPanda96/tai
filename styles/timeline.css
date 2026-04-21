@@ -1,0 +1,467 @@
+/* timeline.css — standalone page styles for timeline.html
+   All colors use var() tokens from tokens.css.
+   Only rgba() expressions (for opacity layers) use raw hex, marked with comments.
+   Do NOT import layout.css — it sets overflow:hidden on body.
+*/
+
+/* ── Reset ────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: auto;
+  overflow: auto;
+  background: var(--cover-bg);
+  color: var(--cover-text);
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+}
+
+/* ── Page header ──────────────────────────────────────────────── */
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  background: var(--cover-bg);
+  border-bottom: 0.5px solid var(--border-dark);
+}
+
+.header-name {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  letter-spacing: 0.14em;
+}
+
+.header-link {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--ink-faint);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.header-link:hover {
+  color: var(--gold);
+}
+
+.header-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ── Intro block ──────────────────────────────────────────────── */
+.intro-block {
+  background: var(--cover-bg);
+  padding: 0 64px 48px;
+  border-bottom: 0.5px solid var(--border-dark);
+}
+
+.intro-block p {
+  font-family: "Lora", serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink-muted);
+  max-width: 560px;
+}
+
+.intro-link {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 0.5px solid rgba(196, 154, 60, 0.35); /* gold at 35% */
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.intro-link:hover {
+  color: #e8c870;
+  border-color: rgba(232, 200, 112, 0.6); /* light gold at 60% */
+}
+
+/* ── Hero strip ───────────────────────────────────────────────── */
+.hero-strip {
+  background: var(--cover-bg);
+  padding: 48px 64px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.hero-title {
+  font-family: "DM Serif Display", serif;
+  font-size: clamp(40px, 6vw, 64px);
+  color: var(--cover-text);
+  line-height: 1.05;
+}
+
+.hero-subtitle {
+  font-family: "Lora", serif;
+  font-size: 16px;
+  color: var(--ink-faint);
+  line-height: 1.5;
+}
+
+.availability-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  color: var(--cover-text);
+  border: 0.5px solid rgba(255, 255, 255, 0.15); /* white at 15% */
+  padding: 6px 14px;
+  border-radius: 20px;
+  align-self: flex-start;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(196, 154, 60, 0.6); /* gold at 60% */
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* ── Timeline section ─────────────────────────────────────────── */
+.timeline-section {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 64px 64px 120px;
+}
+
+/* ── Timeline rail ────────────────────────────────────────────── */
+.timeline-rail {
+  position: absolute;
+  left: 64px;
+  top: 32px;
+  bottom: 32px;
+  width: 2px;
+  background: rgba(196, 154, 60, 0.4); /* gold at 40% */
+}
+
+.rail-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: var(--gold);
+  transition: height 0.1s linear;
+}
+
+/* ── Era nodes ────────────────────────────────────────────────── */
+.era-node {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+
+.era-node.era-active {
+  opacity: 1;
+  animation: era-pulse 2s ease-in-out infinite;
+}
+
+@keyframes era-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(196, 154, 60, 0.6); /* gold pulse */
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(196, 154, 60, 0); /* gold pulse fade */
+  }
+}
+
+/* ── Era section ──────────────────────────────────────────────── */
+.era-section {
+  margin-bottom: 80px;
+}
+
+/* ── Era header ───────────────────────────────────────────────── */
+.era-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: start;
+  margin-bottom: 40px;
+}
+
+.era-meta {
+  /* left column */
+}
+
+.era-company {
+  font-family: "DM Serif Display", serif;
+  font-size: 36px;
+  color: var(--cover-text);
+  line-height: 1.05;
+}
+
+.era-role {
+  font-family: "Lora", serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-faint);
+  margin-top: 8px;
+}
+
+.era-dates {
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 6px;
+}
+
+.tech-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.chip {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  color: rgba(196, 154, 60, 0.8); /* gold at 80% */
+  border: 1px solid rgba(196, 154, 60, 0.4); /* gold at 40% */
+  padding: 4px 10px;
+  border-radius: 2px;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.chip:hover {
+  background: rgba(196, 154, 60, 0.1); /* gold at 10% */
+}
+
+/* ── Era stat ─────────────────────────────────────────────────── */
+.era-stat {
+  text-align: right;
+}
+
+.stat-num {
+  font-family: "DM Serif Display", serif;
+  font-size: 48px;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 4px;
+}
+
+/* ── Cards grid ───────────────────────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* ── Project card ─────────────────────────────────────────────── */
+a.project-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.project-card {
+  background: rgba(255, 255, 255, 0.03); /* white at 3% */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* white at 8% */
+  border-radius: 12px;
+  padding: 24px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.project-card:hover {
+  border-color: rgba(196, 154, 60, 0.3); /* gold at 30% */
+  box-shadow: 0 0 20px rgba(196, 154, 60, 0.08); /* gold at 8% */
+}
+
+.card-name {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.card-desc {
+  font-family: "Lora", serif;
+  font-size: 14px;
+  color: var(--cover-text);
+  line-height: 1.6;
+  margin-top: 8px;
+}
+
+.card-metric-num {
+  font-family: "DM Serif Display", serif;
+  font-size: 28px;
+  color: var(--gold);
+  margin-top: 16px;
+  line-height: 1;
+}
+
+.card-metric-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.chapter-link {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--gold);
+  margin-top: 12px;
+  display: block;
+  text-decoration: none;
+}
+
+.chapter-link:hover {
+  text-decoration: underline;
+}
+
+.chapter-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ── Reveal animations ────────────────────────────────────────── */
+.reveal-target {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal-target.reveal-left {
+  transform: translateX(-32px);
+}
+
+.reveal-target.reveal-right {
+  transform: translateX(32px);
+}
+
+.reveal-target.revealed {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* ── Timeline footer ──────────────────────────────────────────── */
+.timeline-footer {
+  text-align: center;
+  padding: 64px 32px;
+  border-top: 0.5px solid var(--border-dark);
+  margin-top: 32px;
+}
+
+.footer-end-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.footer-cta {
+  font-family: "DM Serif Display", serif;
+  font-size: 24px;
+  color: var(--gold);
+  display: block;
+  margin: 20px auto;
+  text-decoration: none;
+}
+
+.footer-cta:hover {
+  text-decoration: underline;
+}
+
+.footer-cta:focus-visible {
+  outline: 2px solid var(--gold);
+}
+
+.footer-copy {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-top: 8px;
+}
+
+/* ── Mobile breakpoint ────────────────────────────────────────── */
+@media (max-width: 899px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reveal-target.reveal-left,
+  .reveal-target.reveal-right {
+    transform: translateY(24px);
+  }
+
+  .timeline-rail {
+    left: 16px;
+  }
+
+  .timeline-section {
+    padding: 48px 24px 48px 56px;
+  }
+
+  .era-header {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .hero-strip {
+    min-height: 160px;
+    padding: 32px 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(32px, 8vw, 48px);
+  }
+
+  .tech-chips {
+    gap: 6px;
+  }
+}
