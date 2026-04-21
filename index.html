@@ -272,10 +272,12 @@
           </p>
 
           <p>
-            The architecture has three layers: an execution contract that every
+            The architecture has four layers: an execution contract that every
             agent inherits, a step tracing system that makes every action
-            observable, and a capability registry that controls what each agent
-            is allowed to do based on who is asking.
+            observable, a capability registry that controls what each agent is
+            allowed to do based on who is asking, and a stateful extension that
+            enforces phase ordering, carries episodic context, and enables
+            session resumption across multi-step regulated workflows.
           </p>
 
           <!-- Layer 1 -->
@@ -476,6 +478,175 @@
             </p>
           </div>
 
+          <!-- Layer 4 -->
+          <h3 class="layer-heading">
+            <span class="layer-num">Layer 4</span>
+            Stateful Execution &amp; Session Memory
+          </h3>
+
+          <p>
+            A stateless agent executes and forgets. That is sufficient for
+            single-step tasks, but a multi-step regulated deal flow — one that
+            spans sessions, enforces phase ordering, and must produce an audit
+            trail per phase — requires something the original three-layer
+            harness did not provide: the agent must know where it is in a
+            workflow, where it is allowed to go next, and what it has already
+            learned. Without that, resumption after an interruption means
+            replaying from scratch, phase enforcement means duplicating logic in
+            every subclass, and context enrichment requires out-of-band storage
+            that falls outside the audit trail.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-label">
+              BaseAgent — five-generic signature with FSM layer
+            </div>
+            <pre><span class="ck">abstract class</span> BaseAgent&lt;
+  <span class="ck">TDeps</span>,
+  <span class="ck">TInput</span>,
+  <span class="ck">TOutput</span>,
+  <span class="ck">TContext extends object</span> = Record&lt;<span class="ck">string</span>, unknown&gt;,
+  <span class="ck">TState extends string</span> = <span class="ck">string</span>,
+&gt; {
+  <span class="cm">// Episodic context — accumulated over the workflow session</span>
+  <span class="ck">protected</span> context: <span class="ck">TContext</span>
+  <span class="ck">protected</span> currentState: <span class="ck">TState</span>
+  <span class="ck">abstract readonly</span> initialState: <span class="ck">TState</span>
+
+  <span class="cm">// Optional FSM enforcement — declare to constrain transitions</span>
+  <span class="ck">protected</span> validTransitions?: Partial&lt;Record&lt;<span class="ck">TState</span>, <span class="ck">TState</span>[]&gt;&gt;
+  <span class="ck">protected</span> onEnterState?(state: <span class="ck">TState</span>, prev: <span class="ck">TState</span>): <span class="ck">void</span>
+  <span class="ck">protected</span> onExitState?(state: <span class="ck">TState</span>, next: <span class="ck">TState</span>): <span class="ck">void</span>
+
+  <span class="cm">// Transitions to next state; throws on illegal moves</span>
+  <span class="ck">protected</span> transition(next: <span class="ck">TState</span>): <span class="ck">void</span>
+  <span class="ck">protected</span> updateContext(patch: Partial&lt;<span class="ck">TContext</span>&gt;): <span class="ck">void</span>
+
+  <span class="cm">// Accepts optional incoming context for session resumption</span>
+  <span class="ck">abstract</span> execute(input: <span class="ck">TInput</span>, ctx?: <span class="ck">TContext</span>): Promise&lt;<span class="ck">AgentHandoff</span>&lt;<span class="ck">TOutput</span>, <span class="ck">TContext</span>&gt;&gt;
+}</pre>
+          </div>
+
+          <p>
+            The hypothetical <code>BondIssuanceAgent</code> below shows the
+            pattern applied to a Capital Markets deal lifecycle. Bond issuance
+            follows a strict phase sequence: you cannot move from term-sheet to
+            allocation without completing bookbuilding and pricing first. That
+            ordering is a regulatory requirement in a syndicated deal — skipping
+            a phase is an audit failure, not an edge case to handle in caller
+            logic.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-label">
+              BondIssuanceAgent — stateful Capital Markets workflow
+            </div>
+            <pre><span class="ck">type</span> BondState =
+  <span class="cs">'term-sheet'</span> | <span class="cs">'bookbuilding'</span> | <span class="cs">'pricing'</span> | <span class="cs">'allocation'</span> | <span class="cs">'settled'</span>
+
+<span class="ck">class</span> BondIssuanceAgent <span class="ck">extends</span> BaseAgent&lt;
+  <span class="ck">BondDeps</span>, <span class="ck">BondInput</span>, <span class="ck">BondOutput</span>, <span class="ck">BondContext</span>, <span class="ck">BondState</span>
+&gt; {
+  <span class="ck">readonly</span> agentId = <span class="cs">'bond-issuance-agent'</span>
+  <span class="ck">readonly</span> initialState: <span class="ck">BondState</span> = <span class="cs">'term-sheet'</span>
+
+  <span class="cm">// Phase graph — transition() throws if this contract is violated</span>
+  <span class="ck">protected</span> validTransitions = {
+    <span class="cs">'term-sheet'</span>:   [<span class="cs">'bookbuilding'</span>],
+    <span class="cs">'bookbuilding'</span>: [<span class="cs">'pricing'</span>],
+    <span class="cs">'pricing'</span>:      [<span class="cs">'allocation'</span>],
+    <span class="cs">'allocation'</span>:   [<span class="cs">'settled'</span>],
+    <span class="cs">'settled'</span>:      [],
+  }
+
+  <span class="cm">// Compliance hook — records a signed audit event on every phase entry</span>
+  <span class="ck">protected</span> onEnterState(state: <span class="ck">BondState</span>, prev: <span class="ck">BondState</span>) {
+    <span class="ck">this</span>.deps.auditLog.record({ dealId: <span class="ck">this</span>.context.dealId, from: prev, to: state })
+  }
+
+  <span class="ck">async</span> execute(input: <span class="ck">BondInput</span>, ctx?: <span class="ck">BondContext</span>) {
+    <span class="ck">if</span> (ctx) <span class="ck">this</span>.restoreContext(ctx)    <span class="cm">// resume mid-workflow session</span>
+
+    <span class="ck">const</span> terms = <span class="ck">await this</span>.buildTermSheet(input)
+    <span class="ck">this</span>.updateContext({ dealId: terms.dealId, issuer: terms.issuer })
+    <span class="ck">this</span>.transition(<span class="cs">'bookbuilding'</span>)
+
+    <span class="ck">const</span> book = <span class="ck">await this</span>.runBookbuild(terms)
+    <span class="ck">this</span>.updateContext({ orderBook: book.summary })
+    <span class="ck">this</span>.transition(<span class="cs">'pricing'</span>)
+
+    <span class="ck">const</span> price = <span class="ck">await this</span>.setPrice(book)
+    <span class="ck">this</span>.updateContext({ finalSpread: price.spread })
+    <span class="ck">this</span>.transition(<span class="cs">'allocation'</span>)
+
+    <span class="ck">return this</span>.succeed({ dealId: terms.dealId, status: <span class="cs">'allocated'</span> })
+  }
+}</pre>
+          </div>
+
+          <table class="cap-table">
+            <thead>
+              <tr>
+                <th>From</th>
+                <th>Allowed next states</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>term-sheet</td>
+                <td>bookbuilding</td>
+              </tr>
+              <tr>
+                <td>bookbuilding</td>
+                <td>pricing</td>
+              </tr>
+              <tr>
+                <td>pricing</td>
+                <td>allocation</td>
+              </tr>
+              <tr>
+                <td>allocation</td>
+                <td>settled</td>
+              </tr>
+              <tr>
+                <td>settled</td>
+                <td><em>none — terminal state</em></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="aside">
+            <div class="aside-label">
+              Why state enforcement is a compliance requirement
+            </div>
+            <p>
+              In a syndicated bond deal, moving from term-sheet to allocation
+              without completing bookbuilding is not an edge case — it's an
+              audit failure. Bookbuilding is the mechanism by which price
+              discovery happens and investor demand is recorded. Skipping it
+              means the allocation cannot be traced to a demand-driven book,
+              which regulators require. The <code>transition()</code> method
+              throws on any move not listed in <code>validTransitions</code>.
+              The phase contract is encoded in the type system and enforced at
+              runtime — not asserted by convention, not checked in a pre-flight
+              condition somewhere upstream, but structurally impossible to
+              violate without the agent erroring on the call.
+            </p>
+          </div>
+
+          <p>
+            When the agent calls <code>this.succeed()</code> or
+            <code>this.fail()</code>, the returned <code>AgentHandoff</code> now
+            carries two additional fields: <code>context</code> — the enriched
+            episodic state accumulated during execution — and
+            <code>agentState</code> — the FSM position at the time of return.
+            The orchestrator can persist these fields and pass them back into a
+            subsequent invocation, allowing a deal workflow interrupted
+            mid-session to resume exactly where it left off. The handoff is the
+            persistence primitive; no separate storage call is required before
+            returning.
+          </p>
+
           <div class="outcome-section">
             <div class="outcome-label">Outcome</div>
             <div class="pull-quote" style="margin-top: 0">
@@ -484,7 +655,12 @@
                 <code>extends BaseAgent</code>, typed deps, and an
                 <code>execute</code> implementation. Observability, step
                 tracing, authorization, and Slack notifications are inherited.
-                Every execution produces a complete audit trail automatically.
+                Every execution produces a complete audit trail automatically. A
+                stateful agent additionally declares its phase graph in a
+                <code>validTransitions</code> table and inherits FSM
+                enforcement, episodic context threading, and session resumption
+                — compliance encoded in the type system, not asserted by
+                convention.
               </p>
             </div>
           </div>
