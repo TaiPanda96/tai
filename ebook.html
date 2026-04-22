@@ -40,37 +40,45 @@
           <li class="toc-entry" onclick="goTo(2)">
             <span class="toc-num">II</span>
             <div class="toc-body">
+              <span class="toc-chapter-title">The Capital Markets OS</span>
+              <span class="toc-leaders"></span>
+              <span class="toc-tag">Architecture</span>
+            </div>
+          </li>
+          <li class="toc-entry" onclick="goTo(3)">
+            <span class="toc-num">III</span>
+            <div class="toc-body">
               <span class="toc-chapter-title">The AI Agent Harness</span>
               <span class="toc-leaders"></span>
               <span class="toc-tag">Platform</span>
             </div>
           </li>
-          <li class="toc-entry" onclick="goTo(3)">
-            <span class="toc-num">III</span>
+          <li class="toc-entry" onclick="goTo(4)">
+            <span class="toc-num">IV</span>
             <div class="toc-body">
               <span class="toc-chapter-title">Millie &amp; Penny</span>
               <span class="toc-leaders"></span>
               <span class="toc-tag">AI Agents</span>
             </div>
           </li>
-          <li class="toc-entry" onclick="goTo(4)">
-            <span class="toc-num">IV</span>
+          <li class="toc-entry" onclick="goTo(5)">
+            <span class="toc-num">V</span>
             <div class="toc-body">
               <span class="toc-chapter-title">The Night Agent</span>
               <span class="toc-leaders"></span>
               <span class="toc-tag">Agentic CI/CD</span>
             </div>
           </li>
-          <li class="toc-entry" onclick="goTo(5)">
-            <span class="toc-num">V</span>
+          <li class="toc-entry" onclick="goTo(6)">
+            <span class="toc-num">VI</span>
             <div class="toc-body">
               <span class="toc-chapter-title">The Financial Engines</span>
               <span class="toc-leaders"></span>
               <span class="toc-tag">Core Systems</span>
             </div>
           </li>
-          <li class="toc-entry" onclick="goTo(6)">
-            <span class="toc-num">VI</span>
+          <li class="toc-entry" onclick="goTo(7)">
+            <span class="toc-num">VII</span>
             <div class="toc-body">
               <span class="toc-chapter-title">Before HighFi</span>
               <span class="toc-leaders"></span>
@@ -146,16 +154,16 @@
               <div class="stat-row-label">Agents in production</div>
             </div>
             <div class="stat-row-cell">
-              <div class="stat-row-num">$200K</div>
+              <div class="stat-row-num">$350K</div>
               <div class="stat-row-label">ARR scaled</div>
-            </div>
-            <div class="stat-row-cell">
-              <div class="stat-row-num">5yr</div>
-              <div class="stat-row-label">Finance domain</div>
             </div>
             <div class="stat-row-cell">
               <div class="stat-row-num">0→1</div>
               <div class="stat-row-label">Founding engineer</div>
+            </div>
+            <div class="stat-row-cell">
+              <div class="stat-row-num">5yr</div>
+              <div class="stat-row-label">Software Engineering Experience</div>
             </div>
           </div>
 
@@ -187,7 +195,293 @@
     <div id="ch2" class="chapter interior" data-index="3">
       <div class="ch-inner">
         <div class="ch-header">
-          <div class="ch-eyebrow">Chapter II · Platform</div>
+          <div class="ch-eyebrow">Chapter II · Architecture</div>
+          <h2 class="ch-title">The Capital Markets OS</h2>
+        </div>
+
+        <div class="ch-body">
+          <p class="drop-cap">
+            HighFi sells infrastructure. The product thesis is that capital
+            markets operations — the compliance, servicing, and reporting layer
+            that sits between a legal agreement and a funded transaction — is an
+            engineering problem that most financial companies are solving
+            expensively in-house, one spreadsheet and one bespoke system at a
+            time. HighFi's answer is a purpose-built operating system for that
+            layer.
+          </p>
+
+          <p>
+            Every lending relationship begins with a legal agreement. In
+            asset-backed lending, these agreements define eligibility rules,
+            concentration limits, and performance metrics that govern the health
+            of the borrower's portfolio. They are compliance red lines negotiated
+            between counterparties — and no two are identical. A
+            receivables-based facility for one customer has different advance
+            rates, different concentration thresholds, and different reporting
+            cadences than the next. This is what makes the domain hard to model
+            at scale: the rules are bespoke, they change when terms are
+            renegotiated, and they carry real legal and financial consequences
+            when violated.
+          </p>
+
+          <h3 class="ch-subhead">The six components</h3>
+
+          <p>
+            The HighFi OS is organized around the lifecycle of a financial
+            facility: a lending relationship defined by a legal agreement,
+            governed by negotiated rules, and settled through recurring funding
+            transactions.
+          </p>
+
+          <!-- Architecture SVG -->
+          <div class="os-diagram-wrap" id="os-arch-diagram">
+            <svg viewBox="0 0 580 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Capital Markets OS — six-component architecture">
+              <!-- Background -->
+              <rect width="580" height="400" fill="#f9f8f6"/>
+
+              <!-- Row 1 nodes -->
+              <g class="os-node-group os-node" style="animation-delay:0.05s">
+                <rect class="os-node-rect" x="16" y="16" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
+                <text x="142" y="48" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em" text-transform="uppercase">ORIGINATOR SYSTEM</text>
+                <text x="142" y="68" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Customer onboarding &amp; config</text>
+              </g>
+              <g class="os-node-group os-node" style="animation-delay:0.15s">
+                <rect class="os-node-rect" x="312" y="16" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
+                <text x="438" y="48" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em">FACILITY MANAGEMENT</text>
+                <text x="438" y="68" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Lifecycle &amp; config abstraction</text>
+              </g>
+
+              <!-- Row 1 → Row 2 arrows -->
+              <line class="os-arrow" x1="142" y1="96" x2="142" y2="116" stroke="#c8a96e" stroke-width="1.5" marker-end="url(#arr)"/>
+              <line class="os-arrow" x1="438" y1="96" x2="438" y2="116" stroke="#c8a96e" stroke-width="1.5" marker-end="url(#arr)"/>
+
+              <!-- Row 2 nodes -->
+              <g class="os-node-group os-node" style="animation-delay:0.25s">
+                <rect class="os-node-rect" x="16" y="120" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
+                <text x="142" y="152" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em">ASSIGNMENT ENGINE</text>
+                <text x="142" y="172" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Deterministic receivables allocation</text>
+              </g>
+              <g class="os-node-group os-node" style="animation-delay:0.35s">
+                <rect class="os-node-rect" x="312" y="120" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
+                <text x="438" y="152" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em">CALCULATION ENGINE</text>
+                <text x="438" y="172" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Facility snapshots &amp; borrowing base</text>
+              </g>
+
+              <!-- Row 2 → Row 3 arrows -->
+              <line class="os-arrow" x1="142" y1="200" x2="142" y2="220" stroke="#c8a96e" stroke-width="1.5" marker-end="url(#arr)"/>
+              <line class="os-arrow" x1="438" y1="200" x2="438" y2="220" stroke="#c8a96e" stroke-width="1.5" marker-end="url(#arr)"/>
+
+              <!-- Row 3 nodes -->
+              <g class="os-node-group os-node" style="animation-delay:0.45s">
+                <rect class="os-node-rect" x="16" y="224" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
+                <text x="142" y="256" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em">SNAPSHOT SYSTEM</text>
+                <text x="142" y="276" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Lock, submit &amp; fund</text>
+              </g>
+              <g class="os-node-group os-node" style="animation-delay:0.55s">
+                <rect class="os-node-rect" x="312" y="224" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
+                <text x="438" y="256" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em">REPORTING PIPELINE</text>
+                <text x="438" y="276" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Certificates, reports &amp; compliance</text>
+              </g>
+
+              <!-- Config band -->
+              <g class="os-config-band">
+                <rect x="16" y="328" width="548" height="48" rx="4" fill="#c8a96e" fill-opacity="0.10" stroke="#c8a96e" stroke-width="1" stroke-dasharray="4 3"/>
+                <text x="290" y="349" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.12em">FACILITYCONFIG REGISTRY</text>
+                <text x="290" y="366" font-family="Lora,serif" font-size="11" fill="#7a7672" text-anchor="middle">Customer-specific business logic — no code changes required</text>
+              </g>
+
+              <!-- Config band connection lines -->
+              <g class="os-config-band">
+                <line x1="142" y1="304" x2="142" y2="328" stroke="#c8a96e" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+                <line x1="438" y1="304" x2="438" y2="328" stroke="#c8a96e" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+                <line x1="290" y1="304" x2="290" y2="328" stroke="#c8a96e" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+              </g>
+
+              <!-- Arrow marker -->
+              <defs>
+                <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                  <path d="M0,0 L6,3 L0,6 Z" fill="#c8a96e"/>
+                </marker>
+              </defs>
+            </svg>
+          </div>
+
+          <p>
+            The <strong>Originator System</strong> manages the onboarding and
+            ongoing configuration of each customer. Every originator brings
+            their own business logic, their own facility types, their own
+            integration requirements. The Originator System is where that
+            customer-specific configuration lives — the entry point through
+            which everything downstream becomes customizable without code
+            changes.
+          </p>
+
+          <p>
+            The <strong>Facility Management System</strong> handles the complete
+            lifecycle of a financial facility from setup to ongoing operations.
+            Facilities come in several structural forms — warehouse lines, SPVs,
+            securitization vehicles — each with different calculation schemas,
+            different reporting requirements, and different external system
+            integrations. The Facility Management System abstracts those
+            differences behind a unified configuration interface.
+          </p>
+
+          <p>
+            The <strong>Assignment Engine</strong> manages the allocation of
+            receivables to facilities based on the rules defined in each
+            customer's legal agreement. Which assets are eligible? In what
+            priority order are they assigned? What happens when concentration
+            limits are reached? The Assignment Engine answers these questions
+            deterministically for every calculation run, and maintains a
+            complete audit trail of every assignment decision.
+          </p>
+
+          <p>
+            The <strong>Calculation Engine</strong> is the computational core
+            of the platform. It takes a facility, a loan tape, and a
+            configuration and produces a facility snapshot — a point-in-time
+            record of the facility's financial state, including
+            receivables-level calculations, eligibility evaluations,
+            concentration checks, and borrowing base metrics. Every funding
+            operation on the platform flows through it.
+          </p>
+
+          <p>
+            The <strong>Snapshot System</strong> locks in calculation results
+            and converts them into funded transactions. Once a snapshot is
+            produced, the Snapshot System manages submission — committing
+            assignments, creating draw and recycle records, calculating
+            business-day-adjusted funding dates, and triggering the reporting
+            pipeline. It is the operational boundary between a calculation and
+            a transaction with a counterparty on the other end.
+          </p>
+
+          <p>
+            The <strong>Reporting Pipeline</strong> generates and distributes
+            the outputs that counterparties and regulators require: Excel
+            borrowing base certificates, PDF funding requests, scheduled
+            compliance reports. Report generation is event-driven — submissions,
+            funding request creation, and snapshot events each trigger their own
+            report jobs, configured per facility.
+          </p>
+
+          <h3 class="ch-subhead">The lifecycle of a facility</h3>
+
+          <!-- Lifecycle SVG -->
+          <div class="os-lifecycle-wrap">
+            <svg viewBox="0 0 700 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Facility lifecycle — legal agreement to funded transaction">
+              <!-- Track line -->
+              <line x1="48" y1="30" x2="652" y2="30" stroke="#d9d5ce" stroke-width="1.5"/>
+
+              <!-- Stage nodes with animateMotion dot -->
+              <!-- Node 1: Legal Agreement -->
+              <circle cx="48" cy="30" r="7" fill="#c8a96e"/>
+              <text x="48" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">LEGAL</text>
+              <text x="48" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">AGREEMENT</text>
+
+              <!-- Node 2: Config -->
+              <circle cx="158" cy="30" r="7" fill="#ffffff" stroke="#c8a96e" stroke-width="1.5"/>
+              <text x="158" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">FACILITY</text>
+              <text x="158" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">CONFIG</text>
+
+              <!-- Node 3: Assignment -->
+              <circle cx="268" cy="30" r="7" fill="#ffffff" stroke="#c8a96e" stroke-width="1.5"/>
+              <text x="268" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">ASSIGN</text>
+              <text x="268" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">RECEIVABLES</text>
+
+              <!-- Node 4: Calculate -->
+              <circle cx="378" cy="30" r="7" fill="#ffffff" stroke="#c8a96e" stroke-width="1.5"/>
+              <text x="378" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">RUN</text>
+              <text x="378" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">CALCULATION</text>
+
+              <!-- Node 5: Snapshot -->
+              <circle cx="488" cy="30" r="7" fill="#ffffff" stroke="#c8a96e" stroke-width="1.5"/>
+              <text x="488" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">LOCK</text>
+              <text x="488" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">SNAPSHOT</text>
+
+              <!-- Node 6: Submit -->
+              <circle cx="568" cy="30" r="7" fill="#ffffff" stroke="#c8a96e" stroke-width="1.5"/>
+              <text x="568" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">SUBMIT</text>
+              <text x="568" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">&amp; REPORT</text>
+
+              <!-- Node 7: Funded -->
+              <circle cx="652" cy="30" r="7" fill="#2c2825"/>
+              <text x="652" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">FUNDED</text>
+              <text x="652" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">TRANSACTION</text>
+
+              <!-- Animated dot traversing the track -->
+              <circle r="5" fill="#c8a96e" opacity="0.85">
+                <animateMotion dur="3.2s" repeatCount="indefinite" begin="1s">
+                  <mpath href="#lifecycle-path"/>
+                </animateMotion>
+              </circle>
+              <path id="lifecycle-path" d="M48,30 L652,30" fill="none"/>
+            </svg>
+          </div>
+
+          <h3 class="ch-subhead">The configuration layer</h3>
+
+          <p>
+            Six components is not, on its own, an interesting architecture. What
+            makes the system extensible is the <strong>FacilityConfig
+            registry</strong> — the layer that makes all six components
+            customer-specific without touching the codebase.
+          </p>
+
+          <p>
+            Every facility on the platform is backed by a
+            <code>FacilityConfig</code> object: a typed, validated configuration
+            that declares the business logic, calculation schemas, feature flags,
+            assignment strategies, and report jobs for that specific facility.
+            The registry maps customers to their facilities and their configs:
+          </p>
+
+          <pre class="ch-code"><code>export const facilityConfigs: FacilityConfigRegistry = {
+  cherry: {
+    barclays: getBarclaysFacilityConfig,
+    citibank: getCitibankFacilityConfig,
+  },
+  wayflyer: {
+    atlas:   getAtlasFacilityConfig,
+    fortress: getFortressFacilityConfig,
+  },
+}</code></pre>
+
+          <p>
+            At runtime, every component in the OS loads its config from this
+            registry via <code>getFacilityConfig()</code>. The Calculation
+            Engine reads which features are enabled and which calculation schemas
+            apply. The Assignment Engine reads which assignment strategy to
+            execute. The Snapshot System reads which report jobs to trigger and
+            whether auto-submit is enabled. No component hardcodes
+            customer-specific behavior — it reads it.
+          </p>
+
+          <p>
+            The consequence is that onboarding a new customer is a configuration
+            task, not an engineering sprint. A new originator with a new facility
+            type requires a new config object and the business logic that
+            populates it — not changes to any of the six core components.
+            Equally, when a customer renegotiates their legal agreement and their
+            eligibility rules change, that change ships as a config update, not
+            a deployment.
+          </p>
+
+          <p>
+            This is the architectural property that makes the OS worth building.
+            The six components are generic infrastructure. The FacilityConfig
+            registry is what makes them a capital markets operating system for a
+            specific customer with specific legal obligations.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Chapter III ────────────────────────────────────────── -->
+    <div id="ch3" class="chapter interior" data-index="4">
+      <div class="ch-inner">
+        <div class="ch-header">
+          <div class="ch-eyebrow">Chapter III · Platform</div>
           <h2 class="ch-title">The AI Agent Harness</h2>
         </div>
 
@@ -601,11 +895,11 @@
       </div>
     </div>
 
-    <!-- ── Chapter III ────────────────────────────────────────── -->
-    <div id="ch3" class="chapter interior" data-index="4">
+    <!-- ── Chapter IV ─────────────────────────────────────────── -->
+    <div id="ch4" class="chapter interior" data-index="5">
       <div class="ch-inner">
         <div class="ch-header">
-          <div class="ch-eyebrow">Chapter III · AI Agents</div>
+          <div class="ch-eyebrow">Chapter IV · AI Agents</div>
           <h2 class="ch-title">Millie &amp; Penny</h2>
         </div>
 
@@ -640,22 +934,78 @@
               Millie lives inside a customer's Slack workspace and handles
               capital markets operations: funding requests, SOFR rate updates,
               facility reporting, and DeFi portfolio queries. The design
-              challenge was building an agent that could safely execute 15-step
-              multi-tool sequences across a regulated financial workflow —
+              challenge was building an agent that could safely execute
+              multi-step tool sequences across a regulated financial workflow —
               inside a Slack thread — with full auditability at every step and
-              correct permissions for whoever was asking.
+              correct permissions for whoever was asking. Three conversation
+              surfaces are handled: <code>app_mention</code> in channels, direct
+              messages, and thread replies. Events are deduplicated by
+              <code>event_id</code> to handle Slack's at-least-once delivery.
             </p>
+
+            <div class="code-block">
+              <div class="code-block-label">Millie — request to response</div>
+              <pre>
+Slack Event Webhook (POST /api/slack/events)
+    └── handleSlackMessage()
+         ├── Event deduplication (event_id)
+         ├── Conversation upsert + user / role resolution
+         ├── MillieSlackAgent instantiation
+         │    ├── CustomerCapabilityRegistry → authorized toolset
+         │    ├── System prompt: capability manifests + tool sequencing + Slack formatting
+         │    └── generateText (Claude Sonnet, Vercel AI SDK)
+         ├── SlackStepTraceHandler → ops monitoring channel (real-time)
+         └── Response posted to Slack thread</pre
+              >
+            </div>
 
             <p>
               Every Millie request begins with a capability resolution step.
               Based on the requesting user's role and the customer's configured
               permissions, an authorized toolset is constructed dynamically. A
-              customer operations user sees funding request tools. An admin gets
-              DeFi portfolio tools on top. The system prompt is not static — it
-              is generated at runtime from the capability registry, injecting
-              per-capability workflow manifests for each authorized tool. The
-              model only knows about tools it is allowed to call.
+              Wayflyer ops user sees funding request and fee tools. An admin
+              gets DeFi portfolio tools on top. The system prompt is assembled
+              at runtime from capability descriptions, per-tool workflow
+              manifests, facility-specific instructions, and Slack formatting
+              rules. The model only receives guidance for tools it is permitted
+              to use.
             </p>
+
+            <p>
+              The funding request tools are structured around a routing pattern.
+              The model calls <code>decideFundingAction</code> first — its
+              output determines whether to create a new draw or roll an existing
+              one. Custom facilities like JPM-SPV-1 are registered in a
+              <code>CustomFacilityFundingRequestRegistry</code> that overrides
+              the standard flow with a facility-specific tool chain, including
+              JPM's PDF generation and submission process.
+            </p>
+
+            <div class="code-block">
+              <div class="code-block-label">Funding request tool routing</div>
+              <pre><span class="cm">// Model calls decideFundingAction first — determines subsequent tool chain</span>
+decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'</span>
+
+  <span class="cs">'new'</span>  + standard facility  →  createStandardFundingRequest
+  <span class="cs">'new'</span>  + custom  facility  →  CustomFacilityFundingRequestRegistry
+                               →  jpmFundingRequestCreateFlow  <span class="cm">// PDF + submission</span>
+  <span class="cs">'roll'</span>               →  getAvailableDrawsToRoll  →  createRollRequest</pre>
+            </div>
+
+            <div class="aside">
+              <div class="aside-label">Safety invariant — rate ID handling</div>
+              <p>
+                <code>lastMonthsFacilityRates</code> returns historical rate
+                rows for reference context only. The IDs it returns must never
+                be passed to <code>updateFacilityRate</code> — reusing a
+                historical ID creates a duplicate row rather than updating the
+                current one. The correct flow — fetch current via
+                <code>getFacilityRates</code>, get real IDs, then update — is
+                encoded in the tool manifests and injected into the system
+                prompt so the model learns the invariant rather than guessing
+                it.
+              </p>
+            </div>
 
             <ul class="tech-list">
               <li>
@@ -665,22 +1015,26 @@
                 >
               </li>
               <li>
-                Dynamically constructs authorized toolset per-request from the
-                capability registry
+                Bound tool factory pattern — deps injected at construction time,
+                keeping tools pure, testable, and composable
               </li>
-              <li>15-step multi-tool execution via Claude claude-sonnet-4-5</li>
               <li>
                 Full Slack webhook verification
-                (<code>@slack/events-api</code>), event deduplication, bot
-                message filtering
+                (<code>@slack/events-api</code>), event deduplication by
+                <code>event_id</code>, bot message filtering
               </li>
               <li>
                 Conversation persistence in PostgreSQL — reconstructed as
                 <code>CoreMessage[]</code> per turn
               </li>
               <li>
-                Tool prefix audit trail feeding
-                <code>inferCapabilitiesFromTools()</code> for compliance logging
+                <code>withSlackNotifications()</code> wraps execution to forward
+                step traces to an ops monitoring channel in real-time
+              </li>
+              <li>
+                Returns <code>AgentHandoff&lt;T&gt;</code> — typed success
+                payload or structured failure, explicit throughout the response
+                pipeline
               </li>
             </ul>
           </div>
@@ -693,48 +1047,98 @@
             </div>
 
             <p>
-              Penny is the in-app counterpart — a streaming Capital Markets AI
-              agent embedded in the HighFi dashboard. Where Millie handles
-              requests asynchronously inside a Slack thread, Penny surfaces in
-              the context of an active customer session: during a funding
-              request review, alongside an eligibility amendment workflow, or in
-              a read-only reporting mode. The context available to Penny is
-              richer and more structured than what Millie receives through a
-              Slack message.
+              Penny is the in-app counterpart — a 512px streaming chat panel
+              embedded in the HighFi dashboard. Where Millie handles requests in
+              a Slack thread, Penny surfaces in the context of an active user
+              session: during an eligibility amendment workflow, a facility
+              report review, or a portfolio analysis. The context available to
+              Penny is richer and more structured than what Millie receives
+              through a Slack message.
             </p>
 
             <p>
               The architecture is deliberately multi-modal. Claude and Gemini
               2.0 Flash are both available at runtime, selectable by the user.
-              Three chat modes carry different system prompts and different tool
-              access. An <code>amendmentEdit</code> session injects the current
-              eligibility terms as structured context and grants CRUD access to
-              amendment workflows. A <code>report</code> session is read-only:
-              the model can query and explain, but cannot mutate. Every
-              session's system message is constructed fresh from customer data,
-              amendment context, and mode instructions.
+              Five chat modes carry different system prompts and tool access,
+              each scoped to the user's current task. An
+              <code>amendmentEdit</code> session injects current eligibility
+              terms and grants CRUD access to amendment workflows. A
+              <code>report</code> session is read-only. The
+              <code>eligibilityConfigWorkflow</code> mode is a guided, stateful
+              multi-step process — Penny tracks progress across turns while
+              helping compliance and credit teams configure borrowing base rules
+              without needing to understand the underlying data model. Every
+              session's system message is assembled fresh by
+              <code>ai-context-system-message.ts</code> from customer and
+              facility data, amendment diffs, portfolio summaries, and
+              mode-specific tool instructions.
             </p>
+
+            <table class="cap-table">
+              <thead>
+                <tr>
+                  <th>Mode</th>
+                  <th>Description</th>
+                  <th>Tools</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>default</code></td>
+                  <td>General assistant</td>
+                  <td>None</td>
+                </tr>
+                <tr>
+                  <td><code>amendmentEdit</code></td>
+                  <td>Amendment term editing</td>
+                  <td>
+                    eligibilityTerm Create / Update / Delete, fieldKeysList,
+                    eligibilityTermList
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>report</code></td>
+                  <td>Read-only analysis</td>
+                  <td>Read-only context tools</td>
+                </tr>
+                <tr>
+                  <td><code>eligibilityConfigWorkflow</code></td>
+                  <td>Guided eligibility builder (multi-step, stateful)</td>
+                  <td>eligibilityConfigWorkflow</td>
+                </tr>
+                <tr>
+                  <td><code>portfolio</code></td>
+                  <td>DeFi vault analysis</td>
+                  <td>
+                    getPortfolioVaults, calculateVaultMetrics,
+                    triggerPortfolioSnapshot
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
             <ul class="tech-list">
               <li>
-                Streaming responses via Vercel AI SDK — 300s max execution
-                window
+                Streaming responses via Vercel AI SDK —
+                <code>maxSteps: 5</code> per request, 300s execution window
               </li>
               <li>
-                Multi-model: Claude + Gemini 2.0 Flash selectable at runtime
+                Multi-model: Claude + Gemini 2.0 Flash selectable at runtime via
+                <code>ai-model-keys.ts</code>
               </li>
               <li>
-                Three chat modes: <code>default</code>,
-                <code>amendmentEdit</code> (CRUD on eligibility terms),
-                <code>report</code> (read-only)
+                <code>ai-context-system-message.ts</code> assembles context
+                fresh each turn: customer + facility data, amendment diffs,
+                portfolio summaries, mode-specific instructions
               </li>
               <li>
-                Dynamic system message per session: customer data + amendment
-                context + mode instructions
+                Renders as a 512px side panel with animated transitions;
+                <code>chatKey</code> resets conversation state cleanly on
+                context switches
               </li>
               <li>
                 Shared <code>Conversation</code> / <code>Message</code> Prisma
-                models with Millie
+                models with Millie — gated to admin users
               </li>
             </ul>
           </div>
@@ -768,11 +1172,11 @@
       </div>
     </div>
 
-    <!-- ── Chapter IV ─────────────────────────────────────────── -->
-    <div id="ch4" class="chapter interior" data-index="5">
+    <!-- ── Chapter V ──────────────────────────────────────────── -->
+    <div id="ch5" class="chapter interior" data-index="6">
       <div class="ch-inner">
         <div class="ch-header">
-          <div class="ch-eyebrow">Chapter IV · Agentic CI/CD</div>
+          <div class="ch-eyebrow">Chapter V · Agentic CI/CD</div>
           <h2 class="ch-title">The Night Agent</h2>
         </div>
 
@@ -808,42 +1212,36 @@
             designed to degrade gracefully if it runs out of time.
           </p>
 
-          <table class="arch-table">
-            <thead>
-              <tr>
-                <th>Stage</th>
-                <th>Agent</th>
-                <th>Budget</th>
-                <th>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Planner</td>
-                <td>10 min</td>
-                <td>
-                  Reads the spec and codebase, writes
-                  <code>tmp/implementation-plan.md</code>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Implementer</td>
-                <td>25 min</td>
-                <td>Reads the plan, writes and commits code incrementally</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>QA</td>
-                <td>8 min</td>
-                <td>
-                  Runs checks, reviews the diff, posts a PR comment, updates
-                  spec status
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="pipeline-stages">
+            <div class="pipeline-stage">
+              <p class="pipeline-stage-num">Stage 1</p>
+              <p class="pipeline-stage-name">Planner</p>
+              <p class="pipeline-stage-budget">10 min budget</p>
+              <p class="pipeline-stage-desc">
+                Reads spec + codebase. Writes
+                <code>tmp/implementation-plan.md</code> and
+                <code>tmp/pr-context.sh</code>
+              </p>
+            </div>
+            <div class="pipeline-stage">
+              <p class="pipeline-stage-num">Stage 2</p>
+              <p class="pipeline-stage-name">Implementer</p>
+              <p class="pipeline-stage-budget">25 min budget</p>
+              <p class="pipeline-stage-desc">
+                Reads plan + context. Writes and commits code. Counts commits
+                before and after for measurable output signal.
+              </p>
+            </div>
+            <div class="pipeline-stage">
+              <p class="pipeline-stage-num">Stage 3</p>
+              <p class="pipeline-stage-name">QA</p>
+              <p class="pipeline-stage-budget">8 min budget</p>
+              <p class="pipeline-stage-desc">
+                Runs checks. Posts PR comment. Updates spec status. Only signs
+                off when all checks pass.
+              </p>
+            </div>
+          </div>
 
           <h3 class="layer-heading">
             <span class="layer-num">The Architecture</span>
@@ -865,11 +1263,12 @@
             <div class="code-block-label">
               Agent coordination via handoff files
             </div>
-            <pre><span class="cm"># Stage 1 — Planner writes the plan</span>
+            <pre><span class="cm"># Stage 1 — Planner resolves branch, writes plan + context</span>
 <span class="ck">Planner</span>      →  <span class="cs">tmp/implementation-plan.md</span>
+             →  <span class="cs">tmp/pr-context.sh</span>         <span class="cm"># PR_NUMBER + BRANCH_NAME</span>
 
 <span class="cm"># Stage 2 — Implementer reads plan, writes code, writes result</span>
-<span class="ck">Implementer</span>  ←  <span class="cs">tmp/implementation-plan.md</span>
+<span class="ck">Implementer</span>  ←  <span class="cs">tmp/implementation-plan.md</span>  +  <span class="cs">tmp/pr-context.sh</span>
              →  <span class="cs">tmp/implementation-result.md</span>  +  git commits
 
 <span class="cm"># Stage 3 — QA reads both, posts PR comment, updates spec</span>
@@ -878,11 +1277,16 @@
           </div>
 
           <p>
-            Redis and PostgreSQL spin up as services in the CI job — the
-            Implementer's code is tested against real infrastructure before a
-            human sees it. Typecheck, lint, and test all run before QA signs
-            off. Post-processing always executes regardless of outcome: Prettier
-            auto-formats any output and commits the diff.
+            The Planner writes <code>tmp/pr-context.sh</code> alongside the
+            implementation plan — a small shell file containing the resolved
+            <code>PR_NUMBER</code> and <code>BRANCH_NAME</code>. Stages 2 and 3
+            source it so they always operate on the correct feature branch,
+            never accidentally on main. Redis and PostgreSQL spin up as real
+            Docker services in the CI job — not mocks — so the Implementer's
+            code is tested against actual infrastructure before a human sees it.
+            Post-processing always runs regardless of pipeline outcome: Prettier
+            auto-formats any output and commits the diff with a Claude co-author
+            attribution.
           </p>
 
           <h3 class="layer-heading">
@@ -894,10 +1298,17 @@
             Each Claude Code instance runs with
             <code>--dangerously-skip-permissions</code> — a flag that sounds
             alarming until you understand the design. The flag disables the
-            CLI's own permission prompts. Safety is not handled at the prompt
-            layer. It is handled at the shell layer, one level below, where it
-            cannot be overridden by any model output.
+            CLI's own permission prompts. Safety is not delegated to the model.
           </p>
+
+          <div class="security-callout">
+            <div class="security-callout-label">Design principle</div>
+            <p>
+              Safety is not handled at the prompt layer. It is handled at the
+              shell layer, one level below, where it cannot be overridden by any
+              model output.
+            </p>
+          </div>
 
           <p>
             The <code>SHELL</code> environment variable is set to a custom
@@ -977,13 +1388,26 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
 
           <div class="outcome-section">
             <div class="outcome-label">Outcome</div>
-            <div class="pull-quote" style="margin-top: 0">
-              <p>
-                Specs written during the day are implemented overnight. The
-                security layer has blocked real injection attempts found in spec
-                content. The team reviews PRs at 8 AM. Effective engineering
-                capacity expanded without adding headcount.
-              </p>
+
+            <div class="outcome-metrics">
+              <div class="outcome-metric">
+                <p class="outcome-metric-val">8 AM</p>
+                <p class="outcome-metric-label">
+                  PR ready for review, every morning
+                </p>
+              </div>
+              <div class="outcome-metric">
+                <p class="outcome-metric-val">Real</p>
+                <p class="outcome-metric-label">
+                  Injection attempts blocked in production
+                </p>
+              </div>
+              <div class="outcome-metric">
+                <p class="outcome-metric-val">0</p>
+                <p class="outcome-metric-label">
+                  Headcount added to expand capacity
+                </p>
+              </div>
             </div>
 
             <div class="aside">
@@ -993,13 +1417,11 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
               <p>
                 The <code>SHELL</code> hijack pattern applies to any autonomous
                 agent that executes shell commands in an untrusted environment.
-                The key insight: safety should not be a prompt-level concern.
-                Prompts can be overridden by model output. The shell cannot.
                 Intercept at the lowest level, whitelist rather than blacklist,
                 validate inputs before they reach the model. Prompt injection
                 through spec content is not a theoretical risk — it is a
-                practical one that this architecture was specifically designed
-                to defeat.
+                practical one this architecture was specifically designed to
+                defeat.
               </p>
             </div>
           </div>
@@ -1007,11 +1429,11 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
       </div>
     </div>
 
-    <!-- ── Chapter V ──────────────────────────────────────────── -->
-    <div id="ch5" class="chapter interior" data-index="6">
+    <!-- ── Chapter VI ─────────────────────────────────────────── -->
+    <div id="ch6" class="chapter interior" data-index="7">
       <div class="ch-inner">
         <div class="ch-header">
-          <div class="ch-eyebrow">Chapter V · Core Systems</div>
+          <div class="ch-eyebrow">Chapter VI · Core Systems</div>
           <h2 class="ch-title">The Financial Engines</h2>
         </div>
 
@@ -1147,11 +1569,11 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
       </div>
     </div>
 
-    <!-- ── Chapter VI ─────────────────────────────────────────── -->
-    <div id="ch6" class="chapter interior" data-index="7">
+    <!-- ── Chapter VII ────────────────────────────────────────── -->
+    <div id="ch7" class="chapter interior" data-index="8">
       <div class="ch-inner">
         <div class="ch-header">
-          <div class="ch-eyebrow">Chapter VI · Prior Work</div>
+          <div class="ch-eyebrow">Chapter VII · Prior Work</div>
           <h2 class="ch-title">Before HighFi</h2>
         </div>
 
@@ -1305,11 +1727,12 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
       const CHAPTERS = [
         { id: "toc", label: "Contents", theme: "light" },
         { id: "ch1", label: "I — Who I Am", theme: "light" },
-        { id: "ch2", label: "II — Agent Harness", theme: "light" },
-        { id: "ch3", label: "III — Millie & Penny", theme: "light" },
-        { id: "ch4", label: "IV — Night Agent", theme: "light" },
-        { id: "ch5", label: "V — Financial Engines", theme: "light" },
-        { id: "ch6", label: "VI — Before HighFi", theme: "light" },
+        { id: "ch2", label: "II — Capital Markets OS", theme: "light" },
+        { id: "ch3", label: "III — Agent Harness", theme: "light" },
+        { id: "ch4", label: "IV — Millie & Penny", theme: "light" },
+        { id: "ch5", label: "V — Night Agent", theme: "light" },
+        { id: "ch6", label: "VI — Financial Engines", theme: "light" },
+        { id: "ch7", label: "VII — Before HighFi", theme: "light" },
       ];
 
       let current = 0;
@@ -1332,7 +1755,13 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
             el.classList.add("active");
             // Scroll to top on chapter change
             el.scrollTop = 0;
-            requestAnimationFrame(() => el.classList.add("visible"));
+            requestAnimationFrame(() => {
+              el.classList.add("visible");
+              // Trigger OS diagram animation on ch2 entry
+              if (CHAPTERS[index].id === "ch2") {
+                requestAnimationFrame(() => triggerOsDiagram());
+              }
+            });
             updateNav();
           },
           prev ? 150 : 0,
@@ -1382,6 +1811,18 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
       const hashId = window.location.hash.slice(1);
       const hashIndex = CHAPTERS.findIndex((c) => c.id === hashId);
       goTo(hashIndex >= 0 ? hashIndex : 0);
+
+      function triggerOsDiagram() {
+        const wrap = document.getElementById("os-arch-diagram");
+        if (!wrap) return;
+        // Reset so replay works on re-entry
+        wrap.classList.remove("os-animate");
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            wrap.classList.add("os-animate");
+          });
+        });
+      }
     </script>
   </body>
 </html>

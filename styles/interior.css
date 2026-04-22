@@ -680,3 +680,199 @@
   display: block;
   margin-bottom: 6px;
 }
+
+/* ── Pipeline stages (Ch IV) ─────────────────────────────── */
+.pipeline-stages {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--border-light);
+  border: 0.5px solid var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 36px 0;
+}
+
+.pipeline-stage {
+  background: var(--interior-bg);
+  padding: 20px 20px 24px;
+}
+
+.pipeline-stage-num {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+}
+
+.pipeline-stage-name {
+  font-family: "DM Serif Display", serif;
+  font-size: 20px;
+  color: var(--interior-text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.pipeline-stage-budget {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.pipeline-stage-desc {
+  font-family: "Lora", serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+  padding-top: 12px;
+  border-top: 0.5px solid var(--border-light);
+}
+
+.pipeline-stage-desc code {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  background: rgba(154, 111, 42, 0.08);
+  color: var(--gold-dark);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+/* ── Security callout (Ch IV) ────────────────────────────── */
+.security-callout {
+  margin: 32px 0;
+  padding: 20px 24px;
+  border-left: 2px solid #c84b4a;
+  background: rgba(200, 75, 74, 0.04);
+}
+
+.security-callout-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #a33d3d;
+  margin-bottom: 10px;
+}
+
+.security-callout p {
+  font-family: "Lora", serif;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+/* ── Outcome metrics grid ────────────────────────────────── */
+.outcome-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-light);
+  border: 0.5px solid var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 28px 0 36px;
+}
+
+.outcome-metric {
+  background: var(--interior-bg);
+  padding: 20px 22px;
+}
+
+.outcome-metric-val {
+  font-family: "DM Serif Display", serif;
+  font-size: 28px;
+  color: var(--interior-text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.outcome-metric-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  line-height: 1.5;
+}
+
+/* ── OS Architecture diagram (Ch II) ───────────────────────── */
+.os-diagram-wrap {
+  margin: 44px 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.os-diagram-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.os-node {
+  opacity: 0;
+}
+.os-arrow {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+}
+.os-config-band {
+  opacity: 0;
+}
+
+.os-animate .os-node {
+  animation: osNodeIn 0.5s ease forwards;
+}
+.os-animate .os-arrow {
+  animation: osArrowDraw 0.45s ease forwards;
+}
+.os-animate .os-config-band {
+  animation: osFadeIn 0.55s ease forwards;
+}
+
+/* staggered delays — nodes */
+.os-animate .os-node:nth-child(1)  { animation-delay: 0.05s; }
+.os-animate .os-node:nth-child(2)  { animation-delay: 0.15s; }
+.os-animate .os-node:nth-child(3)  { animation-delay: 0.25s; }
+.os-animate .os-node:nth-child(4)  { animation-delay: 0.35s; }
+.os-animate .os-node:nth-child(5)  { animation-delay: 0.45s; }
+.os-animate .os-node:nth-child(6)  { animation-delay: 0.55s; }
+/* staggered delays — arrows */
+.os-animate .os-arrow:nth-child(1) { animation-delay: 0.3s; }
+.os-animate .os-arrow:nth-child(2) { animation-delay: 0.4s; }
+.os-animate .os-arrow:nth-child(3) { animation-delay: 0.5s; }
+.os-animate .os-arrow:nth-child(4) { animation-delay: 0.6s; }
+.os-animate .os-arrow:nth-child(5) { animation-delay: 0.7s; }
+
+.os-config-band { animation-delay: 0.75s; }
+
+@keyframes osNodeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes osArrowDraw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes osFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* hover highlight on node groups */
+.os-node-group { cursor: default; }
+.os-node-group:hover .os-node-rect {
+  filter: brightness(1.08);
+}
+
+/* ── OS Lifecycle diagram (Ch II) ───────────────────────────── */
+.os-lifecycle-wrap {
+  margin: 36px 0 44px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.os-lifecycle-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
