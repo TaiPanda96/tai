@@ -146,16 +146,16 @@
               <div class="stat-row-label">Agents in production</div>
             </div>
             <div class="stat-row-cell">
-              <div class="stat-row-num">$200K</div>
+              <div class="stat-row-num">$350K</div>
               <div class="stat-row-label">ARR scaled</div>
-            </div>
-            <div class="stat-row-cell">
-              <div class="stat-row-num">5yr</div>
-              <div class="stat-row-label">Finance domain</div>
             </div>
             <div class="stat-row-cell">
               <div class="stat-row-num">0→1</div>
               <div class="stat-row-label">Founding engineer</div>
+            </div>
+            <div class="stat-row-cell">
+              <div class="stat-row-num">5yr</div>
+              <div class="stat-row-label">Software Engineering Experience</div>
             </div>
           </div>
 
@@ -640,22 +640,78 @@
               Millie lives inside a customer's Slack workspace and handles
               capital markets operations: funding requests, SOFR rate updates,
               facility reporting, and DeFi portfolio queries. The design
-              challenge was building an agent that could safely execute 15-step
-              multi-tool sequences across a regulated financial workflow —
+              challenge was building an agent that could safely execute
+              multi-step tool sequences across a regulated financial workflow —
               inside a Slack thread — with full auditability at every step and
-              correct permissions for whoever was asking.
+              correct permissions for whoever was asking. Three conversation
+              surfaces are handled: <code>app_mention</code> in channels, direct
+              messages, and thread replies. Events are deduplicated by
+              <code>event_id</code> to handle Slack's at-least-once delivery.
             </p>
+
+            <div class="code-block">
+              <div class="code-block-label">Millie — request to response</div>
+              <pre>
+Slack Event Webhook (POST /api/slack/events)
+    └── handleSlackMessage()
+         ├── Event deduplication (event_id)
+         ├── Conversation upsert + user / role resolution
+         ├── MillieSlackAgent instantiation
+         │    ├── CustomerCapabilityRegistry → authorized toolset
+         │    ├── System prompt: capability manifests + tool sequencing + Slack formatting
+         │    └── generateText (Claude Sonnet, Vercel AI SDK)
+         ├── SlackStepTraceHandler → ops monitoring channel (real-time)
+         └── Response posted to Slack thread</pre
+              >
+            </div>
 
             <p>
               Every Millie request begins with a capability resolution step.
               Based on the requesting user's role and the customer's configured
               permissions, an authorized toolset is constructed dynamically. A
-              customer operations user sees funding request tools. An admin gets
-              DeFi portfolio tools on top. The system prompt is not static — it
-              is generated at runtime from the capability registry, injecting
-              per-capability workflow manifests for each authorized tool. The
-              model only knows about tools it is allowed to call.
+              Wayflyer ops user sees funding request and fee tools. An admin
+              gets DeFi portfolio tools on top. The system prompt is assembled
+              at runtime from capability descriptions, per-tool workflow
+              manifests, facility-specific instructions, and Slack formatting
+              rules. The model only receives guidance for tools it is permitted
+              to use.
             </p>
+
+            <p>
+              The funding request tools are structured around a routing pattern.
+              The model calls <code>decideFundingAction</code> first — its
+              output determines whether to create a new draw or roll an existing
+              one. Custom facilities like JPM-SPV-1 are registered in a
+              <code>CustomFacilityFundingRequestRegistry</code> that overrides
+              the standard flow with a facility-specific tool chain, including
+              JPM's PDF generation and submission process.
+            </p>
+
+            <div class="code-block">
+              <div class="code-block-label">Funding request tool routing</div>
+              <pre><span class="cm">// Model calls decideFundingAction first — determines subsequent tool chain</span>
+decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'</span>
+
+  <span class="cs">'new'</span>  + standard facility  →  createStandardFundingRequest
+  <span class="cs">'new'</span>  + custom  facility  →  CustomFacilityFundingRequestRegistry
+                               →  jpmFundingRequestCreateFlow  <span class="cm">// PDF + submission</span>
+  <span class="cs">'roll'</span>               →  getAvailableDrawsToRoll  →  createRollRequest</pre>
+            </div>
+
+            <div class="aside">
+              <div class="aside-label">Safety invariant — rate ID handling</div>
+              <p>
+                <code>lastMonthsFacilityRates</code> returns historical rate
+                rows for reference context only. The IDs it returns must never
+                be passed to <code>updateFacilityRate</code> — reusing a
+                historical ID creates a duplicate row rather than updating the
+                current one. The correct flow — fetch current via
+                <code>getFacilityRates</code>, get real IDs, then update — is
+                encoded in the tool manifests and injected into the system
+                prompt so the model learns the invariant rather than guessing
+                it.
+              </p>
+            </div>
 
             <ul class="tech-list">
               <li>
@@ -665,22 +721,26 @@
                 >
               </li>
               <li>
-                Dynamically constructs authorized toolset per-request from the
-                capability registry
+                Bound tool factory pattern — deps injected at construction time,
+                keeping tools pure, testable, and composable
               </li>
-              <li>15-step multi-tool execution via Claude claude-sonnet-4-5</li>
               <li>
                 Full Slack webhook verification
-                (<code>@slack/events-api</code>), event deduplication, bot
-                message filtering
+                (<code>@slack/events-api</code>), event deduplication by
+                <code>event_id</code>, bot message filtering
               </li>
               <li>
                 Conversation persistence in PostgreSQL — reconstructed as
                 <code>CoreMessage[]</code> per turn
               </li>
               <li>
-                Tool prefix audit trail feeding
-                <code>inferCapabilitiesFromTools()</code> for compliance logging
+                <code>withSlackNotifications()</code> wraps execution to forward
+                step traces to an ops monitoring channel in real-time
+              </li>
+              <li>
+                Returns <code>AgentHandoff&lt;T&gt;</code> — typed success
+                payload or structured failure, explicit throughout the response
+                pipeline
               </li>
             </ul>
           </div>
@@ -693,48 +753,98 @@
             </div>
 
             <p>
-              Penny is the in-app counterpart — a streaming Capital Markets AI
-              agent embedded in the HighFi dashboard. Where Millie handles
-              requests asynchronously inside a Slack thread, Penny surfaces in
-              the context of an active customer session: during a funding
-              request review, alongside an eligibility amendment workflow, or in
-              a read-only reporting mode. The context available to Penny is
-              richer and more structured than what Millie receives through a
-              Slack message.
+              Penny is the in-app counterpart — a 512px streaming chat panel
+              embedded in the HighFi dashboard. Where Millie handles requests in
+              a Slack thread, Penny surfaces in the context of an active user
+              session: during an eligibility amendment workflow, a facility
+              report review, or a portfolio analysis. The context available to
+              Penny is richer and more structured than what Millie receives
+              through a Slack message.
             </p>
 
             <p>
               The architecture is deliberately multi-modal. Claude and Gemini
               2.0 Flash are both available at runtime, selectable by the user.
-              Three chat modes carry different system prompts and different tool
-              access. An <code>amendmentEdit</code> session injects the current
-              eligibility terms as structured context and grants CRUD access to
-              amendment workflows. A <code>report</code> session is read-only:
-              the model can query and explain, but cannot mutate. Every
-              session's system message is constructed fresh from customer data,
-              amendment context, and mode instructions.
+              Five chat modes carry different system prompts and tool access,
+              each scoped to the user's current task. An
+              <code>amendmentEdit</code> session injects current eligibility
+              terms and grants CRUD access to amendment workflows. A
+              <code>report</code> session is read-only. The
+              <code>eligibilityConfigWorkflow</code> mode is a guided, stateful
+              multi-step process — Penny tracks progress across turns while
+              helping compliance and credit teams configure borrowing base rules
+              without needing to understand the underlying data model. Every
+              session's system message is assembled fresh by
+              <code>ai-context-system-message.ts</code> from customer and
+              facility data, amendment diffs, portfolio summaries, and
+              mode-specific tool instructions.
             </p>
+
+            <table class="cap-table">
+              <thead>
+                <tr>
+                  <th>Mode</th>
+                  <th>Description</th>
+                  <th>Tools</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>default</code></td>
+                  <td>General assistant</td>
+                  <td>None</td>
+                </tr>
+                <tr>
+                  <td><code>amendmentEdit</code></td>
+                  <td>Amendment term editing</td>
+                  <td>
+                    eligibilityTerm Create / Update / Delete, fieldKeysList,
+                    eligibilityTermList
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>report</code></td>
+                  <td>Read-only analysis</td>
+                  <td>Read-only context tools</td>
+                </tr>
+                <tr>
+                  <td><code>eligibilityConfigWorkflow</code></td>
+                  <td>Guided eligibility builder (multi-step, stateful)</td>
+                  <td>eligibilityConfigWorkflow</td>
+                </tr>
+                <tr>
+                  <td><code>portfolio</code></td>
+                  <td>DeFi vault analysis</td>
+                  <td>
+                    getPortfolioVaults, calculateVaultMetrics,
+                    triggerPortfolioSnapshot
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
             <ul class="tech-list">
               <li>
-                Streaming responses via Vercel AI SDK — 300s max execution
-                window
+                Streaming responses via Vercel AI SDK —
+                <code>maxSteps: 5</code> per request, 300s execution window
               </li>
               <li>
-                Multi-model: Claude + Gemini 2.0 Flash selectable at runtime
+                Multi-model: Claude + Gemini 2.0 Flash selectable at runtime via
+                <code>ai-model-keys.ts</code>
               </li>
               <li>
-                Three chat modes: <code>default</code>,
-                <code>amendmentEdit</code> (CRUD on eligibility terms),
-                <code>report</code> (read-only)
+                <code>ai-context-system-message.ts</code> assembles context
+                fresh each turn: customer + facility data, amendment diffs,
+                portfolio summaries, mode-specific instructions
               </li>
               <li>
-                Dynamic system message per session: customer data + amendment
-                context + mode instructions
+                Renders as a 512px side panel with animated transitions;
+                <code>chatKey</code> resets conversation state cleanly on
+                context switches
               </li>
               <li>
                 Shared <code>Conversation</code> / <code>Message</code> Prisma
-                models with Millie
+                models with Millie — gated to admin users
               </li>
             </ul>
           </div>
@@ -808,42 +918,36 @@
             designed to degrade gracefully if it runs out of time.
           </p>
 
-          <table class="arch-table">
-            <thead>
-              <tr>
-                <th>Stage</th>
-                <th>Agent</th>
-                <th>Budget</th>
-                <th>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Planner</td>
-                <td>10 min</td>
-                <td>
-                  Reads the spec and codebase, writes
-                  <code>tmp/implementation-plan.md</code>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Implementer</td>
-                <td>25 min</td>
-                <td>Reads the plan, writes and commits code incrementally</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>QA</td>
-                <td>8 min</td>
-                <td>
-                  Runs checks, reviews the diff, posts a PR comment, updates
-                  spec status
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="pipeline-stages">
+            <div class="pipeline-stage">
+              <p class="pipeline-stage-num">Stage 1</p>
+              <p class="pipeline-stage-name">Planner</p>
+              <p class="pipeline-stage-budget">10 min budget</p>
+              <p class="pipeline-stage-desc">
+                Reads spec + codebase. Writes
+                <code>tmp/implementation-plan.md</code> and
+                <code>tmp/pr-context.sh</code>
+              </p>
+            </div>
+            <div class="pipeline-stage">
+              <p class="pipeline-stage-num">Stage 2</p>
+              <p class="pipeline-stage-name">Implementer</p>
+              <p class="pipeline-stage-budget">25 min budget</p>
+              <p class="pipeline-stage-desc">
+                Reads plan + context. Writes and commits code. Counts commits
+                before and after for measurable output signal.
+              </p>
+            </div>
+            <div class="pipeline-stage">
+              <p class="pipeline-stage-num">Stage 3</p>
+              <p class="pipeline-stage-name">QA</p>
+              <p class="pipeline-stage-budget">8 min budget</p>
+              <p class="pipeline-stage-desc">
+                Runs checks. Posts PR comment. Updates spec status. Only signs
+                off when all checks pass.
+              </p>
+            </div>
+          </div>
 
           <h3 class="layer-heading">
             <span class="layer-num">The Architecture</span>
@@ -865,11 +969,12 @@
             <div class="code-block-label">
               Agent coordination via handoff files
             </div>
-            <pre><span class="cm"># Stage 1 — Planner writes the plan</span>
+            <pre><span class="cm"># Stage 1 — Planner resolves branch, writes plan + context</span>
 <span class="ck">Planner</span>      →  <span class="cs">tmp/implementation-plan.md</span>
+             →  <span class="cs">tmp/pr-context.sh</span>         <span class="cm"># PR_NUMBER + BRANCH_NAME</span>
 
 <span class="cm"># Stage 2 — Implementer reads plan, writes code, writes result</span>
-<span class="ck">Implementer</span>  ←  <span class="cs">tmp/implementation-plan.md</span>
+<span class="ck">Implementer</span>  ←  <span class="cs">tmp/implementation-plan.md</span>  +  <span class="cs">tmp/pr-context.sh</span>
              →  <span class="cs">tmp/implementation-result.md</span>  +  git commits
 
 <span class="cm"># Stage 3 — QA reads both, posts PR comment, updates spec</span>
@@ -878,11 +983,16 @@
           </div>
 
           <p>
-            Redis and PostgreSQL spin up as services in the CI job — the
-            Implementer's code is tested against real infrastructure before a
-            human sees it. Typecheck, lint, and test all run before QA signs
-            off. Post-processing always executes regardless of outcome: Prettier
-            auto-formats any output and commits the diff.
+            The Planner writes <code>tmp/pr-context.sh</code> alongside the
+            implementation plan — a small shell file containing the resolved
+            <code>PR_NUMBER</code> and <code>BRANCH_NAME</code>. Stages 2 and 3
+            source it so they always operate on the correct feature branch,
+            never accidentally on main. Redis and PostgreSQL spin up as real
+            Docker services in the CI job — not mocks — so the Implementer's
+            code is tested against actual infrastructure before a human sees it.
+            Post-processing always runs regardless of pipeline outcome: Prettier
+            auto-formats any output and commits the diff with a Claude co-author
+            attribution.
           </p>
 
           <h3 class="layer-heading">
@@ -894,10 +1004,17 @@
             Each Claude Code instance runs with
             <code>--dangerously-skip-permissions</code> — a flag that sounds
             alarming until you understand the design. The flag disables the
-            CLI's own permission prompts. Safety is not handled at the prompt
-            layer. It is handled at the shell layer, one level below, where it
-            cannot be overridden by any model output.
+            CLI's own permission prompts. Safety is not delegated to the model.
           </p>
+
+          <div class="security-callout">
+            <div class="security-callout-label">Design principle</div>
+            <p>
+              Safety is not handled at the prompt layer. It is handled at the
+              shell layer, one level below, where it cannot be overridden by any
+              model output.
+            </p>
+          </div>
 
           <p>
             The <code>SHELL</code> environment variable is set to a custom
@@ -977,13 +1094,26 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
 
           <div class="outcome-section">
             <div class="outcome-label">Outcome</div>
-            <div class="pull-quote" style="margin-top: 0">
-              <p>
-                Specs written during the day are implemented overnight. The
-                security layer has blocked real injection attempts found in spec
-                content. The team reviews PRs at 8 AM. Effective engineering
-                capacity expanded without adding headcount.
-              </p>
+
+            <div class="outcome-metrics">
+              <div class="outcome-metric">
+                <p class="outcome-metric-val">8 AM</p>
+                <p class="outcome-metric-label">
+                  PR ready for review, every morning
+                </p>
+              </div>
+              <div class="outcome-metric">
+                <p class="outcome-metric-val">Real</p>
+                <p class="outcome-metric-label">
+                  Injection attempts blocked in production
+                </p>
+              </div>
+              <div class="outcome-metric">
+                <p class="outcome-metric-val">0</p>
+                <p class="outcome-metric-label">
+                  Headcount added to expand capacity
+                </p>
+              </div>
             </div>
 
             <div class="aside">
@@ -993,13 +1123,11 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
               <p>
                 The <code>SHELL</code> hijack pattern applies to any autonomous
                 agent that executes shell commands in an untrusted environment.
-                The key insight: safety should not be a prompt-level concern.
-                Prompts can be overridden by model output. The shell cannot.
                 Intercept at the lowest level, whitelist rather than blacklist,
                 validate inputs before they reach the model. Prompt injection
                 through spec content is not a theoretical risk — it is a
-                practical one that this architecture was specifically designed
-                to defeat.
+                practical one this architecture was specifically designed to
+                defeat.
               </p>
             </div>
           </div>

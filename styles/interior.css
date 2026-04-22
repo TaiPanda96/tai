@@ -680,3 +680,121 @@
   display: block;
   margin-bottom: 6px;
 }
+
+/* ── Pipeline stages (Ch IV) ─────────────────────────────── */
+.pipeline-stages {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--border-light);
+  border: 0.5px solid var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 36px 0;
+}
+
+.pipeline-stage {
+  background: var(--interior-bg);
+  padding: 20px 20px 24px;
+}
+
+.pipeline-stage-num {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+}
+
+.pipeline-stage-name {
+  font-family: "DM Serif Display", serif;
+  font-size: 20px;
+  color: var(--interior-text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.pipeline-stage-budget {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.pipeline-stage-desc {
+  font-family: "Lora", serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+  padding-top: 12px;
+  border-top: 0.5px solid var(--border-light);
+}
+
+.pipeline-stage-desc code {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  background: rgba(154, 111, 42, 0.08);
+  color: var(--gold-dark);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+/* ── Security callout (Ch IV) ────────────────────────────── */
+.security-callout {
+  margin: 32px 0;
+  padding: 20px 24px;
+  border-left: 2px solid #c84b4a;
+  background: rgba(200, 75, 74, 0.04);
+}
+
+.security-callout-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #a33d3d;
+  margin-bottom: 10px;
+}
+
+.security-callout p {
+  font-family: "Lora", serif;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+/* ── Outcome metrics grid ────────────────────────────────── */
+.outcome-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-light);
+  border: 0.5px solid var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 28px 0 36px;
+}
+
+.outcome-metric {
+  background: var(--interior-bg);
+  padding: 20px 22px;
+}
+
+.outcome-metric-val {
+  font-family: "DM Serif Display", serif;
+  font-size: 28px;
+  color: var(--interior-text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.outcome-metric-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  line-height: 1.5;
+}
