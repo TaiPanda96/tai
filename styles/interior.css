@@ -798,3 +798,81 @@
   color: var(--ink-faint);
   line-height: 1.5;
 }
+
+/* ── OS Architecture diagram (Ch II) ───────────────────────── */
+.os-diagram-wrap {
+  margin: 44px 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.os-diagram-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.os-node {
+  opacity: 0;
+}
+.os-arrow {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+}
+.os-config-band {
+  opacity: 0;
+}
+
+.os-animate .os-node {
+  animation: osNodeIn 0.5s ease forwards;
+}
+.os-animate .os-arrow {
+  animation: osArrowDraw 0.45s ease forwards;
+}
+.os-animate .os-config-band {
+  animation: osFadeIn 0.55s ease forwards;
+}
+
+/* staggered delays — nodes */
+.os-animate .os-node:nth-child(1)  { animation-delay: 0.05s; }
+.os-animate .os-node:nth-child(2)  { animation-delay: 0.15s; }
+.os-animate .os-node:nth-child(3)  { animation-delay: 0.25s; }
+.os-animate .os-node:nth-child(4)  { animation-delay: 0.35s; }
+.os-animate .os-node:nth-child(5)  { animation-delay: 0.45s; }
+.os-animate .os-node:nth-child(6)  { animation-delay: 0.55s; }
+/* staggered delays — arrows */
+.os-animate .os-arrow:nth-child(1) { animation-delay: 0.3s; }
+.os-animate .os-arrow:nth-child(2) { animation-delay: 0.4s; }
+.os-animate .os-arrow:nth-child(3) { animation-delay: 0.5s; }
+.os-animate .os-arrow:nth-child(4) { animation-delay: 0.6s; }
+.os-animate .os-arrow:nth-child(5) { animation-delay: 0.7s; }
+
+.os-config-band { animation-delay: 0.75s; }
+
+@keyframes osNodeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes osArrowDraw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes osFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* hover highlight on node groups */
+.os-node-group { cursor: default; }
+.os-node-group:hover .os-node-rect {
+  filter: brightness(1.08);
+}
+
+/* ── OS Lifecycle diagram (Ch II) ───────────────────────────── */
+.os-lifecycle-wrap {
+  margin: 36px 0 44px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.os-lifecycle-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
