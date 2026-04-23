@@ -5,8 +5,7 @@ export const CHAPTERS = [
   { id: "ch2",   label: "II — Agent Harness",    theme: "light" },
   { id: "ch3",   label: "III — Millie & Penny",  theme: "light" },
   { id: "ch4",   label: "IV — Night Agent",      theme: "light" },
-  { id: "ch5",   label: "V — Financial Engines", theme: "light" },
-  { id: "ch6",   label: "VI — Before HighFi",    theme: "light" },
+  { id: "ch5",   label: "V — Before HighFi",      theme: "light" },
 ];
 
 export const state = { current: 0 };
