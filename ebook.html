@@ -1090,6 +1090,32 @@
                 layer.
               </p>
 
+              <figure style="margin:28px 0 8px;">
+                <img
+                  src="specs/design-inspiration/ai-harness-monitoring.png"
+                  alt="Slack #ai-system-monitoring channel showing a live Millie execution — status success, 10.47s duration, input JSON with customer and channel context, output with toolsExecuted and capabilitiesUsed"
+                  style="width:100%;border:1px solid #d9d5ce;border-radius:3px;display:block;"
+                />
+                <figcaption style="font-family:'DM Mono',monospace;font-size:11px;color:#7a7672;margin-top:8px;letter-spacing:0.04em;">
+                  Live execution trace in <code>#ai-system-monitoring</code> — <code>SlackStepTraceHandler</code> in production. Status, duration, structured input and output recorded per run.
+                </figcaption>
+              </figure>
+
+              <div class="aside">
+                <div class="aside-label">Shared observability infrastructure</div>
+                <p>
+                  The <code>SlackStepTraceHandler</code> is not agent-specific.
+                  Any agent that calls <code>withSlackNotifications()</code>
+                  routes its step traces to a designated Slack channel. The Night
+                  Agent CI/CD pipeline — covered in Chapter V — adopted this same
+                  mechanism to post nightly run summaries to
+                  <code>#engineering</code>. The same infrastructure that
+                  surfaces a compliance-sensitive funding request execution also
+                  reports overnight code generation results. One investment, two
+                  use cases.
+                </p>
+              </div>
+
               <!-- Layer 3 -->
               <h3 class="layer-heading">
                 <span class="layer-num">Layer 3</span>
@@ -1412,6 +1438,14 @@
                   <span class="agent-tag">Slack Agent</span>
                 </div>
 
+                <figure style="float:right;margin:0 0 16px 28px;width:140px;clear:right;">
+                  <img
+                    src="specs/design-inspiration/millie-bot.jpeg"
+                    alt="Millie — A friendly finance assistant bot"
+                    style="width:100%;border-radius:4px;display:block;"
+                  />
+                </figure>
+
                 <p>
                   Millie lives inside a customer's Slack workspace and handles
                   capital markets operations: funding requests, SOFR rate
@@ -1529,6 +1563,17 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
                     response pipeline
                   </li>
                 </ul>
+
+                <figure style="margin:24px 0 8px;clear:both;">
+                  <img
+                    src="specs/design-inspiration/millie-use-case.png"
+                    alt="Millie Slack conversation: user selects CUSTOMER-MANAGEMENT admin capability, Millie checks Atlas facility rates, then creates three new rates — SOFR, SONIA, EURIBOR — in a single tool chain"
+                    style="width:100%;border:1px solid #d9d5ce;border-radius:3px;display:block;"
+                  />
+                  <figcaption style="font-family:'DM Mono',monospace;font-size:11px;color:#7a7672;margin-top:8px;letter-spacing:0.04em;">
+                    A real Millie session: capability selection (CUSTOMER-MANAGEMENT admin), rate lookup for the Atlas facility, and three new rates — SOFR, SONIA, EURIBOR — created in a single tool chain.
+                  </figcaption>
+                </figure>
               </div>
 
               <!-- Penny -->
@@ -1911,6 +1956,30 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                     </p>
                   </div>
                 </div>
+
+                <div class="aside">
+                  <div class="aside-label">The pipeline closes its own loop</div>
+                  <p>
+                    Every nightly run posts a structured summary to
+                    <code>#engineering</code> — branches processed, overall
+                    result, PR links, and a commit count. This is not a separate
+                    notification system: it is the same
+                    <code>SlackStepTraceHandler</code> from the agent harness
+                    (Chapter III), adopted directly by the CI/CD pipeline. The
+                    team wakes up to a Slack summary, not a dashboard to check.
+                  </p>
+                </div>
+
+                <figure style="margin:20px 0 8px;">
+                  <img
+                    src="specs/design-inspiration/night-agent.png"
+                    alt="Slack #engineering channel showing Night Agent run summary — 3 targets processed, overall success, branches listed, then Night Agent Implementation Complete with PR link and commit list"
+                    style="width:100%;border:1px solid #d9d5ce;border-radius:3px;display:block;"
+                  />
+                  <figcaption style="font-family:'DM Mono',monospace;font-size:11px;color:#7a7672;margin-top:8px;letter-spacing:0.04em;">
+                    <code>#engineering</code> after a nightly run — branches processed, PR link, and a commit summary delivered before the team arrives.
+                  </figcaption>
+                </figure>
 
                 <div class="aside">
                   <div class="aside-label">
