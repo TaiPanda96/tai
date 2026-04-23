@@ -11,83 +11,59 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles/tokens.css" />
-    <link rel="stylesheet" href="styles/layout.css" />
-    <link rel="stylesheet" href="styles/cover.css" />
+    <link rel="stylesheet" href="styles/app.css" />
     <link rel="stylesheet" href="styles/interior.css" />
   </head>
-  <body class="has-ebook-header">
-    <header id="ebook-header">
-      <a href="index.html">← Back to Timeline</a>
+  <body>
+    <!-- ── App header ──────────────────────────────────────────── -->
+    <header class="app-header">
+      <a class="app-header-link" href="index.html">← Timeline</a>
+      <div class="app-breadcrumb">
+        <span class="app-breadcrumb-sep">/</span>
+        <span class="app-header-link">Portfolio</span>
+        <span class="app-breadcrumb-sep">/</span>
+        <span class="app-breadcrumb-current" id="nav-breadcrumb">I — Who I Am</span>
+      </div>
     </header>
 
-    <!-- ── Table of Contents ──────────────────────────────────── -->
-    <div id="toc" class="chapter interior" data-index="1">
-      <div class="toc-inner">
-        <div class="toc-header">
-          <div class="page-eyebrow">Tai Lin — Portfolio</div>
-          <h2 class="page-title">Table of<br />Contents</h2>
-        </div>
+    <!-- ── App shell ───────────────────────────────────────────── -->
+    <div class="app-shell has-footer">
 
-        <ol class="toc-list">
-          <li class="toc-entry" onclick="goTo(1)">
-            <span class="toc-num">I</span>
-            <div class="toc-body">
-              <span class="toc-chapter-title">Who I Am &amp; What I Build</span>
-              <span class="toc-leaders"></span>
-              <span class="toc-tag">Introduction</span>
-            </div>
-          </li>
-          <li class="toc-entry" onclick="goTo(2)">
-            <span class="toc-num">II</span>
-            <div class="toc-body">
-              <span class="toc-chapter-title">The Capital Markets OS</span>
-              <span class="toc-leaders"></span>
-              <span class="toc-tag">Architecture</span>
-            </div>
-          </li>
-          <li class="toc-entry" onclick="goTo(3)">
-            <span class="toc-num">III</span>
-            <div class="toc-body">
-              <span class="toc-chapter-title">The AI Agent Harness</span>
-              <span class="toc-leaders"></span>
-              <span class="toc-tag">Platform</span>
-            </div>
-          </li>
-          <li class="toc-entry" onclick="goTo(4)">
-            <span class="toc-num">IV</span>
-            <div class="toc-body">
-              <span class="toc-chapter-title">Millie &amp; Penny</span>
-              <span class="toc-leaders"></span>
-              <span class="toc-tag">AI Agents</span>
-            </div>
-          </li>
-          <li class="toc-entry" onclick="goTo(5)">
-            <span class="toc-num">V</span>
-            <div class="toc-body">
-              <span class="toc-chapter-title">The Night Agent</span>
-              <span class="toc-leaders"></span>
-              <span class="toc-tag">Agentic CI/CD</span>
-            </div>
-          </li>
-          <li class="toc-entry" onclick="goTo(6)">
-            <span class="toc-num">VI</span>
-            <div class="toc-body">
-              <span class="toc-chapter-title">The Financial Engines</span>
-              <span class="toc-leaders"></span>
-              <span class="toc-tag">Core Systems</span>
-            </div>
-          </li>
-          <li class="toc-entry" onclick="goTo(7)">
-            <span class="toc-num">VII</span>
-            <div class="toc-body">
-              <span class="toc-chapter-title">Before HighFi</span>
-              <span class="toc-leaders"></span>
-              <span class="toc-tag">Prior Work</span>
-            </div>
-          </li>
-        </ol>
-      </div>
-    </div>
+      <!-- Left: chapter rail -->
+      <aside class="app-sidebar">
+        <div class="sidebar-label">Chapters</div>
+        <div class="rail-item active" onclick="goTo(0)">
+          <span class="rail-item-num">I</span>
+          <span class="rail-item-title">Who I Am</span>
+        </div>
+        <div class="rail-item" onclick="goTo(1)">
+          <span class="rail-item-num">II</span>
+          <span class="rail-item-title">Capital Markets OS</span>
+        </div>
+        <div class="rail-item" onclick="goTo(2)">
+          <span class="rail-item-num">III</span>
+          <span class="rail-item-title">Agent Harness</span>
+        </div>
+        <div class="rail-item" onclick="goTo(3)">
+          <span class="rail-item-num">IV</span>
+          <span class="rail-item-title">Millie &amp; Penny</span>
+        </div>
+        <div class="rail-item" onclick="goTo(4)">
+          <span class="rail-item-num">V</span>
+          <span class="rail-item-title">Night Agent</span>
+        </div>
+        <div class="rail-item" onclick="goTo(5)">
+          <span class="rail-item-num">VI</span>
+          <span class="rail-item-title">Financial Engines</span>
+        </div>
+        <div class="rail-item" onclick="goTo(6)">
+          <span class="rail-item-num">VII</span>
+          <span class="rail-item-title">Before HighFi</span>
+        </div>
+      </aside>
+
+      <!-- Right: chapter content -->
+      <div class="app-content">
 
     <!-- ── Chapter I ──────────────────────────────────────────── -->
     <div id="ch1" class="chapter interior" data-index="2">
@@ -214,8 +190,8 @@
             Every lending relationship begins with a legal agreement. In
             asset-backed lending, these agreements define eligibility rules,
             concentration limits, and performance metrics that govern the health
-            of the borrower's portfolio. They are compliance red lines negotiated
-            between counterparties — and no two are identical. A
+            of the borrower's portfolio. They are compliance red lines
+            negotiated between counterparties — and no two are identical. A
             receivables-based facility for one customer has different advance
             rates, different concentration thresholds, and different reporting
             cadences than the next. This is what makes the domain hard to model
@@ -235,72 +211,352 @@
 
           <!-- Architecture SVG -->
           <div class="os-diagram-wrap" id="os-arch-diagram">
-            <svg viewBox="0 0 580 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Capital Markets OS — six-component architecture">
+            <svg
+              viewBox="0 0 580 400"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-label="Capital Markets OS — six-component architecture"
+            >
               <!-- Background -->
-              <rect width="580" height="400" fill="#f9f8f6"/>
+              <rect width="580" height="400" fill="#f9f8f6" />
 
               <!-- Row 1 nodes -->
-              <g class="os-node-group os-node" style="animation-delay:0.05s">
-                <rect class="os-node-rect" x="16" y="16" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
-                <text x="142" y="48" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em" text-transform="uppercase">ORIGINATOR SYSTEM</text>
-                <text x="142" y="68" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Customer onboarding &amp; config</text>
+              <g class="os-node-group os-node" style="animation-delay: 0.05s">
+                <rect
+                  class="os-node-rect"
+                  x="16"
+                  y="16"
+                  width="252"
+                  height="80"
+                  rx="4"
+                  fill="#ffffff"
+                  stroke="#d9d5ce"
+                  stroke-width="1"
+                />
+                <text
+                  x="142"
+                  y="48"
+                  font-family="DM Mono,monospace"
+                  font-size="9"
+                  fill="#c8a96e"
+                  text-anchor="middle"
+                  letter-spacing="0.1em"
+                  text-transform="uppercase"
+                >
+                  ORIGINATOR SYSTEM
+                </text>
+                <text
+                  x="142"
+                  y="68"
+                  font-family="Lora,serif"
+                  font-size="12"
+                  fill="#2c2825"
+                  text-anchor="middle"
+                >
+                  Customer onboarding &amp; config
+                </text>
               </g>
-              <g class="os-node-group os-node" style="animation-delay:0.15s">
-                <rect class="os-node-rect" x="312" y="16" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
-                <text x="438" y="48" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em">FACILITY MANAGEMENT</text>
-                <text x="438" y="68" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Lifecycle &amp; config abstraction</text>
+              <g class="os-node-group os-node" style="animation-delay: 0.15s">
+                <rect
+                  class="os-node-rect"
+                  x="312"
+                  y="16"
+                  width="252"
+                  height="80"
+                  rx="4"
+                  fill="#ffffff"
+                  stroke="#d9d5ce"
+                  stroke-width="1"
+                />
+                <text
+                  x="438"
+                  y="48"
+                  font-family="DM Mono,monospace"
+                  font-size="9"
+                  fill="#c8a96e"
+                  text-anchor="middle"
+                  letter-spacing="0.1em"
+                >
+                  FACILITY MANAGEMENT
+                </text>
+                <text
+                  x="438"
+                  y="68"
+                  font-family="Lora,serif"
+                  font-size="12"
+                  fill="#2c2825"
+                  text-anchor="middle"
+                >
+                  Lifecycle &amp; config abstraction
+                </text>
               </g>
 
               <!-- Row 1 → Row 2 arrows -->
-              <line class="os-arrow" x1="142" y1="96" x2="142" y2="116" stroke="#c8a96e" stroke-width="1.5" marker-end="url(#arr)"/>
-              <line class="os-arrow" x1="438" y1="96" x2="438" y2="116" stroke="#c8a96e" stroke-width="1.5" marker-end="url(#arr)"/>
+              <line
+                class="os-arrow"
+                x1="142"
+                y1="96"
+                x2="142"
+                y2="116"
+                stroke="#c8a96e"
+                stroke-width="1.5"
+                marker-end="url(#arr)"
+              />
+              <line
+                class="os-arrow"
+                x1="438"
+                y1="96"
+                x2="438"
+                y2="116"
+                stroke="#c8a96e"
+                stroke-width="1.5"
+                marker-end="url(#arr)"
+              />
 
               <!-- Row 2 nodes -->
-              <g class="os-node-group os-node" style="animation-delay:0.25s">
-                <rect class="os-node-rect" x="16" y="120" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
-                <text x="142" y="152" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em">ASSIGNMENT ENGINE</text>
-                <text x="142" y="172" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Deterministic receivables allocation</text>
+              <g class="os-node-group os-node" style="animation-delay: 0.25s">
+                <rect
+                  class="os-node-rect"
+                  x="16"
+                  y="120"
+                  width="252"
+                  height="80"
+                  rx="4"
+                  fill="#ffffff"
+                  stroke="#d9d5ce"
+                  stroke-width="1"
+                />
+                <text
+                  x="142"
+                  y="152"
+                  font-family="DM Mono,monospace"
+                  font-size="9"
+                  fill="#c8a96e"
+                  text-anchor="middle"
+                  letter-spacing="0.1em"
+                >
+                  ASSIGNMENT ENGINE
+                </text>
+                <text
+                  x="142"
+                  y="172"
+                  font-family="Lora,serif"
+                  font-size="12"
+                  fill="#2c2825"
+                  text-anchor="middle"
+                >
+                  Deterministic receivables allocation
+                </text>
               </g>
-              <g class="os-node-group os-node" style="animation-delay:0.35s">
-                <rect class="os-node-rect" x="312" y="120" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
-                <text x="438" y="152" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em">CALCULATION ENGINE</text>
-                <text x="438" y="172" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Facility snapshots &amp; borrowing base</text>
+              <g class="os-node-group os-node" style="animation-delay: 0.35s">
+                <rect
+                  class="os-node-rect"
+                  x="312"
+                  y="120"
+                  width="252"
+                  height="80"
+                  rx="4"
+                  fill="#ffffff"
+                  stroke="#d9d5ce"
+                  stroke-width="1"
+                />
+                <text
+                  x="438"
+                  y="152"
+                  font-family="DM Mono,monospace"
+                  font-size="9"
+                  fill="#c8a96e"
+                  text-anchor="middle"
+                  letter-spacing="0.1em"
+                >
+                  CALCULATION ENGINE
+                </text>
+                <text
+                  x="438"
+                  y="172"
+                  font-family="Lora,serif"
+                  font-size="12"
+                  fill="#2c2825"
+                  text-anchor="middle"
+                >
+                  Facility snapshots &amp; borrowing base
+                </text>
               </g>
 
               <!-- Row 2 → Row 3 arrows -->
-              <line class="os-arrow" x1="142" y1="200" x2="142" y2="220" stroke="#c8a96e" stroke-width="1.5" marker-end="url(#arr)"/>
-              <line class="os-arrow" x1="438" y1="200" x2="438" y2="220" stroke="#c8a96e" stroke-width="1.5" marker-end="url(#arr)"/>
+              <line
+                class="os-arrow"
+                x1="142"
+                y1="200"
+                x2="142"
+                y2="220"
+                stroke="#c8a96e"
+                stroke-width="1.5"
+                marker-end="url(#arr)"
+              />
+              <line
+                class="os-arrow"
+                x1="438"
+                y1="200"
+                x2="438"
+                y2="220"
+                stroke="#c8a96e"
+                stroke-width="1.5"
+                marker-end="url(#arr)"
+              />
 
               <!-- Row 3 nodes -->
-              <g class="os-node-group os-node" style="animation-delay:0.45s">
-                <rect class="os-node-rect" x="16" y="224" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
-                <text x="142" y="256" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em">SNAPSHOT SYSTEM</text>
-                <text x="142" y="276" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Lock, submit &amp; fund</text>
+              <g class="os-node-group os-node" style="animation-delay: 0.45s">
+                <rect
+                  class="os-node-rect"
+                  x="16"
+                  y="224"
+                  width="252"
+                  height="80"
+                  rx="4"
+                  fill="#ffffff"
+                  stroke="#d9d5ce"
+                  stroke-width="1"
+                />
+                <text
+                  x="142"
+                  y="256"
+                  font-family="DM Mono,monospace"
+                  font-size="9"
+                  fill="#c8a96e"
+                  text-anchor="middle"
+                  letter-spacing="0.1em"
+                >
+                  SNAPSHOT SYSTEM
+                </text>
+                <text
+                  x="142"
+                  y="276"
+                  font-family="Lora,serif"
+                  font-size="12"
+                  fill="#2c2825"
+                  text-anchor="middle"
+                >
+                  Lock, submit &amp; fund
+                </text>
               </g>
-              <g class="os-node-group os-node" style="animation-delay:0.55s">
-                <rect class="os-node-rect" x="312" y="224" width="252" height="80" rx="4" fill="#ffffff" stroke="#d9d5ce" stroke-width="1"/>
-                <text x="438" y="256" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.1em">REPORTING PIPELINE</text>
-                <text x="438" y="276" font-family="Lora,serif" font-size="12" fill="#2c2825" text-anchor="middle">Certificates, reports &amp; compliance</text>
+              <g class="os-node-group os-node" style="animation-delay: 0.55s">
+                <rect
+                  class="os-node-rect"
+                  x="312"
+                  y="224"
+                  width="252"
+                  height="80"
+                  rx="4"
+                  fill="#ffffff"
+                  stroke="#d9d5ce"
+                  stroke-width="1"
+                />
+                <text
+                  x="438"
+                  y="256"
+                  font-family="DM Mono,monospace"
+                  font-size="9"
+                  fill="#c8a96e"
+                  text-anchor="middle"
+                  letter-spacing="0.1em"
+                >
+                  REPORTING PIPELINE
+                </text>
+                <text
+                  x="438"
+                  y="276"
+                  font-family="Lora,serif"
+                  font-size="12"
+                  fill="#2c2825"
+                  text-anchor="middle"
+                >
+                  Certificates, reports &amp; compliance
+                </text>
               </g>
 
               <!-- Config band -->
               <g class="os-config-band">
-                <rect x="16" y="328" width="548" height="48" rx="4" fill="#c8a96e" fill-opacity="0.10" stroke="#c8a96e" stroke-width="1" stroke-dasharray="4 3"/>
-                <text x="290" y="349" font-family="DM Mono,monospace" font-size="9" fill="#c8a96e" text-anchor="middle" letter-spacing="0.12em">FACILITYCONFIG REGISTRY</text>
-                <text x="290" y="366" font-family="Lora,serif" font-size="11" fill="#7a7672" text-anchor="middle">Customer-specific business logic — no code changes required</text>
+                <rect
+                  x="16"
+                  y="328"
+                  width="548"
+                  height="48"
+                  rx="4"
+                  fill="#c8a96e"
+                  fill-opacity="0.10"
+                  stroke="#c8a96e"
+                  stroke-width="1"
+                  stroke-dasharray="4 3"
+                />
+                <text
+                  x="290"
+                  y="349"
+                  font-family="DM Mono,monospace"
+                  font-size="9"
+                  fill="#c8a96e"
+                  text-anchor="middle"
+                  letter-spacing="0.12em"
+                >
+                  FACILITYCONFIG REGISTRY
+                </text>
+                <text
+                  x="290"
+                  y="366"
+                  font-family="Lora,serif"
+                  font-size="11"
+                  fill="#7a7672"
+                  text-anchor="middle"
+                >
+                  Customer-specific business logic — no code changes required
+                </text>
               </g>
 
               <!-- Config band connection lines -->
               <g class="os-config-band">
-                <line x1="142" y1="304" x2="142" y2="328" stroke="#c8a96e" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
-                <line x1="438" y1="304" x2="438" y2="328" stroke="#c8a96e" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
-                <line x1="290" y1="304" x2="290" y2="328" stroke="#c8a96e" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+                <line
+                  x1="142"
+                  y1="304"
+                  x2="142"
+                  y2="328"
+                  stroke="#c8a96e"
+                  stroke-width="1"
+                  stroke-dasharray="3 3"
+                  opacity="0.6"
+                />
+                <line
+                  x1="438"
+                  y1="304"
+                  x2="438"
+                  y2="328"
+                  stroke="#c8a96e"
+                  stroke-width="1"
+                  stroke-dasharray="3 3"
+                  opacity="0.6"
+                />
+                <line
+                  x1="290"
+                  y1="304"
+                  x2="290"
+                  y2="328"
+                  stroke="#c8a96e"
+                  stroke-width="1"
+                  stroke-dasharray="3 3"
+                  opacity="0.6"
+                />
               </g>
 
               <!-- Arrow marker -->
               <defs>
-                <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-                  <path d="M0,0 L6,3 L0,6 Z" fill="#c8a96e"/>
+                <marker
+                  id="arr"
+                  markerWidth="6"
+                  markerHeight="6"
+                  refX="3"
+                  refY="3"
+                  orient="auto"
+                >
+                  <path d="M0,0 L6,3 L0,6 Z" fill="#c8a96e" />
                 </marker>
               </defs>
             </svg>
@@ -337,13 +593,13 @@
           </p>
 
           <p>
-            The <strong>Calculation Engine</strong> is the computational core
-            of the platform. It takes a facility, a loan tape, and a
-            configuration and produces a facility snapshot — a point-in-time
-            record of the facility's financial state, including
-            receivables-level calculations, eligibility evaluations,
-            concentration checks, and borrowing base metrics. Every funding
-            operation on the platform flows through it.
+            The <strong>Calculation Engine</strong> is the computational core of
+            the platform. It takes a facility, a loan tape, and a configuration
+            and produces a facility snapshot — a point-in-time record of the
+            facility's financial state, including receivables-level
+            calculations, eligibility evaluations, concentration checks, and
+            borrowing base metrics. Every funding operation on the platform
+            flows through it.
           </p>
 
           <p>
@@ -352,8 +608,8 @@
             produced, the Snapshot System manages submission — committing
             assignments, creating draw and recycle records, calculating
             business-day-adjusted funding dates, and triggering the reporting
-            pipeline. It is the operational boundary between a calculation and
-            a transaction with a counterparty on the other end.
+            pipeline. It is the operational boundary between a calculation and a
+            transaction with a counterparty on the other end.
           </p>
 
           <p>
@@ -369,53 +625,240 @@
 
           <!-- Lifecycle SVG -->
           <div class="os-lifecycle-wrap">
-            <svg viewBox="0 0 700 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Facility lifecycle — legal agreement to funded transaction">
+            <svg
+              viewBox="0 0 700 80"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-label="Facility lifecycle — legal agreement to funded transaction"
+            >
               <!-- Track line -->
-              <line x1="48" y1="30" x2="652" y2="30" stroke="#d9d5ce" stroke-width="1.5"/>
+              <line
+                x1="48"
+                y1="30"
+                x2="652"
+                y2="30"
+                stroke="#d9d5ce"
+                stroke-width="1.5"
+              />
 
               <!-- Stage nodes with animateMotion dot -->
               <!-- Node 1: Legal Agreement -->
-              <circle cx="48" cy="30" r="7" fill="#c8a96e"/>
-              <text x="48" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">LEGAL</text>
-              <text x="48" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">AGREEMENT</text>
+              <circle cx="48" cy="30" r="7" fill="#c8a96e" />
+              <text
+                x="48"
+                y="55"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                LEGAL
+              </text>
+              <text
+                x="48"
+                y="66"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                AGREEMENT
+              </text>
 
               <!-- Node 2: Config -->
-              <circle cx="158" cy="30" r="7" fill="#ffffff" stroke="#c8a96e" stroke-width="1.5"/>
-              <text x="158" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">FACILITY</text>
-              <text x="158" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">CONFIG</text>
+              <circle
+                cx="158"
+                cy="30"
+                r="7"
+                fill="#ffffff"
+                stroke="#c8a96e"
+                stroke-width="1.5"
+              />
+              <text
+                x="158"
+                y="55"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                FACILITY
+              </text>
+              <text
+                x="158"
+                y="66"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                CONFIG
+              </text>
 
               <!-- Node 3: Assignment -->
-              <circle cx="268" cy="30" r="7" fill="#ffffff" stroke="#c8a96e" stroke-width="1.5"/>
-              <text x="268" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">ASSIGN</text>
-              <text x="268" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">RECEIVABLES</text>
+              <circle
+                cx="268"
+                cy="30"
+                r="7"
+                fill="#ffffff"
+                stroke="#c8a96e"
+                stroke-width="1.5"
+              />
+              <text
+                x="268"
+                y="55"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                ASSIGN
+              </text>
+              <text
+                x="268"
+                y="66"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                RECEIVABLES
+              </text>
 
               <!-- Node 4: Calculate -->
-              <circle cx="378" cy="30" r="7" fill="#ffffff" stroke="#c8a96e" stroke-width="1.5"/>
-              <text x="378" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">RUN</text>
-              <text x="378" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">CALCULATION</text>
+              <circle
+                cx="378"
+                cy="30"
+                r="7"
+                fill="#ffffff"
+                stroke="#c8a96e"
+                stroke-width="1.5"
+              />
+              <text
+                x="378"
+                y="55"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                RUN
+              </text>
+              <text
+                x="378"
+                y="66"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                CALCULATION
+              </text>
 
               <!-- Node 5: Snapshot -->
-              <circle cx="488" cy="30" r="7" fill="#ffffff" stroke="#c8a96e" stroke-width="1.5"/>
-              <text x="488" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">LOCK</text>
-              <text x="488" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">SNAPSHOT</text>
+              <circle
+                cx="488"
+                cy="30"
+                r="7"
+                fill="#ffffff"
+                stroke="#c8a96e"
+                stroke-width="1.5"
+              />
+              <text
+                x="488"
+                y="55"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                LOCK
+              </text>
+              <text
+                x="488"
+                y="66"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                SNAPSHOT
+              </text>
 
               <!-- Node 6: Submit -->
-              <circle cx="568" cy="30" r="7" fill="#ffffff" stroke="#c8a96e" stroke-width="1.5"/>
-              <text x="568" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">SUBMIT</text>
-              <text x="568" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">&amp; REPORT</text>
+              <circle
+                cx="568"
+                cy="30"
+                r="7"
+                fill="#ffffff"
+                stroke="#c8a96e"
+                stroke-width="1.5"
+              />
+              <text
+                x="568"
+                y="55"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                SUBMIT
+              </text>
+              <text
+                x="568"
+                y="66"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                &amp; REPORT
+              </text>
 
               <!-- Node 7: Funded -->
-              <circle cx="652" cy="30" r="7" fill="#2c2825"/>
-              <text x="652" y="55" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">FUNDED</text>
-              <text x="652" y="66" font-family="DM Mono,monospace" font-size="8" fill="#7a7672" text-anchor="middle" letter-spacing="0.06em">TRANSACTION</text>
+              <circle cx="652" cy="30" r="7" fill="#2c2825" />
+              <text
+                x="652"
+                y="55"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                FUNDED
+              </text>
+              <text
+                x="652"
+                y="66"
+                font-family="DM Mono,monospace"
+                font-size="8"
+                fill="#7a7672"
+                text-anchor="middle"
+                letter-spacing="0.06em"
+              >
+                TRANSACTION
+              </text>
 
               <!-- Animated dot traversing the track -->
               <circle r="5" fill="#c8a96e" opacity="0.85">
                 <animateMotion dur="3.2s" repeatCount="indefinite" begin="1s">
-                  <mpath href="#lifecycle-path"/>
+                  <mpath href="#lifecycle-path" />
                 </animateMotion>
               </circle>
-              <path id="lifecycle-path" d="M48,30 L652,30" fill="none"/>
+              <path id="lifecycle-path" d="M48,30 L652,30" fill="none" />
             </svg>
           </div>
 
@@ -423,20 +866,23 @@
 
           <p>
             Six components is not, on its own, an interesting architecture. What
-            makes the system extensible is the <strong>FacilityConfig
-            registry</strong> — the layer that makes all six components
-            customer-specific without touching the codebase.
+            makes the system extensible is the
+            <strong>FacilityConfig registry</strong> — the layer that makes all
+            six components customer-specific without touching the codebase.
           </p>
 
           <p>
             Every facility on the platform is backed by a
             <code>FacilityConfig</code> object: a typed, validated configuration
-            that declares the business logic, calculation schemas, feature flags,
-            assignment strategies, and report jobs for that specific facility.
-            The registry maps customers to their facilities and their configs:
+            that declares the business logic, calculation schemas, feature
+            flags, assignment strategies, and report jobs for that specific
+            facility. The registry maps customers to their facilities and their
+            configs:
           </p>
 
-          <pre class="ch-code"><code>export const facilityConfigs: FacilityConfigRegistry = {
+          <pre
+            class="ch-code"
+          ><code>export const facilityConfigs: FacilityConfigRegistry = {
   cherry: {
     barclays: getBarclaysFacilityConfig,
     citibank: getCitibankFacilityConfig,
@@ -450,21 +896,21 @@
           <p>
             At runtime, every component in the OS loads its config from this
             registry via <code>getFacilityConfig()</code>. The Calculation
-            Engine reads which features are enabled and which calculation schemas
-            apply. The Assignment Engine reads which assignment strategy to
-            execute. The Snapshot System reads which report jobs to trigger and
-            whether auto-submit is enabled. No component hardcodes
+            Engine reads which features are enabled and which calculation
+            schemas apply. The Assignment Engine reads which assignment strategy
+            to execute. The Snapshot System reads which report jobs to trigger
+            and whether auto-submit is enabled. No component hardcodes
             customer-specific behavior — it reads it.
           </p>
 
           <p>
             The consequence is that onboarding a new customer is a configuration
-            task, not an engineering sprint. A new originator with a new facility
-            type requires a new config object and the business logic that
-            populates it — not changes to any of the six core components.
-            Equally, when a customer renegotiates their legal agreement and their
-            eligibility rules change, that change ships as a config update, not
-            a deployment.
+            task, not an engineering sprint. A new originator with a new
+            facility type requires a new config object and the business logic
+            that populates it — not changes to any of the six core components.
+            Equally, when a customer renegotiates their legal agreement and
+            their eligibility rules change, that change ships as a config
+            update, not a deployment.
           </p>
 
           <p>
@@ -1712,20 +2158,18 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
       </div>
     </div>
 
-    <!-- ── Navigation bar ─────────────────────────────────────── -->
-    <nav id="nav-bar" class="dark">
-      <button id="nav-prev" class="nav-btn" onclick="navigate(-1)">
-        ← Prev
-      </button>
-      <span id="nav-indicator"></span>
-      <button id="nav-next" class="nav-btn" onclick="navigate(1)">
-        Next →
-      </button>
-    </nav>
+      </div><!-- end .app-content -->
+    </div><!-- end .app-shell -->
+
+    <!-- ── Ebook footer ─────────────────────────────────────────── -->
+    <footer class="ebook-footer">
+      <button id="footer-prev" class="ebook-footer-btn" onclick="navigate(-1)">← Prev</button>
+      <span id="footer-indicator" class="ebook-footer-indicator"></span>
+      <button id="footer-next" class="ebook-footer-btn" onclick="navigate(1)">Next →</button>
+    </footer>
 
     <script>
       const CHAPTERS = [
-        { id: "toc", label: "Contents", theme: "light" },
         { id: "ch1", label: "I — Who I Am", theme: "light" },
         { id: "ch2", label: "II — Capital Markets OS", theme: "light" },
         { id: "ch3", label: "III — Agent Harness", theme: "light" },
@@ -1740,32 +2184,37 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
       function goTo(index) {
         if (index < 0 || index >= CHAPTERS.length) return;
 
-        // Hide current
+        const dir = index > current ? 1 : index < current ? -1 : 0;
         const prev = document.querySelector(".chapter.active");
-        if (prev) {
-          prev.classList.remove("visible");
-          setTimeout(() => prev.classList.remove("active"), 300);
+
+        if (prev && dir !== 0) {
+          const exitClass = dir > 0 ? "exit-left" : "exit-right";
+          prev.classList.add(exitClass);
+          setTimeout(() => prev.classList.remove("active", exitClass), 260);
+        } else if (prev) {
+          prev.classList.remove("active");
         }
 
-        // Show next after brief delay for fade
-        setTimeout(
-          () => {
-            current = index;
-            const el = document.getElementById(CHAPTERS[index].id);
-            el.classList.add("active");
-            // Scroll to top on chapter change
-            el.scrollTop = 0;
-            requestAnimationFrame(() => {
-              el.classList.add("visible");
-              // Trigger OS diagram animation on ch2 entry
-              if (CHAPTERS[index].id === "ch2") {
-                requestAnimationFrame(() => triggerOsDiagram());
-              }
-            });
-            updateNav();
-          },
-          prev ? 150 : 0,
-        );
+        current = index;
+        const el = document.getElementById(CHAPTERS[index].id);
+
+        if (dir !== 0) {
+          const enterClass = dir > 0 ? "enter-from-right" : "enter-from-left";
+          el.classList.add("active", enterClass);
+          setTimeout(() => el.classList.remove(enterClass), 300);
+        } else {
+          el.classList.add("active");
+        }
+
+        const content = document.querySelector(".app-content");
+        if (content) content.scrollTop = 0;
+
+        // Trigger OS diagram animation on ch2 entry
+        if (CHAPTERS[index].id === "ch2") {
+          requestAnimationFrame(() => triggerOsDiagram());
+        }
+
+        updateNav();
       }
 
       function navigate(dir) {
@@ -1773,22 +2222,26 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
       }
 
       function updateNav() {
-        const chapter = CHAPTERS[current];
-        const navBar = document.getElementById("nav-bar");
-        const prevBtn = document.getElementById("nav-prev");
-        const nextBtn = document.getElementById("nav-next");
-        const indicator = document.getElementById("nav-indicator");
+        // Update left rail
+        document.querySelectorAll(".rail-item").forEach((item, i) => {
+          item.classList.toggle("active", i === current);
+        });
 
-        navBar.className = chapter.theme === "dark" ? "dark" : "light";
-        indicator.textContent = chapter.label;
+        // Update breadcrumb
+        const crumb = document.getElementById("nav-breadcrumb");
+        if (crumb) crumb.textContent = CHAPTERS[current].label;
+
+        // Update footer
+        const prevBtn = document.getElementById("footer-prev");
+        const nextBtn = document.getElementById("footer-next");
+        const indicator = document.getElementById("footer-indicator");
+
+        indicator.textContent = CHAPTERS[current].label;
 
         if (current === 0) {
-          // At TOC — prev returns to timeline
           prevBtn.disabled = false;
           prevBtn.textContent = "← Timeline";
-          prevBtn.onclick = () => {
-            window.location.href = "index.html";
-          };
+          prevBtn.onclick = () => { window.location.href = "index.html"; };
         } else {
           prevBtn.disabled = false;
           prevBtn.textContent = `← ${CHAPTERS[current - 1].label}`;
@@ -1811,6 +2264,44 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
       const hashId = window.location.hash.slice(1);
       const hashIndex = CHAPTERS.findIndex((c) => c.id === hashId);
       goTo(hashIndex >= 0 ? hashIndex : 0);
+
+      // ── Stat count-up on scroll into view ──
+      (function () {
+        function animateNum(el) {
+          const original = el.textContent.trim();
+          const m = original.match(/^([^0-9]*)([1-9]\d*)([^0-9\s]*)$/);
+          if (!m) return;
+          const [, pre, numStr, suf] = m;
+          const end = parseInt(numStr, 10);
+          const dur = 300;
+          const t0 = performance.now();
+          el.textContent = pre + "0" + suf;
+          const tick = (now) => {
+            const p = Math.min((now - t0) / dur, 1);
+            const val = Math.round(end * (1 - Math.pow(1 - p, 2)));
+            el.textContent = pre + val + suf;
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+
+        const fired = new WeakSet();
+        const obs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting || fired.has(entry.target)) return;
+              fired.add(entry.target);
+              entry.target
+                .querySelectorAll(".stat-row-num, .outcome-metric-val")
+                .forEach(animateNum);
+            });
+          },
+          { threshold: 0.4 },
+        );
+        document
+          .querySelectorAll(".stat-row, .outcome-metrics")
+          .forEach((el) => obs.observe(el));
+      })();
 
       function triggerOsDiagram() {
         const wrap = document.getElementById("os-arch-diagram");

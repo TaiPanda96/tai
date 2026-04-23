@@ -47,15 +47,14 @@
 
 /* ── Table of Contents ───────────────────────────────────── */
 .toc-inner {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 64px 56px 80px;
+  max-width: 66.667%;
+  padding: 48px 48px 64px 40px;
 }
 
 .toc-header {
   margin-bottom: 56px;
   padding-bottom: 24px;
-  border-bottom: 0.5px solid var(--border-light);
+  border-bottom: 0.5px solid var(--gold-divider);
 }
 
 .page-eyebrow {
@@ -153,15 +152,14 @@
 
 /* ── Interior chapter layout ─────────────────────────────── */
 .ch-inner {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 64px 56px 96px;
+  max-width: 66.667%;
+  padding: 48px 48px 80px 40px;
 }
 
 .ch-header {
   margin-bottom: 48px;
   padding-bottom: 28px;
-  border-bottom: 0.5px solid var(--border-light);
+  border-bottom: 0.5px solid var(--gold-divider);
 }
 
 .ch-eyebrow {
@@ -281,7 +279,7 @@
 .agent-section {
   margin-top: 48px;
   padding-top: 40px;
-  border-top: 0.5px solid var(--border-light);
+  border-top: 0.5px solid var(--gold-divider);
 }
 
 .agent-section:first-of-type {
@@ -363,7 +361,7 @@
 .outcome-section {
   margin-top: 52px;
   padding-top: 36px;
-  border-top: 0.5px solid var(--border-light);
+  border-top: 0.5px solid var(--gold-divider);
 }
 
 .outcome-label {
@@ -380,18 +378,19 @@
   background: #141312;
   border: 0.5px solid #2e2c28;
   border-radius: 3px;
-  padding: 22px 24px;
   margin: 36px 0;
-  overflow-x: auto;
+  overflow: hidden;
 }
 
 .code-block-label {
+  display: block;
   font-family: "DM Mono", monospace;
   font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #4a4a44;
-  margin-bottom: 14px;
+  letter-spacing: 0.06em;
+  color: #6e6a62;
+  background: #1c1a16;
+  border-bottom: 0.5px solid #2e2c28;
+  padding: 7px 14px;
 }
 
 .code-block pre {
@@ -401,6 +400,8 @@
   color: #c0bbb2;
   margin: 0;
   white-space: pre;
+  padding: 18px 24px;
+  overflow-x: auto;
 }
 
 .code-block .cm { color: #5a5a52; }
@@ -668,7 +669,7 @@
   color: var(--interior-text);
   margin: 44px 0 16px;
   padding-top: 36px;
-  border-top: 0.5px solid var(--border-light);
+  border-top: 0.5px solid var(--gold-divider);
 }
 
 .layer-num {
@@ -875,4 +876,11 @@
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* ── Paper texture on cream interior ────────────────────── */
+.chapter.interior {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='256' height='256' filter='url(%23n)' opacity='0.04'/></svg>");
+  background-repeat: repeat;
+  background-size: 256px;
 }

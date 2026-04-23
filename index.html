@@ -39,8 +39,8 @@
       <!-- Intro -->
       <section class="intro-block">
         <p>
-          Hey! I find meaningful problems to solve from 0 to 1 while wearing
-          multiple hats. This is how I think about
+          I find meaningful problems to solve from 0 to 1 while wearing multiple
+          hats. This is how I think about
           <a
             href="https://www.sequoiacap.com/article/pmf-framework/"
             target="_blank"
@@ -56,7 +56,7 @@
         <!-- Vertical rail -->
         <div class="timeline-rail">
           <div class="rail-fill"></div>
-          <div class="era-node era-active" data-era="highfi"></div>
+          <div class="era-node active" data-era="highfi"></div>
           <div class="era-node" data-era="utradea"></div>
           <div class="era-node" data-era="bmo"></div>
           <div class="era-node" data-era="cdl"></div>
@@ -78,11 +78,11 @@
                 <li class="chip">GCP</li>
               </ul>
             </div>
-            <div class="era-stat reveal-target">
+            <div class="era-stat">
               <p
-                class="stat-num count-up"
+                class="stat-num"
+                data-target="350"
                 data-prefix="$"
-                data-target="200"
                 data-suffix="K"
               >
                 $350K
@@ -92,119 +92,123 @@
           </header>
 
           <div class="cards-grid">
-            <!-- Card 0 — Capital Markets OS -->
+            <!-- Capital Markets OS -->
             <a
-              class="project-card reveal-target reveal-left"
+              class="project-card"
               href="ebook.html#ch2"
+              style="transition-delay: 0ms"
             >
-              <h3 class="card-name">Capital Markets OS</h3>
+              <div class="card-header-bar">
+                <span class="card-name">Capital Markets OS</span>
+                <span class="card-chapter-tag">Ch. II →</span>
+              </div>
               <p class="card-desc">
                 Purpose-built operating system for the compliance, servicing,
                 and reporting layer between a legal agreement and a funded
-                transaction. Six components, one config registry —
-                onboarding a new customer is a config task, not an engineering
-                sprint.
+                transaction. Six components, one config registry — onboarding
+                is a config task, not a sprint.
               </p>
-              <p
-                class="card-metric-num count-up"
-                data-prefix=""
-                data-target="6"
-                data-suffix=""
-              >
-                6
-              </p>
-              <p class="card-metric-label">components, config-driven</p>
-              <span class="chapter-link">→ Chapter II</span>
+              <div class="card-footer">
+                <span class="card-metric-num">6</span>
+                <span class="card-metric-label">components, config-driven</span>
+              </div>
             </a>
 
-            <!-- Card 1 — AI Agent Harness -->
+            <!-- AI Agent Harness -->
             <a
-              class="project-card reveal-target reveal-right"
+              class="project-card"
               href="ebook.html#ch3"
+              style="transition-delay: 80ms"
             >
-              <h3 class="card-name">AI Agent Harness</h3>
+              <div class="card-header-bar">
+                <span class="card-name">AI Agent Harness</span>
+                <span class="card-chapter-tag">Ch. III →</span>
+              </div>
               <p class="card-desc">
-                BaseAgent&lt;TDeps,TInput,TOutput&gt; harness powering 6+ agents
-                with typed dependency injection, structured step tracing, and
-                per-step Slack observability.
+                BaseAgent&lt;TDeps,TInput,TOutput&gt; powering 6+ agents with
+                typed dependency injection, structured step tracing, and
+                per-step Slack observability. Stateful FSM design.
               </p>
-              <p
-                class="card-metric-num count-up"
-                data-prefix=""
-                data-target="6"
-                data-suffix="+"
-              >
-                5
-              </p>
-              <p class="card-metric-label">agents powered</p>
-              <span class="chapter-link">→ Chapter III</span>
+              <div class="card-footer">
+                <span class="card-metric-num">6+</span>
+                <span class="card-metric-label">agents in production</span>
+              </div>
             </a>
 
-            <!-- Card 2 — Millie & Penny -->
+            <!-- Millie & Penny -->
             <a
-              class="project-card reveal-target reveal-left"
+              class="project-card"
               href="ebook.html#ch4"
+              style="transition-delay: 160ms"
             >
-              <h3 class="card-name">Millie &amp; Penny</h3>
+              <div class="card-header-bar">
+                <span class="card-name">Millie &amp; Penny</span>
+                <span class="card-chapter-tag">Ch. IV →</span>
+              </div>
               <p class="card-desc">
-                Capability-gated Slack agent resolving authorized toolsets per
-                request. Millie executes funding draws, SOFR rate updates, and
-                facility queries in a thread. Penny streams amendment edits and
-                portfolio analysis from a mode-scoped in-app panel.
+                Capability-gated agents resolving authorized toolsets per
+                request. Millie executes funding draws and SOFR updates in
+                Slack. Penny streams amendment edits from a mode-scoped in-app
+                panel.
               </p>
-              <p
-                class="card-metric-num count-up"
-                data-prefix=""
-                data-target="5"
-                data-suffix=""
-              >
-                5
-              </p>
-              <p class="card-metric-label">
-                capabilities, authorized per request
-              </p>
-              <span class="chapter-link">→ Chapter IV</span>
+              <div class="card-footer">
+                <span class="card-metric-num">5</span>
+                <span class="card-metric-label"
+                  >capabilities, authorized per request</span
+                >
+              </div>
             </a>
 
-            <!-- Card 3 — The Night Agent -->
+            <!-- The Night Agent -->
             <a
-              class="project-card reveal-target reveal-right"
+              class="project-card"
               href="ebook.html#ch5"
+              style="transition-delay: 240ms"
             >
-              <h3 class="card-name">The Night Agent</h3>
+              <div class="card-header-bar">
+                <span class="card-name">The Night Agent</span>
+                <span class="card-chapter-tag">Ch. V →</span>
+              </div>
               <p class="card-desc">
                 Three-stage Claude Code pipeline on GitHub Actions. Safety
                 enforced below the prompt layer — every shell command routes
                 through a whitelist. Specs written by day, PRs reviewed at
                 8 AM.
               </p>
-              <p
-                class="card-metric-num count-up"
-                data-prefix=""
-                data-target="55"
-                data-suffix="m"
-              >
-                55m
-              </p>
-              <p class="card-metric-label">total pipeline budget</p>
-              <span class="chapter-link">→ Chapter V</span>
+              <div class="card-footer">
+                <span class="card-metric-num">55m</span>
+                <span class="card-metric-label">total pipeline budget</span>
+              </div>
             </a>
 
-            <!-- Card 4 — Financial Engines -->
+            <!-- Financial Engines -->
             <a
-              class="project-card reveal-target reveal-left"
+              class="project-card"
               href="ebook.html#ch6"
+              style="grid-column: span 2; transition-delay: 320ms"
             >
-              <h3 class="card-name">Financial Engines</h3>
+              <div class="card-header-bar">
+                <span class="card-name">Financial Engines</span>
+                <span class="card-chapter-tag">Ch. VI →</span>
+              </div>
               <p class="card-desc">
                 Config-driven calculation engine with dependency graphs and
                 runtime-evaluable expressions. Assignment Engine enforcing
-                borrowing base constraints with deterministic outcomes.
+                borrowing base constraints — same inputs always produce the same
+                allocation. Deterministic, auditable, reproducible against the
+                legal agreement.
               </p>
-              <span class="chapter-link">→ Chapter VI</span>
+              <div class="card-footer">
+                <span class="card-metric-num"></span>
+                <span class="card-metric-label"
+                  >deterministic · auditable · reproducible</span
+                >
+              </div>
             </a>
           </div>
         </article>
+
+        <div class="era-divider"></div>
 
         <!-- Era 2 — Utradea -->
         <article class="era-section" data-era="utradea">
@@ -218,64 +222,69 @@
                 <li class="chip">MongoDB</li>
                 <li class="chip">PostgreSQL</li>
                 <li class="chip">AWS ECS</li>
-                <li class="chip">RDS</li>
                 <li class="chip">Redis</li>
                 <li class="chip">OpenAI API</li>
               </ul>
             </div>
-            <div class="era-stat reveal-target">
+            <div class="era-stat">
               <p
-                class="stat-num count-up"
-                data-prefix=""
+                class="stat-num"
                 data-target="100"
+                data-prefix=""
                 data-suffix="+"
               >
-                50+
+                100+
               </p>
               <p class="stat-label">APIs migrated</p>
             </div>
           </header>
 
           <div class="cards-grid">
-            <!-- Card 1 — FMP API Migration -->
-            <article class="project-card reveal-target reveal-left">
-              <h3 class="card-name">FMP API Migration</h3>
+            <div class="project-card" style="transition-delay: 0ms">
+              <div class="card-header-bar">
+                <span class="card-name">FMP API Migration</span>
+              </div>
               <p class="card-desc">
                 Led migration of 100+ stock market APIs from Financial Modeling
                 Prep into Utradea's Node.js / MongoDB stack post-merger.
               </p>
-            </article>
+            </div>
 
-            <!-- Card 2 — AWS Infrastructure -->
-            <article class="project-card reveal-target reveal-right">
-              <h3 class="card-name">AWS Infrastructure</h3>
+            <div class="project-card" style="transition-delay: 80ms">
+              <div class="card-header-bar">
+                <span class="card-name">AWS Infrastructure</span>
+              </div>
               <p class="card-desc">
                 Managed PostgreSQL (RDS), ECS containers, load balancers, and
                 multi-node Redis cluster with read/write replication for scale.
               </p>
-            </article>
+            </div>
 
-            <!-- Card 3 — First AI Feature -->
-            <article class="project-card reveal-target reveal-left">
-              <h3 class="card-name">First AI Feature</h3>
+            <div class="project-card" style="transition-delay: 160ms">
+              <div class="card-header-bar">
+                <span class="card-name">First AI Feature</span>
+              </div>
               <p class="card-desc">
                 Piloted and shipped OpenAI API integration into the Financial
-                Writer tool, an AI-powered news article generator on real-time
+                Writer tool — an AI-powered news article generator on real-time
                 market data.
               </p>
-            </article>
+            </div>
 
-            <!-- Card 4 — Sentiment Parser & Stripe -->
-            <article class="project-card reveal-target reveal-right">
-              <h3 class="card-name">Sentiment Parser &amp; Stripe</h3>
+            <div class="project-card" style="transition-delay: 240ms">
+              <div class="card-header-bar">
+                <span class="card-name">Sentiment Parser &amp; Stripe</span>
+              </div>
               <p class="card-desc">
                 NLP-based SEC filing sentiment classifier surfacing actionable
                 stock signals. Integrated Stripe end-to-end for first paid
                 users.
               </p>
-            </article>
+            </div>
           </div>
         </article>
+
+        <div class="era-divider"></div>
 
         <!-- Era 3 — BMO Financial Group -->
         <article class="era-section" data-era="bmo">
@@ -287,15 +296,14 @@
               <ul class="tech-chips" aria-label="Technologies">
                 <li class="chip">Requirements</li>
                 <li class="chip">Systems Analysis</li>
-                <li class="chip">Data</li>
                 <li class="chip">Regulatory Compliance</li>
               </ul>
             </div>
-            <div class="era-stat reveal-target">
+            <div class="era-stat">
               <p
-                class="stat-num count-up"
-                data-prefix=""
+                class="stat-num"
                 data-target="3"
+                data-prefix=""
                 data-suffix="yr"
               >
                 3yr
@@ -305,38 +313,43 @@
           </header>
 
           <div class="cards-grid">
-            <!-- Card 1 — Credit Flow Transformation -->
-            <article class="project-card reveal-target reveal-left">
-              <h3 class="card-name">Credit Flow Transformation</h3>
+            <div class="project-card" style="transition-delay: 0ms">
+              <div class="card-header-bar">
+                <span class="card-name">Credit Flow Transformation</span>
+              </div>
               <p class="card-desc">
                 Defined E2E requirements and drove cross-functional delivery for
                 the Credit Flow for Commercial Banking transformation.
               </p>
-            </article>
+            </div>
 
-            <!-- Card 2 — Client Portal Integration -->
-            <article class="project-card reveal-target reveal-right">
-              <h3 class="card-name">Client Portal Integration</h3>
+            <div class="project-card" style="transition-delay: 80ms">
+              <div class="card-header-bar">
+                <span class="card-name">Client Portal Integration</span>
+              </div>
               <p class="card-desc">
                 Owned E2E project streamlining business banking onboarding from
                 prospecting to signing across legacy systems via API.
               </p>
-            </article>
+            </div>
 
-            <!-- Card 3 — Compliance Reporting -->
-            <article class="project-card reveal-target reveal-left">
-              <h3 class="card-name">Compliance Reporting</h3>
+            <div class="project-card" style="transition-delay: 160ms">
+              <div class="card-header-bar">
+                <span class="card-name">Compliance Reporting</span>
+              </div>
               <p class="card-desc">
                 Introduced configurable credit compliance reporting templates
                 scaled across multiple lines of business to standardize
                 regulatory workflows.
               </p>
-            </article>
+            </div>
           </div>
         </article>
 
+        <div class="era-divider"></div>
+
         <!-- Era 4 — Creative Destruction Lab -->
-        <article class="era-section" data-era="cdl">
+        <article class="era-section" data-era="cdl" style="margin-bottom: 0">
           <header class="era-header">
             <div class="era-meta">
               <h2 class="era-company">Creative Destruction Lab</h2>
@@ -346,25 +359,25 @@
                 <li class="chip">ML</li>
                 <li class="chip">Venture</li>
                 <li class="chip">University of Toronto</li>
-                <li class="chip">Rotman Commerce</li>
               </ul>
             </div>
           </header>
 
           <div class="cards-grid">
-            <!-- Card 1 — ML Venture Cohort -->
-            <article class="project-card reveal-target reveal-left">
-              <h3 class="card-name">ML Venture Cohort</h3>
+            <div class="project-card" style="transition-delay: 0ms">
+              <div class="card-header-bar">
+                <span class="card-name">ML Venture Cohort</span>
+              </div>
               <p class="card-desc">
-                Worked alongside ML-native founders and operators; developed
-                early conviction in AI-native product building. B.Com,
-                University of Toronto.
+                Worked alongside ML-native founders and operators during the
+                early commercial wave of machine learning. Developed early
+                conviction: the bottleneck is infrastructure, not capability.
+                B.Com, University of Toronto.
               </p>
-            </article>
+            </div>
           </div>
         </article>
       </section>
-      <!-- end .timeline-section -->
     </main>
 
     <footer class="timeline-footer">

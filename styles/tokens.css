@@ -5,10 +5,12 @@
   --interior-text: #2c2820;
   --gold: #c49a3c;
   --gold-dark: #9a6f2a;
+  --gold-faint: rgba(196, 154, 60, 0.10);
   --ink-muted: #6b6456;
   --ink-faint: #b8b0a2;
   --border-dark: #2a2a28;
   --border-light: #d8d0c0;
+  --gold-divider: rgba(196, 154, 60, 0.18);
   --nav-h: 56px;
   --ebook-header-h: 44px;
 }
