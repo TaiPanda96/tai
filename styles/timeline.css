@@ -303,6 +303,18 @@ body {
   letter-spacing: 0.04em;
 }
 
+/* ── Era intro (narrative bridge between metadata and cards) ─── */
+.era-intro {
+  grid-column: 1 / -1;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 0.5px solid var(--border-light);
+  font-family: "Lora", serif;
+  font-size: 14px;
+  line-height: 1.78;
+  color: var(--ink-muted);
+}
+
 /* ── Era stat (ink, editorial) ────────────────────────────────── */
 .era-stat {
   text-align: right;
@@ -322,6 +334,29 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   margin-top: 4px;
+}
+
+/* ── Era chapter link (pre-HighFi eras → Ch. VI) ─────────────── */
+.era-chapter-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 10px;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  color: var(--gold-dark);
+  background: rgba(196, 154, 60, 0.08);
+  border: 0.5px solid rgba(196, 154, 60, 0.22);
+  border-radius: 4px;
+  padding: 3px 8px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.era-chapter-link:hover {
+  background: rgba(196, 154, 60, 0.16);
+  border-color: rgba(196, 154, 60, 0.42);
 }
 
 /* ── Era divider ──────────────────────────────────────────────── */
@@ -350,6 +385,36 @@ a.project-card {
   display: flex;
   text-decoration: none;
   color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 36px CTA bar slides up from card bottom on hover */
+a.project-card::after {
+  content: "Read " attr(data-chapter) " →";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: #fff;
+  border-top: 0.5px solid rgba(196, 154, 60, 0.3);
+  border-radius: 0 0 9px 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  color: var(--gold-dark);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transform: translateY(36px);
+  transition: transform 0.2s ease;
+  pointer-events: none;
+}
+
+a.project-card:hover::after {
+  transform: translateY(0);
 }
 
 .project-card {
@@ -377,7 +442,8 @@ a.project-card {
 }
 
 a.project-card:hover {
-  border-color: rgba(196, 154, 60, 0.3);
+  border-color: rgba(196, 154, 60, 0.45);
+  box-shadow: 0 4px 20px rgba(196, 154, 60, 0.1), 0 1px 6px rgba(0, 0, 0, 0.04);
 }
 
 /* ── Card header bar ──────────────────────────────────────────── */
@@ -400,9 +466,20 @@ a.project-card:hover {
 
 .card-chapter-tag {
   font-family: "DM Mono", monospace;
-  font-size: 10px;
-  color: var(--ink-faint);
-  letter-spacing: 0.04em;
+  font-size: 9px;
+  color: var(--gold-dark);
+  background: rgba(196, 154, 60, 0.08);
+  border: 0.5px solid rgba(196, 154, 60, 0.22);
+  border-radius: 4px;
+  padding: 2px 7px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+a.project-card:hover .card-chapter-tag {
+  background: rgba(196, 154, 60, 0.16);
+  border-color: rgba(196, 154, 60, 0.42);
 }
 
 /* ── Card description ─────────────────────────────────────────── */

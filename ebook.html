@@ -95,7 +95,7 @@
               <p>
                 Then I taught myself to code. Joined Utradea as one of its first
                 engineers, shipped paid production features within months, led a
-                100+ API migration post-merger, built the company's first OpenAI
+                50+ API migration post-merger, built the company's first OpenAI
                 integration. By the time I joined HighFi as a founding engineer
                 in 2023, the path from capital markets operations to autonomous
                 agent infrastructure felt less like a career pivot and more like
@@ -1090,25 +1090,42 @@
                 layer.
               </p>
 
-              <figure style="margin:28px 0 8px;">
+              <figure style="margin: 28px 0 8px">
                 <img
-                  src="specs/design-inspiration/ai-harness-monitoring.png"
+                  src="images/ai-harness-monitoring.png"
                   alt="Slack #ai-system-monitoring channel showing a live Millie execution — status success, 10.47s duration, input JSON with customer and channel context, output with toolsExecuted and capabilitiesUsed"
-                  style="width:100%;border:1px solid #d9d5ce;border-radius:3px;display:block;"
+                  style="
+                    width: 100%;
+                    border: 1px solid #d9d5ce;
+                    border-radius: 3px;
+                    display: block;
+                  "
                 />
-                <figcaption style="font-family:'DM Mono',monospace;font-size:11px;color:#7a7672;margin-top:8px;letter-spacing:0.04em;">
-                  Live execution trace in <code>#ai-system-monitoring</code> — <code>SlackStepTraceHandler</code> in production. Status, duration, structured input and output recorded per run.
+                <figcaption
+                  style="
+                    font-family: &quot;DM Mono&quot;, monospace;
+                    font-size: 11px;
+                    color: #7a7672;
+                    margin-top: 8px;
+                    letter-spacing: 0.04em;
+                  "
+                >
+                  Live execution trace in <code>#ai-system-monitoring</code> —
+                  <code>SlackStepTraceHandler</code> in production. Status,
+                  duration, structured input and output recorded per run.
                 </figcaption>
               </figure>
 
               <div class="aside">
-                <div class="aside-label">Shared observability infrastructure</div>
+                <div class="aside-label">
+                  Shared observability infrastructure
+                </div>
                 <p>
                   The <code>SlackStepTraceHandler</code> is not agent-specific.
                   Any agent that calls <code>withSlackNotifications()</code>
-                  routes its step traces to a designated Slack channel. The Night
-                  Agent CI/CD pipeline — covered in Chapter V — adopted this same
-                  mechanism to post nightly run summaries to
+                  routes its step traces to a designated Slack channel. The
+                  Night Agent CI/CD pipeline — covered in Chapter V — adopted
+                  this same mechanism to post nightly run summaries to
                   <code>#engineering</code>. The same infrastructure that
                   surfaces a compliance-sensitive funding request execution also
                   reports overnight code generation results. One investment, two
@@ -1438,11 +1455,18 @@
                   <span class="agent-tag">Slack Agent</span>
                 </div>
 
-                <figure style="float:right;margin:0 0 16px 28px;width:140px;clear:right;">
+                <figure
+                  style="
+                    float: right;
+                    margin: 0 0 16px 28px;
+                    width: 140px;
+                    clear: right;
+                  "
+                >
                   <img
-                    src="specs/design-inspiration/millie-bot.jpeg"
+                    src="images/millie-bot.jpeg"
                     alt="Millie — A friendly finance assistant bot"
-                    style="width:100%;border-radius:4px;display:block;"
+                    style="width: 100%; border-radius: 4px; display: block"
                   />
                 </figure>
 
@@ -1564,14 +1588,30 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
                   </li>
                 </ul>
 
-                <figure style="margin:24px 0 8px;clear:both;">
+                <figure style="margin: 24px 0 8px; clear: both">
                   <img
-                    src="specs/design-inspiration/millie-use-case.png"
+                    src="images/millie-use-case.png"
                     alt="Millie Slack conversation: user selects CUSTOMER-MANAGEMENT admin capability, Millie checks Atlas facility rates, then creates three new rates — SOFR, SONIA, EURIBOR — in a single tool chain"
-                    style="width:100%;border:1px solid #d9d5ce;border-radius:3px;display:block;"
+                    style="
+                      width: 100%;
+                      border: 1px solid #d9d5ce;
+                      border-radius: 3px;
+                      display: block;
+                    "
                   />
-                  <figcaption style="font-family:'DM Mono',monospace;font-size:11px;color:#7a7672;margin-top:8px;letter-spacing:0.04em;">
-                    A real Millie session: capability selection (CUSTOMER-MANAGEMENT admin), rate lookup for the Atlas facility, and three new rates — SOFR, SONIA, EURIBOR — created in a single tool chain.
+                  <figcaption
+                    style="
+                      font-family: &quot;DM Mono&quot;, monospace;
+                      font-size: 11px;
+                      color: #7a7672;
+                      margin-top: 8px;
+                      letter-spacing: 0.04em;
+                    "
+                  >
+                    A real Millie session: capability selection
+                    (CUSTOMER-MANAGEMENT admin), rate lookup for the Atlas
+                    facility, and three new rates — SOFR, SONIA, EURIBOR —
+                    created in a single tool chain.
                   </figcaption>
                 </figure>
               </div>
@@ -1958,7 +1998,9 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                 </div>
 
                 <div class="aside">
-                  <div class="aside-label">The pipeline closes its own loop</div>
+                  <div class="aside-label">
+                    The pipeline closes its own loop
+                  </div>
                   <p>
                     Every nightly run posts a structured summary to
                     <code>#engineering</code> — branches processed, overall
@@ -1970,14 +2012,29 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                   </p>
                 </div>
 
-                <figure style="margin:20px 0 8px;">
+                <figure style="margin: 20px 0 8px">
                   <img
-                    src="specs/design-inspiration/night-agent.png"
+                    src="images/night-agent.png"
                     alt="Slack #engineering channel showing Night Agent run summary — 3 targets processed, overall success, branches listed, then Night Agent Implementation Complete with PR link and commit list"
-                    style="width:100%;border:1px solid #d9d5ce;border-radius:3px;display:block;"
+                    style="
+                      width: 100%;
+                      border: 1px solid #d9d5ce;
+                      border-radius: 3px;
+                      display: block;
+                    "
                   />
-                  <figcaption style="font-family:'DM Mono',monospace;font-size:11px;color:#7a7672;margin-top:8px;letter-spacing:0.04em;">
-                    <code>#engineering</code> after a nightly run — branches processed, PR link, and a commit summary delivered before the team arrives.
+                  <figcaption
+                    style="
+                      font-family: &quot;DM Mono&quot;, monospace;
+                      font-size: 11px;
+                      color: #7a7672;
+                      margin-top: 8px;
+                      letter-spacing: 0.04em;
+                    "
+                  >
+                    <code>#engineering</code> after a nightly run — branches
+                    processed, PR link, and a commit summary delivered before
+                    the team arrives.
                   </figcaption>
                 </figure>
 
@@ -2043,7 +2100,7 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                         Utradea's first paid users and monetization foundation
                       </li>
                       <li>
-                        Led migration of 100+ stock market APIs post-merger with
+                        Led migration of 50+ stock market APIs post-merger with
                         Financial Modeling Prep into the Node.js / MongoDB stack
                       </li>
                       <li>
