@@ -2467,7 +2467,7 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
 
       let current = 0;
 
-      function goTo(index) {
+      function goTo(index, opts) {
         if (index < 0 || index >= CHAPTERS.length) return;
 
         const dir = index > current ? 1 : index < current ? -1 : 0;
@@ -2482,6 +2482,8 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
         }
 
         current = index;
+        const method = (opts && opts.replace) ? "replaceState" : "pushState";
+        history[method]({ chapterIndex: index }, "", "#" + CHAPTERS[index].id);
         const el = document.getElementById(CHAPTERS[index].id);
 
         if (dir !== 0) {
@@ -2548,10 +2550,23 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
         if (e.key === "Escape") window.location.href = "index.html";
       });
 
+      // Browser back/forward navigation
+      window.addEventListener("popstate", function (e) {
+        let idx = 0;
+        if (e.state && typeof e.state.chapterIndex === "number") {
+          idx = e.state.chapterIndex;
+        } else {
+          const hid = window.location.hash.slice(1);
+          const found = CHAPTERS.findIndex((c) => c.id === hid);
+          idx = found >= 0 ? found : 0;
+        }
+        goTo(idx, { replace: true });
+      });
+
       // Hash-based deep linking — ebook.html#ch2 opens Chapter II directly
       const hashId = window.location.hash.slice(1);
       const hashIndex = CHAPTERS.findIndex((c) => c.id === hashId);
-      goTo(hashIndex >= 0 ? hashIndex : 0);
+      goTo(hashIndex >= 0 ? hashIndex : 0, { replace: true });
 
       // ── Stat count-up on scroll into view ──
       (function () {
