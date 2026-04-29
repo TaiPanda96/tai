@@ -1813,26 +1813,86 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
               </p>
 
               <p>
-                The answer was a three-stage pipeline with explicit time
+                The answer was a four-stage pipeline with explicit time
                 budgets, typed handoffs between agents, and a security layer
                 that operates below the model — at the shell level — so no
                 prompt can override it.
               </p>
 
+              <figure style="margin: 28px 0 8px">
+                <img
+                  src="images/night-agent-proof.png"
+                  alt="GitHub pull requests list showing 5 open and 17 closed PRs — four labeled [Night Agent] opened by github-actions bot: Snapshot history API, Fast tier alert pipeline, MCP server vault risk tools, API key provisioning"
+                  style="
+                    width: 100%;
+                    border: 1px solid #d9d5ce;
+                    border-radius: 3px;
+                    display: block;
+                  "
+                />
+                <figcaption
+                  style="
+                    font-family: &quot;DM Mono&quot;, monospace;
+                    font-size: 11px;
+                    color: #7a7672;
+                    margin-top: 8px;
+                    letter-spacing: 0.04em;
+                  "
+                >
+                  17 closed PRs — each opened by <code>github-actions[bot]</code>, each representing a spec the pipeline turned into reviewed, mergeable code overnight.
+                </figcaption>
+              </figure>
+
               <h3 class="layer-heading">
                 <span class="layer-num">The Pipeline</span>
-                Three Agents, One Job
+                Four Stages, One Job
               </h3>
 
               <p>
                 The pipeline runs nightly as a single GitHub Actions job with a
-                55-minute total budget. Three Claude Code instances run
-                sequentially, each with a scoped role and an explicit timeout. A
-                partial result is better than a stalled pipeline — each stage is
-                designed to degrade gracefully if it runs out of time.
+                55-minute total budget. A shell-only preflight runs one hour
+                earlier to set up the work; three Claude Code instances then
+                run sequentially, each with a scoped role and an explicit
+                timeout. A partial result is better than a stalled pipeline —
+                each stage is designed to degrade gracefully if it runs out of
+                time.
               </p>
 
+              <p>
+                Stage 0 has no Claude involvement. A GitHub Actions workflow
+                scans <code>docs/specs/</code>, reads each spec's
+                <code>depends_on</code> frontmatter, and skips any spec whose
+                dependencies aren't yet <code>completed</code>. For specs that
+                are ready, it creates a branch, flips the status to
+                <code>in-progress</code>, and opens a draft PR whose body is
+                the spec itself — no translation layer. The agents downstream
+                read directly from the PR body.
+              </p>
+
+              <div class="code-block">
+                <div class="code-block-label">Stage 0 — PR Creator (shell only, 2 AM)</div>
+                <pre><span class="cm"># Dependency resolution — pure shell, no Claude</span>
+spec-011  depends_on: [spec-007]
+
+  spec-007.status == <span class="ck">"completed"</span>   →  proceed
+  spec-007.status == <span class="cs">"in-progress"</span> →  skip (retry tomorrow)
+
+<span class="cm"># For specs that are ready:</span>
+git checkout -b <span class="cs">night-agent/spec-011</span>
+sed <span class="cs">status: pending</span> → <span class="cs">status: in-progress</span>
+gh pr create --draft --label <span class="ck">"night-agent"</span> --body <span class="cs">"$(cat spec-011.md)"</span></pre>
+              </div>
+
               <div class="pipeline-stages">
+                <div class="pipeline-stage">
+                  <p class="pipeline-stage-num">Stage 0</p>
+                  <p class="pipeline-stage-name">PR Creator</p>
+                  <p class="pipeline-stage-budget">2 AM · shell only</p>
+                  <p class="pipeline-stage-desc">
+                    Resolves <code>depends_on</code> DAG. Opens draft PR per
+                    ready spec. No Claude.
+                  </p>
+                </div>
                 <div class="pipeline-stage">
                   <p class="pipeline-stage-num">Stage 1</p>
                   <p class="pipeline-stage-name">Planner</p>
@@ -1864,8 +1924,8 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
               </div>
 
               <h3 class="layer-heading">
-                <span class="layer-num">The Architecture</span>
-                Handoff Files as Agent Communication
+                <span class="layer-num">The Handoff</span>
+                Files as Agent Communication
               </h3>
 
               <p>
@@ -1908,6 +1968,48 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
                 before a human sees it. Post-processing always runs regardless
                 of pipeline outcome: Prettier auto-formats any output and
                 commits the diff with a Claude co-author attribution.
+              </p>
+
+              <h3 class="layer-heading">
+                <span class="layer-num">The Architecture</span>
+                Why Three Agents Instead of One Session
+              </h3>
+
+              <p>
+                The naive design is a single long-running Claude Code session:
+                read the spec, explore the codebase, plan, implement, test. The
+                problem is context accumulation. By the time the model is writing
+                tests, it's reasoning over the entire history of every file it
+                touched during exploration — and most of that context is dead
+                weight. Token budget spent on re-reading 20 discovery files is
+                budget not available for writing correct code.
+              </p>
+
+              <div class="code-block">
+                <div class="code-block-label">Context isolation — fresh slate per stage</div>
+                <pre><span class="cm"># Single session (naive approach)</span>
+Read spec → Read 20 files → Plan → Implement → Test
+←── context fills with discovery reads ──────────────→
+  by implementation time, model is reasoning over everything
+
+<span class="cm"># Three isolated agents (actual design)</span>
+<span class="ck">Planner</span>      fresh context  →  reads broadly, writes plan (10 min)
+<span class="ck">Implementer</span>  fresh context  →  reads the plan's conclusion, writes code (25 min)
+<span class="ck">QA</span>           fresh context  →  reads both handoffs, runs checks (8 min)
+
+<span class="cm"># Implementer never sees the 20 files Planner read</span>
+<span class="cm"># It reads the Planner's distilled conclusion instead</span></pre>
+              </div>
+
+              <p>
+                Each agent's token budget is spent entirely on its own job. The
+                plan file is not a summary — it's a typed contract that includes
+                exact file paths, function signatures, and pattern references.
+                Ambiguity in the plan becomes a bug in the implementation, so
+                the Planner is instructed to eliminate every degree of freedom
+                the Implementer doesn't need. The Implementer commits per task
+                rather than once at the end: if the runner times out at minute
+                23, the first 18 minutes of work are preserved on the branch.
               </p>
 
               <h3 class="layer-heading">
@@ -1977,6 +2079,44 @@ path traversal check → injection scan (<span class="cs">eval</span>, <span cla
                   </ul>
                 </div>
               </div>
+
+              <h3 class="layer-heading">
+                <span class="layer-num">The Spec System</span>
+                The Human-Facing Interface
+              </h3>
+
+              <p>
+                A spec is the only thing a human needs to write to trigger
+                autonomous implementation. It lives in
+                <code>docs/specs/spec-NNN-*.md</code> and contains structured
+                frontmatter that the pipeline reads directly — dependency graph,
+                scope, and status are all machine-readable fields, not
+                conventions.
+              </p>
+
+              <div class="code-block">
+                <div class="code-block-label">Spec frontmatter — the pipeline's contract with the human</div>
+                <pre><span class="cm">---</span>
+id:         <span class="ck">spec-011</span>
+title:      <span class="cs">"API key provisioning — developer portal and CLI device auth"</span>
+status:     <span class="cs">pending</span>
+scope:      <span class="ck">standard</span>       <span class="cm"># narrow | standard | broad</span>
+depends_on: <span class="cs">[spec-007]</span>    <span class="cm"># blocks until all deps are "completed"</span>
+pr:         <span class="cs">null</span>           <span class="cm"># filled in by PR Creator</span>
+<span class="cm">---</span>
+
+<span class="cm"># scope controls how broadly the Planner reads the codebase</span>
+scope: <span class="ck">narrow</span>    →  adjacent files only  (bug fix, config tweak)
+scope: <span class="ck">standard</span>  →  best-practice docs + domain docs  (new feature, API route)
+scope: <span class="ck">broad</span>     →  full data flow end-to-end  (schema migration, new domain)</pre>
+              </div>
+
+              <p>
+                Over-scoping wastes the 40-minute window. Under-scoping causes
+                the Planner to miss critical patterns. The <code>scope</code>
+                field makes that tradeoff explicit and intentional rather than
+                implicit in how much the agent happens to read.
+              </p>
 
               <h3 class="layer-heading">
                 <span class="layer-num">The Spec Lifecycle</span>
@@ -2070,6 +2210,65 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                     <code>#engineering</code> after a nightly run — branches
                     processed, PR link, and a commit summary delivered before
                     the team arrives.
+                  </figcaption>
+                </figure>
+
+                <p style="margin: 24px 0 8px; font-size: 15px; line-height: 1.75; color: var(--color-text-secondary)">
+                  The PR itself gets a structured comment from the QA agent —
+                  quality check table, Definition of Done checklist, and a
+                  review notes section for deviations from plan and open
+                  questions the agent flagged but couldn't resolve.
+                </p>
+
+                <figure style="margin: 16px 0 8px">
+                  <img
+                    src="images/night-agent-sample-comment.png"
+                    alt="GitHub PR comment from Night Agent showing Implementation Complete header, Changes list with commits, Quality Checks table with TypeScript pass, ESLint pass, Tests pass, Prettier auto-fixed, and Definition of Done checklist"
+                    style="
+                      width: 100%;
+                      border: 1px solid #d9d5ce;
+                      border-radius: 3px;
+                      display: block;
+                    "
+                  />
+                  <figcaption
+                    style="
+                      font-family: &quot;DM Mono&quot;, monospace;
+                      font-size: 11px;
+                      color: #7a7672;
+                      margin-top: 8px;
+                      letter-spacing: 0.04em;
+                    "
+                  >
+                    QA agent PR comment — quality check table, commit list, and
+                    a Definition of Done checklist verified item by item.
+                  </figcaption>
+                </figure>
+
+                <figure style="margin: 16px 0 24px">
+                  <img
+                    src="images/night-agent-sample-comment-open-questions.png"
+                    alt="GitHub PR comment review notes section showing deviations from plan, open questions the agent flagged, and implementation notes about choices made during autonomous coding"
+                    style="
+                      width: 100%;
+                      border: 1px solid #d9d5ce;
+                      border-radius: 3px;
+                      display: block;
+                    "
+                  />
+                  <figcaption
+                    style="
+                      font-family: &quot;DM Mono&quot;, monospace;
+                      font-size: 11px;
+                      color: #7a7672;
+                      margin-top: 8px;
+                      letter-spacing: 0.04em;
+                    "
+                  >
+                    The QA agent flags what it couldn't resolve — deviations
+                    from plan, open questions, and choices that require human
+                    judgement. The agent doesn't pretend to be more confident
+                    than it is.
                   </figcaption>
                 </figure>
 
