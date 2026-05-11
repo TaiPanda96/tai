@@ -800,6 +800,166 @@
   line-height: 1.5;
 }
 
+/* ── Design-property cards (Ch V) ─────────────────────────── */
+.principle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--border-light);
+  border: 0.5px solid var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 32px 0 12px;
+}
+
+.principle-card {
+  background: var(--interior-bg);
+  padding: 22px 24px 22px;
+  display: flex;
+  flex-direction: column;
+}
+
+.principle-card.full {
+  grid-column: 1 / -1;
+}
+
+.principle-num {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.principle-title {
+  font-family: "DM Serif Display", serif;
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--interior-text);
+  margin: 0 0 10px;
+}
+
+.principle-body {
+  font-family: "Lora", serif;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.principle-body code {
+  font-family: "DM Mono", monospace;
+  font-size: 11.5px;
+  background: rgba(154, 111, 42, 0.08);
+  color: var(--gold-dark);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.principle-foil {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 0.5px dashed var(--border-light);
+}
+
+.principle-foil-label {
+  font-family: "DM Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.principle-foil p {
+  font-family: "Lora", serif;
+  font-style: italic;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-faint);
+  margin: 0;
+}
+
+/* ── Limitations ledger (Ch V) ────────────────────────────── */
+.limitation-ledger {
+  margin: 28px 0 12px;
+  border: 0.5px solid var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.limitation-row {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  border-bottom: 0.5px solid var(--border-light);
+}
+
+.limitation-row:last-child {
+  border-bottom: none;
+}
+
+.limitation-name {
+  padding: 18px 20px;
+  background: rgba(196, 154, 60, 0.045);
+  border-right: 0.5px solid var(--border-light);
+  font-family: "DM Sans", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--interior-text);
+}
+
+.limitation-glyph {
+  display: block;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: #a37a2a;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.limitation-detail {
+  padding: 18px 22px;
+}
+
+.limitation-detail p {
+  font-family: "Lora", serif;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.limitation-detail code {
+  font-family: "DM Mono", monospace;
+  font-size: 11.5px;
+  background: rgba(154, 111, 42, 0.08);
+  color: var(--gold-dark);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.limitation-direction {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 0.5px dashed var(--border-light);
+  font-family: "DM Mono", monospace;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--ink-muted);
+  letter-spacing: 0.01em;
+}
+
+.limitation-direction strong {
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-right: 10px;
+  font-size: 10px;
+}
+
 /* ── OS Architecture diagram (Ch II) ───────────────────────── */
 .os-diagram-wrap {
   margin: 44px 0;

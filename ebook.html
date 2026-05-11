@@ -2148,6 +2148,239 @@ status: <span class="cs">blocked</span>
 status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — retried next night</span></pre>
               </div>
 
+              <h3 class="layer-heading">
+                <span class="layer-num">The Discipline</span>
+                Properties That Compound
+              </h3>
+
+              <p>
+                The pipeline is five design choices stacked. Each one is small
+                on its own; together they're the difference between an
+                autonomous system you can trust overnight and one you have to
+                supervise. The cards below name each property and, where it
+                matters, the typical alternative it replaces.
+              </p>
+
+              <div class="principle-grid">
+                <article class="principle-card">
+                  <p class="principle-num">01</p>
+                  <h4 class="principle-title">
+                    Process isolation, enforced
+                  </h4>
+                  <p class="principle-body">
+                    <code>/spec</code>, <code>/plan</code>,
+                    <code>/implement</code>, <code>/qa</code> are separate
+                    Claude invocations with their own time budgets and prompts.
+                    The only thing crossing a stage boundary is a file in
+                    <code>tmp/</code>. The Planner is prompt-instructed not to
+                    write code — then the process ends. Role drift isn't
+                    discouraged; it's structurally impossible.
+                  </p>
+                  <div class="principle-foil">
+                    <span class="principle-foil-label">vs. typical setups</span>
+                    <p>
+                      CrewAI, LangGraph variants, and "swarm" frameworks run
+                      inside one process with shared memory. The Implementer
+                      ends up planning; the QA ends up rationalizing the
+                      Implementer's choices.
+                    </p>
+                  </div>
+                </article>
+
+                <article class="principle-card">
+                  <p class="principle-num">02</p>
+                  <h4 class="principle-title">Filesystem as the bus</h4>
+                  <p class="principle-body">
+                    <code>tmp/implementation-plan.md</code> →
+                    <code>tmp/implementation-result.md</code> →
+                    <code>tmp/qa-report.md</code>. Every handoff is a flat
+                    file. The contract the Implementer was working from is
+                    something you can <code>cat</code> after the fact — not a
+                    black-box prompt history.
+                  </p>
+                  <div class="principle-foil">
+                    <span class="principle-foil-label">vs. typical setups</span>
+                    <p>
+                      Devin-class systems give you a chat log and a PR. You
+                      reverse-engineer what the agent thought it was doing.
+                    </p>
+                  </div>
+                </article>
+
+                <article class="principle-card">
+                  <p class="principle-num">03</p>
+                  <h4 class="principle-title">State machine in git</h4>
+                  <p class="principle-body">
+                    The spec's
+                    <code>status: pending → in-progress → completed | blocked</code>
+                    lives in version control. PR Creator flips to in-progress;
+                    Night Agent flips to completed or blocked.
+                    <code>git log</code> on the spec file is the feature
+                    lifecycle. No external orchestrator database to drift out
+                    of sync with reality.
+                  </p>
+                </article>
+
+                <article class="principle-card">
+                  <p class="principle-num">04</p>
+                  <h4 class="principle-title">
+                    Gating is deterministic; LLM work runs downstream
+                  </h4>
+                  <p class="principle-body">
+                    Dependency resolution and draft PR creation are a
+                    <code>for spec in ...; do</code> loop with no model in it.
+                    The expensive, fallible LLM work only starts after a
+                    question a script can answer:
+                    <em>is this spec's <code>depends_on</code> satisfied?</em>
+                  </p>
+                  <div class="principle-foil">
+                    <span class="principle-foil-label">vs. typical setups</span>
+                    <p>
+                      The LLM is usually in charge of "what should I work on
+                      next?" That question can be hallucinated. This one can't.
+                    </p>
+                  </div>
+                </article>
+
+                <article class="principle-card">
+                  <p class="principle-num">05</p>
+                  <h4 class="principle-title">
+                    Defense-in-depth at the OS layer
+                  </h4>
+                  <p class="principle-body">
+                    <code>SHELL=scripts/safe-bash.sh</code> is set before the
+                    agent starts. Every bash invocation routes through a
+                    whitelist at the kernel boundary, not the prompt layer.
+                    The model isn't asked to behave — it literally cannot run
+                    a command outside the list.
+                  </p>
+                </article>
+
+                <article class="principle-card">
+                  <p class="principle-num">06</p>
+                  <h4 class="principle-title">Stage-level idempotency</h4>
+                  <p class="principle-body">
+                    A stage timeout doesn't fail the spec — it leaves status
+                    <code>in-progress</code> for the next nightly run. The
+                    Implementer commits per task, so a 23-minute timeout
+                    preserves 18 minutes of real work on the branch. Failure
+                    is a retry, not a discard.
+                  </p>
+                </article>
+              </div>
+
+              <h3 class="layer-heading">
+                <span class="layer-num">The Limitations</span>
+                Honest Edges
+              </h3>
+
+              <p>
+                None of the discipline above is free. Each design choice has a
+                cost, and pretending otherwise is the failure mode this chapter
+                exists to avoid. Four edges where the system bends — and the
+                direction each would move if it were the next thing fixed.
+              </p>
+
+              <div class="limitation-ledger">
+                <div class="limitation-row">
+                  <div class="limitation-name">
+                    <span class="limitation-glyph">△ EDGE 01</span>
+                    Head-of-line blocking
+                  </div>
+                  <div class="limitation-detail">
+                    <p>
+                      The dependency resolver walks the queue oldest-PR-first.
+                      A wedged spec — one that fails QA the same way every
+                      night — quietly hoards tomorrow's slot indefinitely.
+                      Retry <em>intent</em> is correct; retry <em>budget</em>
+                      is missing.
+                    </p>
+                    <p class="limitation-direction">
+                      <strong>Direction</strong>add a
+                      <code>retries</code> counter to spec frontmatter; skip
+                      after N nightly failures; escalate to Slack.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="limitation-row">
+                  <div class="limitation-name">
+                    <span class="limitation-glyph">△ EDGE 02</span>
+                    The Planner doesn't ask
+                  </div>
+                  <div class="limitation-detail">
+                    <p>
+                      Vague specs produce vague PRs. The Planner reads broadly
+                      within <code>scope</code> but commits to a plan without
+                      surfacing ambiguity. The contract is only as sharp as
+                      the human author made it.
+                    </p>
+                    <p class="limitation-direction">
+                      <strong>Direction</strong>an optional pre-flight
+                      clarification pass that flags ambiguity before the
+                      40-minute window spends budget on it.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="limitation-row">
+                  <div class="limitation-name">
+                    <span class="limitation-glyph">△ EDGE 03</span>
+                    40 minutes is a hard ceiling
+                  </div>
+                  <div class="limitation-detail">
+                    <p>
+                      <code>scope: broad</code> widens reading, not the clock.
+                      Specs that need schema migrations, cross-domain
+                      refactors, or genuine systems thinking don't fit in a
+                      single nightly window — and the pipeline has no way to
+                      ask for more time.
+                    </p>
+                    <p class="limitation-direction">
+                      <strong>Direction</strong>a long-running tier with a
+                      2-hour budget and a planned human checkpoint mid-run.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="limitation-row">
+                  <div class="limitation-name">
+                    <span class="limitation-glyph">△ EDGE 04</span>
+                    Whitelist friction is real
+                  </div>
+                  <div class="limitation-detail">
+                    <p>
+                      The <code>SafeCommandExecutor</code> whitelist is
+                      conservative by design — the bias is correct, but each
+                      rejection burns Implementer context the model can't
+                      recover. A novel-but-legitimate command becomes a silent
+                      dead end.
+                    </p>
+                    <p class="limitation-direction">
+                      <strong>Direction</strong>an audit-log mode that records
+                      would-be commands without executing them, so the
+                      whitelist grows on evidence rather than guesswork.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="aside">
+                <div class="aside-label">
+                  The part worth stealing
+                </div>
+                <p>
+                  The discipline that makes the system work isn't "we used
+                  Claude carefully." It's that <em>each stage is a different
+                  process reading files written by the previous stage</em>.
+                  Process isolation, filesystem-as-bus, git-as-state-machine —
+                  the LLM is a participant in this architecture, not the
+                  architecture itself. The limitations above are real, but
+                  they're limitations <em>of a specific honest system</em>,
+                  not of agentic CI/CD in general.
+                </p>
+              </div>
+
               <div class="outcome-section">
                 <div class="outcome-label">Outcome</div>
 
