@@ -1,4 +1,77 @@
 :root {
+  /* ── v2 dark surface (timeline / index.html) ────────────────── */
+
+  /* Backgrounds */
+  --color-bg:           #0D0C0B;
+  --color-bg-subtle:    #141312;
+  --color-bg-raised:    #1C1A18;
+
+  /* Text */
+  --color-text-primary: #F0EDE8;
+  --color-text-muted:   #888580;
+  --color-text-faint:   #4A4744;
+
+  /* Accent — amber, used on stat numerals, card hover border,
+     link hover, active nav indicator. Nowhere else. */
+  --color-accent:       #F5A623;
+  --color-accent-dim:   rgba(245, 166, 35, 0.12);
+
+  /* Semantic */
+  --color-border:       #252220;
+  --color-border-hover: #3A3633;
+
+  /* Type families */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Type scale */
+  --text-xs:   0.6875rem;
+  --text-sm:   0.8125rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.375rem;
+  --text-2xl:  1.75rem;
+  --text-3xl:  2.25rem;
+  --text-stat: 3.5rem;
+
+  /* Weights */
+  --weight-light:   300;
+  --weight-regular: 400;
+  --weight-medium:  500;
+
+  /* Leading */
+  --leading-tight: 1.2;
+  --leading-body:  1.65;
+  --leading-loose: 1.9;
+
+  /* Tracking */
+  --tracking-tight:  -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.08em;
+  --tracking-wider:   0.12em;
+
+  /* Spacing */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Page */
+  --page-max-width: 680px;
+  --page-padding-x: var(--space-6);
+
+  /* Section rhythm */
+  --section-gap: var(--space-24);
+  --block-gap:   var(--space-12);
+  --item-gap:    var(--space-6);
+
+  /* ── Legacy ebook tokens (cover.css / interior.css) ─────────── */
   --cover-bg: #1a1916;
   --interior-bg: #f5f0e8;
   --cover-text: #e8e4dc;
@@ -13,4 +86,10 @@
   --gold-divider: rgba(196, 154, 60, 0.18);
   --nav-h: 56px;
   --ebook-header-h: 44px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --page-padding-x: var(--space-8);
+  }
 }

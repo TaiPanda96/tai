@@ -1,6 +1,6 @@
-/* timeline.css — cream/ink editorial aesthetic for the scrollable timeline
-   Mirrors the design in specs/design-inspiration/timeline-design-inspo.html.
-   Do NOT import layout.css — it sets overflow:hidden on body.
+/* timeline.css — v2 dark editorial surface
+   Bloomberg Terminal × Stripe Docs. Warm near-black canvas, warm white text,
+   amber accent used sparingly. Spec: specs/design-inspiration/portfolio_design_system_v2.md
 */
 
 /* ── Reset ────────────────────────────────────────────────────── */
@@ -16,244 +16,225 @@ html,
 body {
   height: auto;
   overflow: auto;
-  background: var(--interior-bg);
-  color: var(--interior-text);
+  background: var(--color-bg);
+  color: var(--color-text-primary);
 }
 
 body {
-  font-family: "DM Sans", sans-serif;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Page header (dark) ───────────────────────────────────────── */
+/* ── Page header (sticky, blurred) ────────────────────────────── */
 .page-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  height: 48px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
-  background: var(--cover-bg);
-  border-bottom: 0.5px solid var(--border-dark);
+  padding: 0 var(--page-padding-x);
+  background: rgba(13, 12, 11, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .header-name {
-  font-family: "DM Mono", monospace;
-  font-size: 11px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
   text-transform: uppercase;
-  color: var(--ink-faint);
-  letter-spacing: 0.14em;
+  color: var(--color-text-muted);
+  letter-spacing: var(--tracking-wider);
 }
 
-.header-link {
-  font-family: "DM Mono", monospace;
-  font-size: 11px;
-  color: var(--ink-faint);
+.header-cta {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
   text-decoration: none;
-  transition: color 0.2s;
+  border: 1px solid var(--color-accent);
+  border-radius: 2px;
+  padding: 6px 12px;
+  transition: background 150ms ease, color 150ms ease;
 }
 
-.header-link:hover {
-  color: var(--gold);
+.header-cta:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
 }
 
-.header-link:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
+.header-cta:focus-visible {
+  outline: 1px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
-/* ── Hero strip (dark) ────────────────────────────────────────── */
+/* ── Hero strip ───────────────────────────────────────────────── */
 .hero-strip {
-  background: var(--cover-bg);
-  padding: 48px 64px 40px;
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--space-16) var(--page-padding-x) var(--space-12);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  border-bottom: 0.5px solid var(--border-dark);
+  gap: var(--space-3);
 }
 
 .hero-title {
-  font-family: "DM Serif Display", serif;
-  font-size: clamp(40px, 6vw, 56px);
-  color: var(--cover-text);
-  line-height: 1.05;
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: clamp(2.25rem, 6vw, 3rem);
+  color: var(--color-text-primary);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
 }
 
 .hero-subtitle {
-  font-family: "Lora", serif;
-  font-size: 16px;
-  color: var(--ink-faint);
-  line-height: 1.5;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--leading-body);
 }
 
-.availability-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: "DM Sans", sans-serif;
-  font-size: 12px;
-  color: var(--cover-text);
-  border: 0.5px solid rgba(255, 255, 255, 0.12);
-  padding: 5px 12px;
-  border-radius: 20px;
+.availability-tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  background: var(--color-bg-raised);
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  padding: 4px 10px;
   align-self: flex-start;
+  margin-top: var(--space-2);
 }
 
-.pulse-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--gold);
-  flex-shrink: 0;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
-  }
-}
-
-/* ── Author note link ─────────────────────────────────────────── */
 .author-note-link {
-  font-family: "Lora", serif;
-  font-style: italic;
-  font-size: 14px;
-  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
   text-decoration: none;
-  border-bottom: 0.5px solid rgba(196, 154, 60, 0.3);
   align-self: flex-start;
-  transition:
-    color 0.2s,
-    border-color 0.2s;
+  margin-top: var(--space-2);
+  transition: color 150ms ease;
 }
 
 .author-note-link:hover {
-  color: var(--gold);
-  border-color: rgba(196, 154, 60, 0.6);
+  color: var(--color-accent);
 }
 
 .author-note-link:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 3px;
-  border-radius: 1px;
+  outline: 1px solid var(--color-accent);
+  outline-offset: 4px;
 }
 
-/* ── Intro block (cream) ──────────────────────────────────────── */
+/* ── Intro block ──────────────────────────────────────────────── */
 .intro-block {
-  background: var(--interior-bg);
-  padding: 28px 64px 36px;
-  border-bottom: 0.5px solid var(--border-light);
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--page-padding-x) var(--space-12);
 }
 
 .intro-block p {
-  font-family: "Lora", serif;
-  font-size: 16px;
-  line-height: 1.75;
-  color: var(--ink-muted);
-  max-width: 540px;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-text-muted);
 }
 
 .intro-link {
-  color: var(--gold-dark);
+  color: var(--color-text-primary);
   text-decoration: none;
-  border-bottom: 0.5px solid rgba(154, 111, 42, 0.3);
-  transition: color 0.2s;
+  border-bottom: 1px solid var(--color-border-hover);
+  transition: color 150ms ease, border-color 150ms ease;
 }
 
 .intro-link:hover {
-  color: var(--gold);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
-/* ── Timeline section (cream) ─────────────────────────────────── */
+/* ── Timeline section ─────────────────────────────────────────── */
 .timeline-section {
   position: relative;
-  background: var(--interior-bg);
-  max-width: 1100px;
+  max-width: var(--page-max-width);
   margin: 0 auto;
-  padding: 64px 64px 64px 120px;
+  padding: var(--space-8) var(--page-padding-x) var(--space-24) calc(var(--page-padding-x) + var(--space-8));
 }
 
-/* ── Timeline rail ────────────────────────────────────────────── */
+/* ── Timeline rail (left rule) ────────────────────────────────── */
 .timeline-rail {
   position: absolute;
-  left: 64px;
-  top: 32px;
-  bottom: 32px;
-  width: 2px;
-  background: var(--border-light);
+  left: var(--page-padding-x);
+  top: var(--space-8);
+  bottom: var(--space-24);
+  width: 1px;
+  background: var(--color-border);
 }
 
+/* rail-fill removed — spec forbids scroll-triggered effects on timeline */
 .rail-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0%;
-  background: var(--gold);
-  transition: height 0.12s linear;
+  display: none;
 }
 
-/* ── Era nodes ────────────────────────────────────────────────── */
+/* ── Era nodes (4px amber dot, no animation) ──────────────────── */
 .era-node {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 10px;
-  height: 10px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  background: var(--interior-bg);
-  border: 1.5px solid var(--border-light);
-  transition:
-    border-color 0.3s,
-    background 0.3s;
+  background: var(--color-border-hover);
+  transition: background 150ms ease;
 }
 
 .era-node.active {
-  background: var(--gold);
-  border-color: var(--gold);
-  width: 12px;
-  height: 12px;
-  animation: era-pulse 2s ease-in-out infinite;
-}
-
-@keyframes era-pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(196, 154, 60, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 5px rgba(196, 154, 60, 0);
-  }
+  background: var(--color-accent);
 }
 
 /* ── Era section ──────────────────────────────────────────────── */
 .era-section {
-  margin-bottom: 64px;
+  margin-bottom: var(--section-gap);
+  opacity: 0;
+  animation: fadeUp 0.4s ease forwards;
+}
+
+.era-section:nth-of-type(1) { animation-delay: 0.05s; }
+.era-section:nth-of-type(2) { animation-delay: 0.15s; }
+.era-section:nth-of-type(3) { animation-delay: 0.25s; }
+.era-section:nth-of-type(4) { animation-delay: 0.35s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Era header ───────────────────────────────────────────────── */
 .era-header {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 32px;
+  gap: var(--space-8);
   align-items: start;
-  margin-bottom: 28px;
-  opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity 0.5s ease,
-    transform 0.5s ease;
+  margin-bottom: var(--space-8);
 }
 
-.era-header.visible {
+/* JS toggles .visible — keep elements visible by default per v2 stillness */
+.era-header,
+.project-card,
+.era-divider {
   opacity: 1;
-  transform: translateY(0);
 }
 
 .era-meta {
@@ -261,189 +242,144 @@ body {
 }
 
 .era-company {
-  font-family: "DM Serif Display", serif;
-  font-size: 36px;
-  color: var(--interior-text);
-  line-height: 1.05;
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-xl);
+  color: var(--color-text-primary);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
 }
 
 .era-role {
-  font-family: "Lora", serif;
-  font-style: italic;
-  font-size: 14px;
-  color: var(--ink-muted);
-  margin-top: 6px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
 }
 
 .era-dates {
-  font-family: "DM Mono", monospace;
-  font-size: 11px;
-  color: var(--gold-dark);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin-top: 5px;
+  letter-spacing: var(--tracking-wider);
+  margin-top: var(--space-2);
 }
 
 .tech-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
   list-style: none;
 }
 
 .chip {
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  color: var(--gold-dark);
-  border: 0.5px solid var(--gold-divider);
-  background: var(--gold-faint);
-  padding: 3px 8px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  background: var(--color-bg-raised);
+  border: 1px solid var(--color-border);
+  padding: 2px 8px;
   border-radius: 2px;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--tracking-wider);
 }
 
-/* ── Era intro (narrative bridge between metadata and cards) ─── */
+/* ── Era intro (narrative bridge) ─────────────────────────────── */
 .era-intro {
   grid-column: 1 / -1;
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 0.5px solid var(--border-light);
-  font-family: "Lora", serif;
-  font-size: 14px;
-  line-height: 1.78;
-  color: var(--ink-muted);
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-text-muted);
 }
 
-/* ── Era stat (ink, editorial) ────────────────────────────────── */
+/* ── Era stat callout (floats right on desktop) ───────────────── */
 .era-stat {
   text-align: right;
 }
 
 .stat-num {
-  font-family: "DM Serif Display", serif;
-  font-size: 48px;
-  color: var(--interior-text);
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: var(--text-stat);
+  color: var(--color-accent);
   line-height: 1;
+  letter-spacing: var(--tracking-tight);
 }
 
 .stat-label {
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin-top: 4px;
+  letter-spacing: var(--tracking-wider);
+  margin-top: var(--space-2);
 }
 
-/* ── Era chapter link (pre-HighFi eras → Ch. VI) ─────────────── */
+/* ── Era chapter link (pre-HighFi eras → Ch. VI) ──────────────── */
 .era-chapter-link {
   display: inline-flex;
   align-items: center;
-  margin-top: 10px;
-  font-family: "DM Mono", monospace;
-  font-size: 9px;
-  color: var(--gold-dark);
-  background: rgba(196, 154, 60, 0.08);
-  border: 0.5px solid rgba(196, 154, 60, 0.22);
-  border-radius: 4px;
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  background: var(--color-bg-raised);
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
   padding: 3px 8px;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
   text-decoration: none;
-  transition: background 0.2s, border-color 0.2s;
+  transition: color 150ms ease, border-color 150ms ease;
 }
 
 .era-chapter-link:hover {
-  background: rgba(196, 154, 60, 0.16);
-  border-color: rgba(196, 154, 60, 0.42);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 /* ── Era divider ──────────────────────────────────────────────── */
 .era-divider {
-  height: 0.5px;
-  background: var(--border-light);
-  margin: 0 0 64px;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.6s ease;
+  height: 1px;
+  background: var(--color-border);
+  margin: 0 0 var(--section-gap);
 }
 
-.era-divider.visible {
-  transform: scaleX(1);
-}
-
-/* ── Cards grid ───────────────────────────────────────────────── */
+/* ── Cards grid (single column per v2) ────────────────────────── */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  grid-template-columns: 1fr;
+  gap: var(--item-gap);
 }
 
-/* ── Project card (cream, ink aesthetic) ─────────────────────── */
-a.project-card {
+/* ── Project card / chapter card ──────────────────────────────── */
+a.project-card,
+.project-card {
   display: flex;
+  flex-direction: column;
   text-decoration: none;
   color: inherit;
   position: relative;
-  overflow: hidden;
-}
-
-/* 36px CTA bar slides up from card bottom on hover */
-a.project-card::after {
-  content: "Read " attr(data-chapter) " →";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 36px;
-  background: #fff;
-  border-top: 0.5px solid rgba(196, 154, 60, 0.3);
-  border-radius: 0 0 9px 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  color: var(--gold-dark);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transform: translateY(36px);
-  transition: transform 0.2s ease;
-  pointer-events: none;
-}
-
-a.project-card:hover::after {
-  transform: translateY(0);
-}
-
-.project-card {
-  background: #fff;
-  border: 0.5px solid var(--border-light);
-  border-radius: 10px;
-  padding: 18px 20px 16px;
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
-}
-
-.project-card.visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 0.45s ease,
-    transform 0.45s ease,
-    border-color 0.2s,
-    box-shadow 0.2s;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: var(--space-6);
+  transition: border-color 150ms ease;
 }
 
 a.project-card:hover {
-  border-color: rgba(196, 154, 60, 0.45);
-  box-shadow: 0 4px 20px rgba(196, 154, 60, 0.1), 0 1px 6px rgba(0, 0, 0, 0.04);
+  border-color: var(--color-accent);
+}
+
+a.project-card:focus-visible {
+  outline: none;
+  border-color: var(--color-accent);
 }
 
 /* ── Card header bar ──────────────────────────────────────────── */
@@ -451,43 +387,40 @@ a.project-card:hover {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  padding-bottom: 10px;
-  border-bottom: 0.5px solid var(--gold-divider);
-  margin-bottom: 12px;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
 .card-name {
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  color: var(--gold-dark);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--weight-light);
+  font-size: var(--text-2xl);
+  color: var(--color-text-primary);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
 }
 
 .card-chapter-tag {
-  font-family: "DM Mono", monospace;
-  font-size: 9px;
-  color: var(--gold-dark);
-  background: rgba(196, 154, 60, 0.08);
-  border: 0.5px solid rgba(196, 154, 60, 0.22);
-  border-radius: 4px;
-  padding: 2px 7px;
-  letter-spacing: 0.05em;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
   text-transform: uppercase;
-  transition: background 0.2s, border-color 0.2s;
+  letter-spacing: var(--tracking-wider);
+  flex-shrink: 0;
+  transition: color 150ms ease;
 }
 
 a.project-card:hover .card-chapter-tag {
-  background: rgba(196, 154, 60, 0.16);
-  border-color: rgba(196, 154, 60, 0.42);
+  color: var(--color-accent);
 }
 
 /* ── Card description ─────────────────────────────────────────── */
 .card-desc {
-  font-family: "Lora", serif;
-  font-size: 13px;
-  line-height: 1.68;
-  color: var(--ink-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-text-muted);
   flex: 1;
 }
 
@@ -496,102 +429,114 @@ a.project-card:hover .card-chapter-tag {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-top: 14px;
-  padding-top: 11px;
-  border-top: 0.5px solid var(--gold-divider);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  gap: var(--space-4);
 }
 
 .card-metric-num {
-  font-family: "DM Serif Display", serif;
-  font-size: 28px;
-  color: var(--interior-text);
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: var(--text-2xl);
+  color: var(--color-accent);
   line-height: 1;
+  letter-spacing: var(--tracking-tight);
 }
 
 .card-metric-label {
-  font-family: "DM Mono", monospace;
-  font-size: 9px;
-  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: var(--tracking-wider);
   text-align: right;
-  max-width: 130px;
-  line-height: 1.45;
+  max-width: 200px;
+  line-height: var(--leading-body);
 }
 
-/* ── Timeline footer (dark) ───────────────────────────────────── */
+/* ── Timeline footer ──────────────────────────────────────────── */
 .timeline-footer {
   text-align: center;
-  padding: 48px 32px;
-  background: var(--cover-bg);
-  border-top: 0.5px solid var(--border-dark);
+  padding: var(--space-16) var(--page-padding-x);
+  border-top: 1px solid var(--color-border);
+  max-width: var(--page-max-width);
+  margin: 0 auto;
 }
 
 .footer-end-label {
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: var(--tracking-wider);
 }
 
 .footer-cta {
-  font-family: "DM Serif Display", serif;
-  font-size: 22px;
-  color: var(--gold);
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: var(--text-2xl);
+  color: var(--color-text-primary);
   display: block;
-  margin: 16px auto;
+  margin: var(--space-6) auto;
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: color 150ms ease;
 }
 
 .footer-cta:hover {
-  opacity: 0.75;
+  color: var(--color-accent);
 }
 
 .footer-cta:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 1px solid var(--color-accent);
+  outline-offset: 4px;
 }
 
 .footer-copy {
-  font-family: "DM Mono", monospace;
-  font-size: 11px;
-  color: var(--ink-muted);
-  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  margin-top: var(--space-3);
 }
 
-/* ── Mobile breakpoint ────────────────────────────────────────── */
-@media (max-width: 899px) {
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .timeline-rail {
-    left: 16px;
-  }
-
+/* ── Mobile ───────────────────────────────────────────────────── */
+@media (max-width: 767px) {
   .timeline-section {
-    padding: 48px 24px 48px 56px;
+    padding: var(--space-6) var(--page-padding-x) var(--space-16) calc(var(--page-padding-x) + var(--space-6));
   }
 
   .era-header {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: var(--space-4);
+  }
+
+  .era-stat {
+    text-align: left;
+  }
+
+  .stat-num {
+    font-size: 2.5rem;
   }
 
   .hero-strip {
-    padding: 32px 24px;
+    padding: var(--space-12) var(--page-padding-x) var(--space-8);
+  }
+}
+
+/* ── Reduced motion ───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 
-  .hero-title {
-    font-size: clamp(32px, 8vw, 48px);
-  }
-
-  .intro-block {
-    padding: 24px 24px 28px;
-  }
-
-  .tech-chips {
-    gap: 6px;
+  .era-section {
+    opacity: 1;
   }
 }
