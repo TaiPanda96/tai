@@ -80,7 +80,7 @@ body {
 .hero-strip {
   max-width: var(--page-max-width);
   margin: 0 auto;
-  padding: var(--space-16) var(--page-padding-x) var(--space-12);
+  padding: var(--space-6) var(--page-padding-x) var(--space-8);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -104,7 +104,15 @@ body {
   line-height: var(--leading-body);
 }
 
-.availability-tag {
+.hero-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.availability-tag,
+.author-note-link {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--color-text-muted);
@@ -114,24 +122,13 @@ body {
   border: 1px solid var(--color-border);
   border-radius: 2px;
   padding: 4px 10px;
-  align-self: flex-start;
-  margin-top: var(--space-2);
-}
-
-.author-note-link {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
   text-decoration: none;
-  align-self: flex-start;
-  margin-top: var(--space-2);
-  transition: color 150ms ease;
+  transition: color 150ms ease, border-color 150ms ease;
 }
 
 .author-note-link:hover {
   color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .author-note-link:focus-visible {
@@ -151,6 +148,7 @@ body {
   font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--color-text-muted);
+  max-width: 60ch;
 }
 
 .intro-link {
@@ -440,7 +438,7 @@ a.project-card:hover .card-chapter-tag {
   font-weight: var(--weight-light);
   font-size: var(--text-2xl);
   color: var(--color-accent);
-  line-height: 1;
+  line-height: 1.15;
   letter-spacing: var(--tracking-tight);
 }
 

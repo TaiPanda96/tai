@@ -8,8 +8,8 @@
 
   /* Text */
   --color-text-primary: #F0EDE8;
-  --color-text-muted:   #888580;
-  --color-text-faint:   #4A4744;
+  --color-text-muted:   #BAB5AC;
+  --color-text-faint:   #7A766E;
 
   /* Accent — amber, used on stat numerals, card hover border,
      link hover, active nav indicator. Nowhere else. */
