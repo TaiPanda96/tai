@@ -479,12 +479,110 @@ body {
 }
 
 /* ── Mobile ─────────────────────────────────────────────────── */
-@media (max-width: 699px) {
-  .app-sidebar {
-    width: 140px;
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 14px;
   }
 
+  /* Collapse the redundant "Portfolio /" middle crumb — the back link
+     and current-chapter label carry the same info in less space. */
+  .app-breadcrumb .app-header-link,
+  .app-breadcrumb .app-breadcrumb-sep:first-child {
+    display: none;
+  }
+
+  .app-breadcrumb-current {
+    font-size: 10.5px;
+    max-width: 60vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Stack: sidebar becomes a horizontal chapter chip-rail above content */
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .app-sidebar {
+    width: 100%;
+    height: auto;
+    flex-shrink: 0;
+    border-right: none;
+    border-bottom: 0.5px solid var(--border-light);
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px 12px;
+    display: flex;
+    align-items: stretch;
+    gap: 4px;
+    scrollbar-width: none;
+  }
+
+  .app-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar-label {
+    display: none;
+  }
+
+  .rail-item,
+  .ts-item {
+    flex-shrink: 0;
+    padding: 6px 10px;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    gap: 6px;
+  }
+
+  .rail-item.active,
+  .ts-item.active {
+    border-left-color: transparent;
+    border-bottom-color: var(--gold);
+  }
+
+  .rail-item-title {
+    white-space: nowrap;
+  }
+
+  .ts-item-period {
+    display: none;
+  }
+
+  /* Homepage card grid stacks too */
   .cards-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Footer: tighter padding, shrink Prev/Next, hide the duplicate
+     chapter label — the header breadcrumb already shows it. */
+  .ebook-footer {
+    padding: 0 14px;
+  }
+
+  .ebook-footer-btn {
+    min-width: 0;
+    padding: 8px 6px;
+    font-size: 10.5px;
+  }
+
+  .ebook-footer-indicator {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0 10px;
+  }
+
+  .app-header-link {
+    font-size: 10px;
+  }
+
+  .app-breadcrumb-current {
+    font-size: 10px;
+    max-width: 50vw;
   }
 }

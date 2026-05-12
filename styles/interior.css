@@ -1044,3 +1044,223 @@
   background-repeat: repeat;
   background-size: 256px;
 }
+
+/* ── Mobile ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Use the full content width — the 66.667% cap is print-page styling
+     that leaves a tiny column on phone widths. */
+  .toc-inner,
+  .ch-inner {
+    max-width: 100%;
+    padding: 24px 18px 56px;
+  }
+
+  /* Display type */
+  .page-title { font-size: 28px; }
+  .ch-title { font-size: 30px; line-height: 1.1; }
+  .ch-eyebrow,
+  .page-eyebrow {
+    font-size: 9.5px;
+    margin-bottom: 10px;
+  }
+  .ch-header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+  }
+
+  /* Prose */
+  .ch-body {
+    font-size: 15.5px;
+    line-height: 1.75;
+  }
+  .ch-body p + p { margin-top: 18px; }
+
+  .drop-cap::first-letter {
+    font-size: 3.6em;
+    line-height: 0.78;
+    margin: 0.05em 0.08em 0 0;
+  }
+
+  .pull-quote {
+    margin: 32px 0;
+    padding-left: 18px;
+  }
+  .pull-quote p { font-size: 17px; line-height: 1.5; }
+
+  .aside {
+    margin: 28px 0;
+    padding: 16px 18px;
+  }
+  .aside p { font-size: 13.5px; }
+
+  /* Stat row: 4-col → 2x2 */
+  .stat-row {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 32px 0;
+  }
+  .stat-row-cell {
+    padding: 16px 14px;
+    border-right: 0.5px solid var(--border-light);
+    border-bottom: 0.5px solid var(--border-light);
+  }
+  .stat-row-cell:nth-child(2n) { border-right: none; }
+  .stat-row-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .stat-row-num { font-size: 22px; }
+
+  /* TOC entries stack */
+  .toc-entry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 18px 0;
+  }
+  .toc-num { padding-top: 0; }
+  .toc-body {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 4px;
+  }
+  .toc-chapter-title {
+    font-size: 20px;
+    white-space: normal;
+  }
+  .toc-leaders { display: none; }
+
+  /* Agent (Ch III) */
+  .agent-header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .agent-name { font-size: 26px; }
+
+  /* Capability / arch tables: shrink padding, allow first column to wrap */
+  .cap-table,
+  .arch-table {
+    margin: 28px 0;
+  }
+  .cap-table td,
+  .arch-table td {
+    padding: 11px 12px;
+    font-size: 13px;
+  }
+  .cap-table th,
+  .arch-table th {
+    padding: 10px 12px;
+  }
+  .cap-table td:first-child,
+  .arch-table td:first-child,
+  .arch-table td:nth-child(2) {
+    white-space: normal;
+    word-break: break-word;
+    font-size: 11px;
+  }
+
+  /* Code block: smaller, tighter; horizontal scroll already on */
+  .code-block { margin: 28px 0; }
+  .code-block pre {
+    font-size: 11.5px;
+    padding: 14px 16px;
+  }
+
+  /* Pipeline stages: 4 → 1 */
+  .pipeline-stages {
+    grid-template-columns: 1fr;
+    margin: 28px 0;
+  }
+  .pipeline-stage { padding: 16px 18px 18px; }
+
+  /* Outcome metrics: 3 → 1 */
+  .outcome-metrics {
+    grid-template-columns: 1fr;
+  }
+  .outcome-metric { padding: 16px 18px; }
+  .outcome-metric-val { font-size: 24px; }
+
+  /* Principles: 2 → 1 */
+  .principle-grid {
+    grid-template-columns: 1fr;
+    margin: 24px 0;
+  }
+  .principle-card { padding: 18px 20px; }
+  .principle-title { font-size: 18px; }
+
+  /* Permission grid: 2 → 1 */
+  .permission-grid {
+    grid-template-columns: 1fr;
+    margin: 24px 0;
+  }
+  .permission-col { padding: 16px 18px; }
+
+  /* Timeline (Ch VI): stack period over role */
+  .timeline-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 22px 0;
+  }
+  .timeline-period { padding-top: 0; }
+  .timeline-company { margin-bottom: 10px; }
+
+  /* Limitation ledger: stack name/detail */
+  .limitation-row {
+    grid-template-columns: 1fr;
+  }
+  .limitation-name {
+    border-right: none;
+    border-bottom: 0.5px solid var(--border-light);
+    padding: 14px 16px;
+  }
+  .limitation-detail { padding: 14px 16px; }
+
+  .layer-heading {
+    font-size: 19px;
+    margin: 36px 0 14px;
+    padding-top: 28px;
+  }
+
+  .outcome-section {
+    margin-top: 36px;
+    padding-top: 24px;
+  }
+
+  .agent-section {
+    margin-top: 36px;
+    padding-top: 28px;
+  }
+
+  .ch-subhead { font-size: 17px; }
+}
+
+@media (max-width: 480px) {
+  .toc-inner,
+  .ch-inner {
+    padding: 20px 14px 48px;
+  }
+
+  .ch-title { font-size: 26px; line-height: 1.12; }
+  .page-title { font-size: 24px; }
+
+  .ch-body { font-size: 15px; }
+
+  .drop-cap::first-letter { font-size: 3em; }
+
+  .pull-quote p { font-size: 15.5px; }
+
+  .stat-row-num { font-size: 20px; }
+  .stat-row-label { font-size: 9.5px; }
+
+  .agent-name { font-size: 22px; }
+
+  .pipeline-stage-name { font-size: 18px; }
+
+  .code-block pre {
+    font-size: 11px;
+    padding: 12px 14px;
+  }
+
+  .cap-table td,
+  .arch-table td {
+    padding: 10px 10px;
+    font-size: 12.5px;
+  }
+}
