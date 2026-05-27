@@ -76,6 +76,31 @@ body {
   outline-offset: 3px;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.header-link {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.header-link:hover {
+  color: var(--color-text-primary);
+}
+
+.header-link:focus-visible {
+  outline: 1px solid var(--color-text-muted);
+  outline-offset: 3px;
+}
+
 /* ── Hero strip ───────────────────────────────────────────────── */
 .hero-strip {
   max-width: var(--page-max-width);
