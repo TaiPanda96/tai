@@ -58,12 +58,14 @@
       }
 
       .download-btn {
+        display: inline-block;
         font-family: var(--font-mono);
         font-weight: var(--weight-medium);
         font-size: var(--text-xs);
         color: var(--color-accent);
         text-transform: uppercase;
         letter-spacing: var(--tracking-wider);
+        text-decoration: none;
         background: transparent;
         border: 1px solid var(--color-accent);
         border-radius: 2px;
@@ -203,7 +205,45 @@
       .job-title {
         font-size: 12px;
         color: #5a544a;
-        margin: 0 0 8px;
+        margin: 0 0 2px;
+      }
+
+      .job-context {
+        font-size: 11.5px;
+        font-style: italic;
+        color: #7a7264;
+        margin: 0 0 10px;
+      }
+
+      .bullet-group-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: #1a1715;
+        margin: 12px 0 4px;
+      }
+
+      .bullet-group-label:first-of-type {
+        margin-top: 0;
+      }
+
+      .subrole-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+        margin: 12px 0 4px;
+      }
+
+      .subrole-title {
+        font-size: 12.5px;
+        font-weight: 500;
+        color: #1a1715;
+      }
+
+      .subrole-dates {
+        font-size: 11.5px;
+        color: #8a8275;
+        white-space: nowrap;
       }
 
       .bullets {
@@ -306,14 +346,14 @@
   <body>
     <header class="page-header">
       <a class="header-back" href="index.html">← Timeline</a>
-      <button
-        type="button"
+      <a
         class="download-btn"
-        onclick="window.print()"
+        href="TAI_LIN_RESUME.pdf"
+        download="Tai_Lin_Resume.pdf"
         aria-label="Download resume as PDF"
       >
         Download PDF ↓
-      </button>
+      </a>
     </header>
 
     <main class="resume-stage">
@@ -323,29 +363,36 @@
         <div class="resume-head">
           <div>
             <p class="header-name">Tai Lin</p>
-            <p class="header-title">
-              Founding engineer · AI infrastructure · capital markets
-            </p>
+            <p class="header-location">Toronto, ON</p>
           </div>
           <div class="header-contact">
-            <a href="mailto:tai@highfi.com">tai@highfi.com</a>
+            <a href="mailto:taishanlin1996@gmail.com">taishanlin1996@gmail.com</a>
             <a
-              href="https://tai-flame.vercel.app"
+              href="https://www.linkedin.com/in/tai-lin-122682105/"
               target="_blank"
               rel="noopener"
-              >tai-flame.vercel.app</a
+              >linkedin.com/in/tai-lin-122682105</a
             >
-            <span class="header-location">Toronto, ON</span>
+            <a
+              href="https://github.com/TaiPanda96"
+              target="_blank"
+              rel="noopener"
+              >github.com/TaiPanda96</a
+            >
           </div>
         </div>
 
         <div class="divider"></div>
 
         <p class="summary">
-          Founding engineer with a capital markets operations background. I
-          build the compliance, servicing, and reporting layer between a legal
-          agreement and a funded transaction, including AI agents that run
-          autonomously in production.
+          Founding engineer focused on building agentic systems and the
+          infrastructure required to make them work in complex, real-world
+          domains. At HighFi, I scaled the first two key customers from $0 to
+          $350K ARR as the primary technical point of contact for complex system
+          integrations. I design and build the core systems, configurable
+          financial engines, multi-step AI agents, and autonomous dev tooling
+          that translate ambiguous requirements into deterministic,
+          production-grade workflows.
         </p>
 
         <p class="section-label">Experience</p>
@@ -356,59 +403,117 @@
             <span class="job-dates">Mar 2023 – Present</span>
           </div>
           <p class="job-title">Founding Software Engineer</p>
+          <p class="job-context">
+            AI-enabled capital markets infrastructure · TypeScript, PostgreSQL,
+            Next.js, Vercel AI SDK, Pulumi, GCP
+          </p>
+
+          <p class="bullet-group-label">AI Agent Products (Penny &amp; Millie)</p>
           <ul class="bullets">
             <li>
-              Built Penny, a capital markets AI agent that cut funding-request
-              turnaround from days to minutes. Served as primary technical
-              contact for the first two enterprise customers through the $0 to
-              $350K ARR ramp.
+              Shipped Penny, an in-app Capital Markets AI Agent (Claude + Gemini,
+              streaming) for real-time risk reporting, funding requests, and
+              ledger management — owned concept to live deployment, replacing
+              manual legacy processes in funding operations.
             </li>
             <li>
-              Designed FlatCalc, a config-driven financial calculation engine.
-              Dependency graphs replaced hardcoded logic across lending
-              workflows, so new product math ships as a config change rather
-              than a deploy.
+              Architected and shipped Millie, a context-aware Slack agent that
+              dynamically builds authorized toolsets per request, supports
+              15-step multi-tool execution, and handles capital markets funding
+              requests, SOFR rate updates, and portfolio reporting with full
+              webhook verification, event deduplication, and thread-persistent
+              conversation history in PostgreSQL.
+            </li>
+          </ul>
+
+          <p class="bullet-group-label">Platform (Agent Harness &amp; Context Layer)</p>
+          <ul class="bullets">
+            <li>
+              Designed and built a production AI agent harness with typed
+              dependency injection, structured step tracing, stateful hand-off
+              returns between coordinated agents, and per-step Slack
+              observability. This harness spawned 6 agents across a multi-tenant
+              capital markets platform.
             </li>
             <li>
-              Engineered the Facility Assignment Engine, the central lending
-              algorithm that routes capital to facilities against real-time
-              eligibility rules, replacing manual allocation review.
+              Implemented a role-based capability registry that gates LLM tool
+              access by customer config and user role, generating dynamic system
+              prompts with per-capability workflow manifests for safe, auditable
+              multi-step financial operations.
+            </li>
+          </ul>
+
+          <p class="bullet-group-label">Core Systems</p>
+          <ul class="bullets">
+            <li>
+              Led the design of a config-driven financial calculation engine
+              supporting dependency graphs, runtime-evaluable expressions, and
+              unified eligibility, concentration, and facility-level formulas;
+              replaced rigid hardcoded logic with extensible self-serve
+              configuration.
             </li>
             <li>
-              Built Night Agent solo: a three-stage Claude Code pipeline on
-              GitHub Actions with a zero-trust shell harness operating below the
-              prompt layer. Every command routes through a user-defined
-              allowlist before execution.
+              Architected the lending Assignment Engine, a core algorithm for
+              assigning receivables under borrowing base constraints, enforcing
+              concentration limits, and supporting add/remove strategies with
+              deterministic, priority-sorted outcomes.
+            </li>
+          </ul>
+
+          <p class="bullet-group-label">Agentic Infrastructure</p>
+          <ul class="bullets">
+            <li>
+              Built Night Agent, an agentic development pipeline: a three-stage
+              Claude Code pipeline on GitHub Actions (Planner → Implementer → QA)
+              enforced by a zero-trust shell harness that operates below the
+              prompt layer. Every command routes through a user-defined allowlist
+              before execution, creating a structural safety guarantee that no
+              prompt-layer guardrail can provide. Specs written by day, PRs
+              reviewed at 8 AM.
             </li>
           </ul>
         </div>
 
         <div class="job-block">
           <div class="job-header">
-            <span class="job-company"
-              >Utradea (acq. Financial Modeling Prep)</span
-            >
+            <span class="job-company">Utradea</span>
             <span class="job-dates">Mar 2021 – Feb 2023</span>
           </div>
-          <p class="job-title">
-            Software Engineer to Software Engineer II · First engineering hire
+          <p class="job-title">Software Engineer → Software Engineer II</p>
+          <p class="job-context">
+            Social investing platform → B2B API layer · Node.js, MongoDB,
+            PostgreSQL, AWS, Redis · Merged with Financial Modeling Prep
           </p>
           <ul class="bullets">
             <li>
-              Migrated 50+ production stock market APIs into a Node.js and
-              MongoDB stack post-merger. Managed PostgreSQL on RDS, ECS
-              containers, and a multi-node Redis cluster with read/write
-              replication.
+              Joined as the first engineering hire with no formal CS background;
+              self-taught and shipped paid production features within months.
             </li>
             <li>
-              Built an NLP-based SEC filing sentiment classifier (winkNLP,
-              VADER) that surfaced actionable stock signals, and integrated
-              Stripe end-to-end for the first paid users.
+              Built the SEC Dashboard end-to-end: NLP classification pipeline
+              (winkNLP, VADER) parsing SEC 8-K filings into summarized,
+              investor-readable insights with keyword extraction and price-change
+              context, shipped as a full product feature.
             </li>
             <li>
-              Shipped an early OpenAI API integration powering the Financial
-              Writer tool, an AI-generated news article system running on
-              real-time market data.
+              Integrated Stripe end-to-end, enabling Utradea's first paid users
+              and establishing the monetization foundation.
+            </li>
+            <li>
+              Piloted an early OpenAI API integration powering Financial Writer,
+              an AI-generated news article tool built on real-time market data —
+              shipped before ChatGPT made this obvious.
+            </li>
+            <li>
+              Led post-merger migration of 50+ FMP APIs into Node.js / MongoDB;
+              re-platformed Utradea from Lightsail onto ECS with Fargate and load
+              balancers as traffic scaled, owning the full infrastructure
+              transition.
+            </li>
+            <li>
+              Implemented Redis cycle caching for high-frequency stock price
+              reads with subscription-tier rate limiting across a multi-node
+              cluster, designed for read/write throughput at scale.
             </li>
           </ul>
         </div>
@@ -418,34 +523,76 @@
             <span class="job-company">BMO Financial Group</span>
             <span class="job-dates">May 2018 – Mar 2021</span>
           </div>
-          <p class="job-title">Business Analyst to Senior Business Analyst</p>
+          <p class="job-title">Business Analyst</p>
+          <p class="job-context">
+            Capital markets &amp; commercial banking · Requirements, systems
+            analysis &amp; data
+          </p>
+
+          <div class="subrole-header">
+            <span class="subrole-title">Senior Business Analyst</span>
+            <span class="subrole-dates">Nov 2020 – Mar 2021</span>
+          </div>
           <ul class="bullets">
             <li>
-              Defined end-to-end requirements for the Credit Flow for Commercial
-              Banking transformation, and owned client portal integration across
-              legacy systems via API.
+              Led the decommissioning of a vendor risk management platform,
+              owning business requirements and migration to a streamlined
+              in-house replacement.
             </li>
             <li>
-              Built configurable credit compliance reporting templates that
-              scaled across multiple lines of business, standardizing
-              regulatory workflows for commercial banking.
+              Defined E2E requirements and drove cross-functional delivery for
+              the Credit Flow for Commercial Banking transformation.
+            </li>
+          </ul>
+
+          <div class="subrole-header">
+            <span class="subrole-title">Business Systems / Data Analyst</span>
+            <span class="subrole-dates">May 2018 – Nov 2020</span>
+          </div>
+          <ul class="bullets">
+            <li>
+              Owned E2E Client Portal Integration project, streamlining business
+              banking onboarding from prospecting to signing across legacy
+              systems via API.
+            </li>
+            <li>
+              Enhanced Online Banking for Business experience as part of the
+              client portal integration, coordinating across multiple platform
+              teams.
+            </li>
+            <li>
+              Introduced configurable credit compliance reporting templates,
+              scaled across multiple lines of business to standardize regulatory
+              workflows.
             </li>
           </ul>
         </div>
 
+        <div class="divider"></div>
+
+        <p class="section-label">Education</p>
+
         <div class="job-block">
           <div class="job-header">
-            <span class="job-company">Creative Destruction Lab — ML Stream</span>
+            <span class="job-company">Bachelor of Commerce (B.Com.)</span>
+            <span class="job-dates">2018</span>
+          </div>
+          <p class="job-title">University of Toronto · Rotman Commerce</p>
+          <p class="job-context">Major in Management · Minor in Economics</p>
+        </div>
+
+        <div class="job-block">
+          <div class="job-header">
+            <span class="job-company"
+              >Venture Growth in Machine Learning Stream</span
+            >
             <span class="job-dates">2017 – 2018</span>
           </div>
-          <p class="job-title">Venture cohort · University of Toronto</p>
-          <ul class="bullets">
-            <li>
-              Provided venture growth support to machine learning founders
-              during the early commercial wave of ML, evaluating applied
-              use-cases across the cohort.
-            </li>
-          </ul>
+          <p class="job-title">Creative Destruction Lab (CDL)</p>
+          <p class="job-context">
+            Student Cohort 2018 · Worked alongside ML-native founders and
+            operators; developed early conviction in AI-native product building.
+          </p>
         </div>
 
         <div class="divider"></div>
@@ -455,42 +602,22 @@
           <div class="skill-row">
             <span class="skill-label">Engineering</span>
             <span class="skill-values"
-              >TypeScript, Node.js, Next.js, PostgreSQL, MongoDB, Redis, REST
-              APIs, AWS (ECS, RDS), GCP, Pulumi, GitHub Actions, CI/CD, system
-              design</span
-            >
-          </div>
-          <div class="skill-row">
-            <span class="skill-label">AI / ML</span>
-            <span class="skill-values"
-              >Large Language Models, AI agents, LLM orchestration, OpenAI API,
-              Claude API, NLP, GenAI tooling</span
+              >TypeScript · PostgreSQL · Redis · AWS (ECS, RDS) · API design ·
+              LLM orchestration · System design</span
             >
           </div>
           <div class="skill-row">
             <span class="skill-label">Product</span>
             <span class="skill-values"
-              >0-to-1 development, user research, roadmapping, product-market
-              fit validation</span
+              >0→1 product development · Requirements definition · Roadmapping ·
+              PMF thinking</span
             >
           </div>
           <div class="skill-row">
             <span class="skill-label">Domain</span>
             <span class="skill-values"
-              >Capital markets, back-office operations, regulatory compliance,
-              risk, fintech infrastructure</span
-            >
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <p class="section-label">Education</p>
-        <div class="skills-block">
-          <div class="skill-row">
-            <span class="skill-label">B.Com</span>
-            <span class="skill-values"
-              >Rotman Commerce, University of Toronto</span
+              >Capital markets · Commercial banking · Risk &amp; compliance ·
+              Fintech infrastructure</span
             >
           </div>
         </div>

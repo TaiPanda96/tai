@@ -1813,10 +1813,10 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
               </p>
 
               <p>
-                The answer was a four-stage pipeline with explicit time
-                budgets, typed handoffs between agents, and a security layer
-                that operates below the model — at the shell level — so no
-                prompt can override it.
+                The answer was a four-stage pipeline with explicit time budgets,
+                typed handoffs between agents, and a security layer that
+                operates below the model — at the shell level — so no prompt can
+                override it.
               </p>
 
               <figure style="margin: 28px 0 8px">
@@ -1839,7 +1839,9 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
                     letter-spacing: 0.04em;
                   "
                 >
-                  17 closed PRs — each opened by <code>github-actions[bot]</code>, each representing a spec the pipeline turned into reviewed, mergeable code overnight.
+                  17 closed PRs — each opened by
+                  <code>github-actions[bot]</code>, each representing a spec the
+                  pipeline turned into reviewed, mergeable code overnight.
                 </figcaption>
               </figure>
 
@@ -1851,11 +1853,10 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
               <p>
                 The pipeline runs nightly as a single GitHub Actions job with a
                 55-minute total budget. A shell-only preflight runs one hour
-                earlier to set up the work; three Claude Code instances then
-                run sequentially, each with a scoped role and an explicit
-                timeout. A partial result is better than a stalled pipeline —
-                each stage is designed to degrade gracefully if it runs out of
-                time.
+                earlier to set up the work; three Claude Code instances then run
+                sequentially, each with a scoped role and an explicit timeout. A
+                partial result is better than a stalled pipeline — each stage is
+                designed to degrade gracefully if it runs out of time.
               </p>
 
               <p>
@@ -1864,13 +1865,15 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
                 <code>depends_on</code> frontmatter, and skips any spec whose
                 dependencies aren't yet <code>completed</code>. For specs that
                 are ready, it creates a branch, flips the status to
-                <code>in-progress</code>, and opens a draft PR whose body is
-                the spec itself — no translation layer. The agents downstream
-                read directly from the PR body.
+                <code>in-progress</code>, and opens a draft PR whose body is the
+                spec itself — no translation layer. The agents downstream read
+                directly from the PR body.
               </p>
 
               <div class="code-block">
-                <div class="code-block-label">Stage 0 — PR Creator (shell only, 2 AM)</div>
+                <div class="code-block-label">
+                  Stage 0 — PR Creator (shell only, 2 AM)
+                </div>
                 <pre><span class="cm"># Dependency resolution — pure shell, no Claude</span>
 spec-011  depends_on: [spec-007]
 
@@ -1978,15 +1981,17 @@ gh pr create --draft --label <span class="ck">"night-agent"</span> --body <span 
               <p>
                 The naive design is a single long-running Claude Code session:
                 read the spec, explore the codebase, plan, implement, test. The
-                problem is context accumulation. By the time the model is writing
-                tests, it's reasoning over the entire history of every file it
-                touched during exploration — and most of that context is dead
-                weight. Token budget spent on re-reading 20 discovery files is
-                budget not available for writing correct code.
+                problem is context accumulation. By the time the model is
+                writing tests, it's reasoning over the entire history of every
+                file it touched during exploration — and most of that context is
+                dead weight. Token budget spent on re-reading 20 discovery files
+                is budget not available for writing correct code.
               </p>
 
               <div class="code-block">
-                <div class="code-block-label">Context isolation — fresh slate per stage</div>
+                <div class="code-block-label">
+                  Context isolation — fresh slate per stage
+                </div>
                 <pre><span class="cm"># Single session (naive approach)</span>
 Read spec → Read 20 files → Plan → Implement → Test
 ←── context fills with discovery reads ──────────────→
@@ -2095,7 +2100,9 @@ path traversal check → injection scan (<span class="cs">eval</span>, <span cla
               </p>
 
               <div class="code-block">
-                <div class="code-block-label">Spec frontmatter — the pipeline's contract with the human</div>
+                <div class="code-block-label">
+                  Spec frontmatter — the pipeline's contract with the human
+                </div>
                 <pre><span class="cm">---</span>
 id:         <span class="ck">spec-011</span>
 title:      <span class="cs">"API key provisioning — developer portal and CLI device auth"</span>
@@ -2164,9 +2171,7 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
               <div class="principle-grid">
                 <article class="principle-card">
                   <p class="principle-num">01</p>
-                  <h4 class="principle-title">
-                    Process isolation, enforced
-                  </h4>
+                  <h4 class="principle-title">Process isolation, enforced</h4>
                   <p class="principle-body">
                     <code>/spec</code>, <code>/plan</code>,
                     <code>/implement</code>, <code>/qa</code> are separate
@@ -2193,10 +2198,10 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                   <p class="principle-body">
                     <code>tmp/implementation-plan.md</code> →
                     <code>tmp/implementation-result.md</code> →
-                    <code>tmp/qa-report.md</code>. Every handoff is a flat
-                    file. The contract the Implementer was working from is
-                    something you can <code>cat</code> after the fact — not a
-                    black-box prompt history.
+                    <code>tmp/qa-report.md</code>. Every handoff is a flat file.
+                    The contract the Implementer was working from is something
+                    you can <code>cat</code> after the fact — not a black-box
+                    prompt history.
                   </p>
                   <div class="principle-foil">
                     <span class="principle-foil-label">vs. typical setups</span>
@@ -2212,12 +2217,14 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                   <h4 class="principle-title">State machine in git</h4>
                   <p class="principle-body">
                     The spec's
-                    <code>status: pending → in-progress → completed | blocked</code>
+                    <code
+                      >status: pending → in-progress → completed | blocked</code
+                    >
                     lives in version control. PR Creator flips to in-progress;
                     Night Agent flips to completed or blocked.
                     <code>git log</code> on the spec file is the feature
-                    lifecycle. No external orchestrator database to drift out
-                    of sync with reality.
+                    lifecycle. No external orchestrator database to drift out of
+                    sync with reality.
                   </p>
                 </article>
 
@@ -2250,9 +2257,9 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                   <p class="principle-body">
                     <code>SHELL=scripts/safe-bash.sh</code> is set before the
                     agent starts. Every bash invocation routes through a
-                    whitelist at the kernel boundary, not the prompt layer.
-                    The model isn't asked to behave — it literally cannot run
-                    a command outside the list.
+                    whitelist at the kernel boundary, not the prompt layer. The
+                    model isn't asked to behave — it literally cannot run a
+                    command outside the list.
                   </p>
                 </article>
 
@@ -2263,8 +2270,8 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                     A stage timeout doesn't fail the spec — it leaves status
                     <code>in-progress</code> for the next nightly run. The
                     Implementer commits per task, so a 23-minute timeout
-                    preserves 18 minutes of real work on the branch. Failure
-                    is a retry, not a discard.
+                    preserves 18 minutes of real work on the branch. Failure is
+                    a retry, not a discard.
                   </p>
                 </article>
               </div>
@@ -2289,10 +2296,10 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                   </div>
                   <div class="limitation-detail">
                     <p>
-                      The dependency resolver walks the queue oldest-PR-first.
-                      A wedged spec — one that fails QA the same way every
-                      night — quietly hoards tomorrow's slot indefinitely.
-                      Retry <em>intent</em> is correct; retry <em>budget</em>
+                      The dependency resolver walks the queue oldest-PR-first. A
+                      wedged spec — one that fails QA the same way every night —
+                      quietly hoards tomorrow's slot indefinitely. Retry
+                      <em>intent</em> is correct; retry <em>budget</em>
                       is missing.
                     </p>
                     <p class="limitation-direction">
@@ -2312,8 +2319,8 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                     <p>
                       Vague specs produce vague PRs. The Planner reads broadly
                       within <code>scope</code> but commits to a plan without
-                      surfacing ambiguity. The contract is only as sharp as
-                      the human author made it.
+                      surfacing ambiguity. The contract is only as sharp as the
+                      human author made it.
                     </p>
                     <p class="limitation-direction">
                       <strong>Direction</strong>an optional pre-flight
@@ -2331,10 +2338,9 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                   <div class="limitation-detail">
                     <p>
                       <code>scope: broad</code> widens reading, not the clock.
-                      Specs that need schema migrations, cross-domain
-                      refactors, or genuine systems thinking don't fit in a
-                      single nightly window — and the pipeline has no way to
-                      ask for more time.
+                      Specs that need schema migrations, cross-domain refactors,
+                      or genuine systems thinking don't fit in a single nightly
+                      window — and the pipeline has no way to ask for more time.
                     </p>
                     <p class="limitation-direction">
                       <strong>Direction</strong>a long-running tier with a
@@ -2358,26 +2364,26 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                     </p>
                     <p class="limitation-direction">
                       <strong>Direction</strong>an audit-log mode that records
-                      would-be commands without executing them, so the
-                      whitelist grows on evidence rather than guesswork.
+                      would-be commands without executing them, so the whitelist
+                      grows on evidence rather than guesswork.
                     </p>
                   </div>
                 </div>
               </div>
 
               <div class="aside">
-                <div class="aside-label">
-                  The part worth stealing
-                </div>
+                <div class="aside-label">The part worth stealing</div>
                 <p>
                   The discipline that makes the system work isn't "we used
-                  Claude carefully." It's that <em>each stage is a different
-                  process reading files written by the previous stage</em>.
-                  Process isolation, filesystem-as-bus, git-as-state-machine —
-                  the LLM is a participant in this architecture, not the
+                  Claude carefully." It's that
+                  <em
+                    >each stage is a different process reading files written by
+                    the previous stage</em
+                  >. Process isolation, filesystem-as-bus, git-as-state-machine
+                  — the LLM is a participant in this architecture, not the
                   architecture itself. The limitations above are real, but
-                  they're limitations <em>of a specific honest system</em>,
-                  not of agentic CI/CD in general.
+                  they're limitations <em>of a specific honest system</em>, not
+                  of agentic CI/CD in general.
                 </p>
               </div>
 
@@ -2446,7 +2452,14 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                   </figcaption>
                 </figure>
 
-                <p style="margin: 24px 0 8px; font-size: 15px; line-height: 1.75; color: var(--color-text-secondary)">
+                <p
+                  style="
+                    margin: 24px 0 8px;
+                    font-size: 15px;
+                    line-height: 1.75;
+                    color: var(--color-text-secondary);
+                  "
+                >
                   The PR itself gets a structured comment from the QA agent —
                   quality check table, Definition of Done checklist, and a
                   review notes section for deviations from plan and open
@@ -2554,34 +2567,39 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                     </div>
                     <ul class="timeline-bullets">
                       <li>
-                        Joined with no formal CS background — self-taught,
-                        shipped paid production features within months
+                        Joined as the first engineering hire with no formal CS
+                        background — self-taught, shipped paid production
+                        features within months
                       </li>
                       <li>
-                        Built the SEC filing Sentiment Parser: NLP
-                        classification pipeline surfacing actionable stock
-                        signals from filings
+                        Built the SEC Dashboard end-to-end: NLP classification
+                        pipeline (winkNLP, VADER) parsing SEC 8-K filings into
+                        summarized, investor-readable insights with keyword
+                        extraction and price-change context
                       </li>
                       <li>
                         Integrated Stripe payments end-to-end, enabling
                         Utradea's first paid users and monetization foundation
                       </li>
                       <li>
-                        Led migration of 50+ stock market APIs post-merger with
-                        Financial Modeling Prep into the Node.js / MongoDB stack
+                        Led post-merger migration of 50+ Financial Modeling Prep
+                        APIs into the Node.js / MongoDB stack — owned the full
+                        infrastructure transition
                       </li>
                       <li>
-                        Architected AWS infrastructure for scale: RDS, ECS
-                        containers, load balancers, structured logging
+                        Re-platformed Utradea from Lightsail onto ECS with
+                        Fargate and load balancers as traffic scaled
                       </li>
                       <li>
-                        Piloted and shipped the first OpenAI API integration —
-                        the Financial Writer tool, built on real-time market
-                        data APIs
+                        Piloted an early OpenAI API integration powering
+                        Financial Writer — an AI-generated news article tool on
+                        real-time market data, shipped before ChatGPT made this
+                        obvious
                       </li>
                       <li>
-                        Implemented multi-node Redis cluster with read/write
-                        replication for rate limiting by subscription tier
+                        Implemented Redis cycle caching for high-frequency stock
+                        price reads with subscription-tier rate limiting across
+                        a multi-node cluster
                       </li>
                     </ul>
                     <p class="timeline-note">
@@ -2614,12 +2632,18 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                       </li>
                       <li>
                         Owned E2E Client Portal Integration — streamlined
-                        business banking onboarding across legacy systems via
-                        API
+                        business banking onboarding from prospecting to signing
+                        across legacy systems via API
+                      </li>
+                      <li>
+                        Enhanced Online Banking for Business as part of the
+                        client portal integration, coordinating across multiple
+                        platform teams
                       </li>
                       <li>
                         Introduced configurable credit compliance reporting
-                        templates, scaled across multiple lines of business
+                        templates, scaled across multiple lines of business to
+                        standardize regulatory workflows
                       </li>
                     </ul>
                     <p class="timeline-note">
@@ -2656,18 +2680,6 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
                     </p>
                   </div>
                 </div>
-              </div>
-
-              <div class="aside" style="margin-top: 40px">
-                <div class="aside-label">The unusual path</div>
-                <p>
-                  Most founding engineers come from engineering. The domain
-                  expertise gets added later, if at all. This path inverted that
-                  — deep financial domain knowledge first, technical skills
-                  second. In a space where the correctness of the system has
-                  real financial and legal consequences, that ordering turns out
-                  to matter.
-                </p>
               </div>
             </div>
           </div>
@@ -2715,7 +2727,7 @@ status: <span class="cs">in-progress</span>   <span class="cm"># unchanged — r
         }
 
         current = index;
-        const method = (opts && opts.replace) ? "replaceState" : "pushState";
+        const method = opts && opts.replace ? "replaceState" : "pushState";
         history[method]({ chapterIndex: index }, "", "#" + CHAPTERS[index].id);
         const el = document.getElementById(CHAPTERS[index].id);
 
