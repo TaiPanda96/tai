@@ -72,13 +72,12 @@
             <div class="ch-body">
               <p class="drop-cap">
                 The work I do sits at an uncomfortable intersection. Language
-                models are probabilistic — they generate, approximate, and
-                occasionally hallucinate. Financial systems are deterministic —
-                they settle, audit, and carry real legal and financial
-                consequences. My job is to build the infrastructure layer
-                between them: the harnesses, guardrails, and engines that let
-                autonomous agents operate in contexts where failure is not a
-                performance problem, it's a compliance problem.
+                models are probabilistic. They generate, approximate, and
+                sometimes make things up. Financial systems are the opposite.
+                They settle, they audit, and they carry real legal weight. I
+                build the infrastructure layer between the two: the harnesses,
+                guardrails, and engines that let autonomous agents operate where
+                a failure isn't a performance problem but a compliance one.
               </p>
 
               <p>
@@ -87,8 +86,8 @@
                 banking gave me something most engineers don't carry: I read the
                 legal agreements. I defined the requirements for credit systems.
                 I understood how financial infrastructure actually works before
-                I ever wrote a line of production code. That domain depth is not
-                incidental to the work — it's the foundation that makes the
+                I ever wrote a line of production code. That domain depth isn't
+                a footnote to the work. It's the foundation that makes the
                 technical decisions trustworthy.
               </p>
 
@@ -97,9 +96,9 @@
                 engineers, shipped paid production features within months, led a
                 50+ API migration post-merger, built the company's first OpenAI
                 integration. By the time I joined HighFi as a founding engineer
-                in 2023, the path from capital markets operations to autonomous
-                agent infrastructure felt less like a career pivot and more like
-                an inevitable convergence.
+                in 2023, the move from capital markets operations to autonomous
+                agent infrastructure didn't feel like a career pivot. It felt
+                like the path had been pointing here the whole time.
               </p>
 
               <div class="pull-quote">
@@ -144,14 +143,14 @@
               <div class="aside">
                 <div class="aside-label">Why this portfolio exists</div>
                 <p>
-                  This portfolio is not a digitized resume. It is the story
-                  behind the bullet points — the architectural decisions, the
-                  tradeoffs that had consequences, the design choices that only
-                  make sense in context. It is written for engineers and
-                  founders doing due diligence, and for potential clients
-                  evaluating whether the domain credibility is real. The six
-                  chapters that follow each follow the same structure: what was
-                  broken or missing, what I built, and what changed.
+                  This portfolio isn't a digitized resume. It's the story
+                  behind the bullet points: the architectural decisions, the
+                  tradeoffs that actually cost something, the choices that only
+                  make sense in context. I wrote it for engineers and founders
+                  doing due diligence, and for clients weighing whether the
+                  domain credibility is real. The six chapters share a
+                  structure: what was broken or missing, what I built, and what
+                  changed.
                 </p>
               </div>
             </div>
@@ -168,22 +167,22 @@
 
             <div class="ch-body">
               <p class="drop-cap">
-                HighFi sells infrastructure. The product thesis is that capital
-                markets operations — the compliance, servicing, and reporting
-                layer that sits between a legal agreement and a funded
-                transaction — is an engineering problem that most financial
-                companies are solving expensively in-house, one spreadsheet and
-                one bespoke system at a time. HighFi's answer is a purpose-built
-                operating system for that layer.
+                HighFi sells infrastructure. Most financial companies treat
+                capital markets operations as something to solve in-house,
+                expensively, one spreadsheet and one bespoke system at a time.
+                But it's really an engineering problem: the compliance,
+                servicing, and reporting layer that sits between a legal
+                agreement and a funded transaction. HighFi's answer is a
+                purpose-built operating system for that layer.
               </p>
 
               <p>
                 Every lending relationship begins with a legal agreement. In
                 asset-backed lending, these agreements define eligibility rules,
                 concentration limits, and performance metrics that govern the
-                health of the borrower's portfolio. They are compliance red
-                lines negotiated between counterparties — and no two are
-                identical. A receivables-based facility for one customer has
+                health of the borrower's portfolio. They're compliance red
+                lines negotiated between counterparties, and no two are alike. A
+                receivables-based facility for one customer has
                 different advance rates, different concentration thresholds, and
                 different reporting cadences than the next. This is what makes
                 the domain hard to model at scale: the rules are bespoke, they
@@ -577,7 +576,7 @@
                 and ongoing configuration of each customer. Every originator
                 brings their own business logic, their own facility types, their
                 own integration requirements. The Originator System is where
-                that customer-specific configuration lives — the entry point
+                that customer-specific configuration lives. It's the entry point
                 through which everything downstream becomes customizable without
                 code changes.
               </p>
@@ -585,12 +584,12 @@
               <p>
                 The <strong>Facility Management System</strong> handles the
                 complete lifecycle of a financial facility from setup to ongoing
-                operations. Facilities come in several structural forms —
-                warehouse lines, SPVs, securitization vehicles — each with
-                different calculation schemas, different reporting requirements,
-                and different external system integrations. The Facility
-                Management System abstracts those differences behind a unified
-                configuration interface.
+                operations. Facilities come in several structural forms:
+                warehouse lines, SPVs, securitization vehicles. Each has its own
+                calculation schemas, its own reporting requirements, and its own
+                external system integrations. The Facility Management System
+                abstracts those differences behind a unified configuration
+                interface.
               </p>
 
               <p>
@@ -606,7 +605,7 @@
               <p>
                 The <strong>Calculation Engine</strong> is the computational
                 core of the platform. It takes a facility, a loan tape, and a
-                configuration and produces a facility snapshot — a point-in-time
+                configuration and produces a facility snapshot: a point-in-time
                 record of the facility's financial state, including
                 receivables-level calculations, eligibility evaluations,
                 concentration checks, and borrowing base metrics. Every funding
@@ -616,10 +615,10 @@
               <p>
                 The <strong>Snapshot System</strong> locks in calculation
                 results and converts them into funded transactions. Once a
-                snapshot is produced, the Snapshot System manages submission —
+                snapshot is produced, the Snapshot System manages submission:
                 committing assignments, creating draw and recycle records,
                 calculating business-day-adjusted funding dates, and triggering
-                the reporting pipeline. It is the operational boundary between a
+                the reporting pipeline. It's the operational boundary between a
                 calculation and a transaction with a counterparty on the other
                 end.
               </p>
@@ -629,7 +628,7 @@
                 distributes the outputs that counterparties and regulators
                 require: Excel borrowing base certificates, PDF funding
                 requests, scheduled compliance reports. Report generation is
-                event-driven — submissions, funding request creation, and
+                event-driven: submissions, funding request creation, and
                 snapshot events each trigger their own report jobs, configured
                 per facility.
               </p>
@@ -884,7 +883,7 @@
               <p>
                 Six components is not, on its own, an interesting architecture.
                 What makes the system extensible is the
-                <strong>FacilityConfig registry</strong> — the layer that makes
+                <strong>FacilityConfig registry</strong>: the layer that makes
                 all six components customer-specific without touching the
                 codebase.
               </p>
@@ -918,14 +917,14 @@
                 schemas apply. The Assignment Engine reads which assignment
                 strategy to execute. The Snapshot System reads which report jobs
                 to trigger and whether auto-submit is enabled. No component
-                hardcodes customer-specific behavior — it reads it.
+                hardcodes customer-specific behavior. It reads it.
               </p>
 
               <p>
                 The consequence is that onboarding a new customer is a
                 configuration task, not an engineering sprint. A new originator
                 with a new facility type requires a new config object and the
-                business logic that populates it — not changes to any of the six
+                business logic that populates it, not changes to any of the six
                 core components. Equally, when a customer renegotiates their
                 legal agreement and their eligibility rules change, that change
                 ships as a config update, not a deployment.
@@ -953,7 +952,7 @@
             <div class="ch-body">
               <p class="drop-cap">
                 In a regulated financial context, an agent that fails silently
-                is not a bug — it's a compliance risk. Before the harness
+                isn't a bug. It's a compliance risk. Before the harness
                 existed, each new agent at HighFi required rebuilding the same
                 scaffolding from scratch: logging setup, error collection, step
                 tracking, Slack notifications. No two agents had consistent
@@ -985,10 +984,10 @@
                 <code>BaseAgent&lt;TDeps, TInput, TOutput&gt;</code>. The three
                 generics are the entire contract: what context the agent needs,
                 what it accepts, what it returns. Typed dependency injection
-                means agents declare their requirements explicitly — no hidden
+                means agents declare their requirements explicitly. No hidden
                 globals, no ambient context. The <code>execute</code> method is
-                the only thing a subclass must implement. Everything else —
-                tracing, error collection, Slack observability — is inherited.
+                the only thing a subclass must implement. Everything else is
+                inherited: tracing, error collection, Slack observability.
               </p>
 
               <div class="code-block">
@@ -1013,9 +1012,8 @@
 
               <p>
                 In practice, a new agent is a short file. The
-                <code>SentinelAgent</code> below — which monitors DeFi portfolio
-                health — exists as a complete, production-ready agent in about
-                20 lines:
+                <code>SentinelAgent</code> below, which monitors DeFi portfolio
+                health, is a complete, production-ready agent in about 20 lines:
               </p>
 
               <div class="code-block">
@@ -1047,7 +1045,7 @@
 
               <p>
                 Every call to <code>startStep</code> creates a
-                <code>StepTrace</code> — a timestamped record of what the agent
+                <code>StepTrace</code>: a timestamped record of what the agent
                 was doing, what it received as input, and what it produced as
                 output. When <code>finishStep</code> or <code>failStep</code> is
                 called, the duration is computed and the trace is pushed to an
@@ -1077,9 +1075,8 @@
               <p>
                 <code>createOnStepFinish</code> wires this tracing directly into
                 the Vercel AI SDK's <code>onStepFinish</code> callback, so every
-                LLM reasoning step — including tool call sequences — is captured
-                automatically. No manual instrumentation required at the model
-                layer.
+                LLM reasoning step, including tool-call sequences, is captured
+                automatically. No manual instrumentation at the model layer.
               </p>
 
               <figure style="margin: 28px 0 8px">
@@ -1116,7 +1113,7 @@
                   The <code>SlackStepTraceHandler</code> is not agent-specific.
                   Any agent that calls <code>withSlackNotifications()</code>
                   routes its step traces to a designated Slack channel. The
-                  Night Agent CI/CD pipeline — covered in Chapter V — adopted
+                  Night Agent CI/CD pipeline (covered in Chapter V) adopted
                   this same mechanism to post nightly run summaries to
                   <code>#engineering</code>. The same infrastructure that
                   surfaces a compliance-sensitive funding request execution also
@@ -1134,12 +1131,12 @@
               <p>
                 The registry answers one question at request time: given this
                 customer and this user, which tools is the agent allowed to
-                call? The decision is not purely role-based — it is state-based.
+                call? The decision isn't purely role-based. It's state-based.
                 A customer must have active facilities in the database before
                 customer-facing capabilities are unlocked. Admin capabilities
                 are gated separately. The model's authorized toolset and system
-                prompt are both constructed from this evaluation — the model
-                only receives guidance for tools it is permitted to use.
+                prompt are both constructed from this evaluation, so the model
+                only receives guidance for tools it's permitted to use.
               </p>
 
               <div class="code-block">
@@ -1206,15 +1203,15 @@
               <div class="aside">
                 <div class="aside-label">The ToolManifest pattern</div>
                 <p>
-                  Each capability ships with a <code>ToolManifest</code> — a
+                  Each capability ships with a <code>ToolManifest</code>: a
                   structured object containing <code>promptGuidance</code>,
                   <code>workflows</code>, <code>examples</code>, and
                   <code>constraints</code>. When an authorized toolset is
                   assembled, the manifests for each capability are injected into
                   the system prompt. The model receives workflow instructions
-                  only for what it's allowed to do. This is what makes the
-                  dynamic system prompt possible — it's not a static string,
-                  it's a capability manifest rendered at runtime.
+                  only for what it's allowed to do. That's what makes the
+                  dynamic system prompt possible. It isn't a static string; it's
+                  a capability manifest rendered at runtime.
                 </p>
               </div>
 
@@ -1226,16 +1223,16 @@
 
               <p>
                 A stateless agent executes and forgets. That is sufficient for
-                single-step tasks, but a multi-step regulated deal flow — one
-                that spans sessions, enforces phase ordering, and must produce
-                an audit trail per phase — requires something the original
-                three-layer harness did not provide: the agent must know where
-                it is in a workflow, where it is allowed to go next, and what it
-                has already learned. Without that, resumption after an
-                interruption means replaying from scratch, phase enforcement
-                means duplicating logic in every subclass, and context
-                enrichment requires out-of-band storage that falls outside the
-                audit trail.
+                single-step tasks, but a multi-step regulated deal flow needs
+                more. That kind of flow spans sessions, enforces phase ordering,
+                and has to produce an audit trail for each phase, and the
+                original three-layer harness provided for none of it. The agent
+                has to know where it is in a workflow, where it's allowed to go
+                next, and what it has already learned. Without that, resuming
+                after an interruption means replaying from scratch, phase
+                enforcement means duplicating logic in every subclass, and
+                context enrichment requires out-of-band storage that falls
+                outside the audit trail.
               </p>
 
               <div class="code-block">
@@ -1274,7 +1271,7 @@
                 issuance follows a strict phase sequence: you cannot move from
                 term-sheet to allocation without completing bookbuilding and
                 pricing first. That ordering is a regulatory requirement in a
-                syndicated deal — skipping a phase is an audit failure, not an
+                syndicated deal. Skipping a phase is an audit failure, not an
                 edge case to handle in caller logic.
               </p>
 
@@ -1362,16 +1359,16 @@
                 </div>
                 <p>
                   In a syndicated bond deal, moving from term-sheet to
-                  allocation without completing bookbuilding is not an edge case
-                  — it's an audit failure. Bookbuilding is the mechanism by
+                  allocation without completing bookbuilding isn't an edge
+                  case. It's an audit failure. Bookbuilding is the mechanism by
                   which price discovery happens and investor demand is recorded.
                   Skipping it means the allocation cannot be traced to a
                   demand-driven book, which regulators require. The
                   <code>transition()</code> method throws on any move not listed
                   in <code>validTransitions</code>. The phase contract is
-                  encoded in the type system and enforced at runtime — not
-                  asserted by convention, not checked in a pre-flight condition
-                  somewhere upstream, but structurally impossible to violate
+                  encoded in the type system and enforced at runtime. It isn't
+                  asserted by convention or checked in a pre-flight condition
+                  somewhere upstream; it's structurally impossible to violate
                   without the agent erroring on the call.
                 </p>
               </div>
@@ -1379,15 +1376,14 @@
               <p>
                 When the agent calls <code>this.succeed()</code> or
                 <code>this.fail()</code>, the returned
-                <code>AgentHandoff</code> now carries two additional fields:
-                <code>context</code> — the enriched episodic state accumulated
-                during execution — and <code>agentState</code> — the FSM
-                position at the time of return. The orchestrator can persist
-                these fields and pass them back into a subsequent invocation,
-                allowing a deal workflow interrupted mid-session to resume
-                exactly where it left off. The handoff is the persistence
-                primitive; no separate storage call is required before
-                returning.
+                <code>AgentHandoff</code> now carries two additional fields.
+                <code>context</code> holds the enriched episodic state
+                accumulated during execution; <code>agentState</code> holds the
+                FSM position at the time of return. The orchestrator can persist
+                these fields and pass them back into a later invocation, letting
+                a deal workflow interrupted mid-session resume exactly where it
+                left off. The handoff is the persistence primitive; no separate
+                storage call is required before returning.
               </p>
 
               <div class="outcome-section">
@@ -1402,8 +1398,8 @@
                     automatically. A stateful agent additionally declares its
                     phase graph in a <code>validTransitions</code> table and
                     inherits FSM enforcement, episodic context threading, and
-                    session resumption — compliance encoded in the type system,
-                    not asserted by convention.
+                    session resumption. Compliance is encoded in the type
+                    system, not asserted by convention.
                   </p>
                 </div>
               </div>
@@ -1422,7 +1418,7 @@
             <div class="ch-body">
               <p class="drop-cap">
                 The core problem with LLM agents in a multi-tenant regulated
-                context is not capability — it's authorization. A single-prompt
+                context isn't capability. It's authorization. A single-prompt
                 agent either over-exposes tools to users who shouldn't have
                 them, or becomes so restrictive it can't do anything useful. The
                 challenge compounds when a single platform serves customers with
@@ -1433,7 +1429,7 @@
               </p>
 
               <p>
-                Both agents share the same underlying infrastructure — the
+                Both agents share the same underlying infrastructure: the
                 <code>BaseAgent</code> harness, the capability registry, the
                 <code>Conversation</code> and <code>Message</code> models in
                 PostgreSQL. What differs is the surface, the execution model,
@@ -1468,8 +1464,8 @@
                   updates, facility reporting, and DeFi portfolio queries. The
                   design challenge was building an agent that could safely
                   execute multi-step tool sequences across a regulated financial
-                  workflow — inside a Slack thread — with full auditability at
-                  every step and correct permissions for whoever was asking.
+                  workflow, inside a Slack thread, with full auditability at
+                  every step and the right permissions for whoever was asking.
                   Three conversation surfaces are handled:
                   <code>app_mention</code> in channels, direct messages, and
                   thread replies. Events are deduplicated by
@@ -1659,7 +1655,7 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
                 </figure>
 
                 <p>
-                  Penny is the in-app counterpart — a 512px streaming chat panel
+                  Penny is the in-app counterpart: a 512px streaming chat panel
                   embedded in the HighFi dashboard. Where Millie handles
                   requests in a Slack thread, Penny surfaces in the context of
                   an active user session: during an eligibility amendment
@@ -1677,9 +1673,9 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
                   terms and grants CRUD access to amendment workflows. A
                   <code>report</code> session is read-only. The
                   <code>eligibilityConfigWorkflow</code> mode is a guided,
-                  stateful multi-step process — Penny tracks progress across
+                  stateful, multi-step process: Penny tracks progress across
                   turns while helping compliance and credit teams configure
-                  borrowing base rules without needing to understand the
+                  borrowing base rules without having to understand the
                   underlying data model. Every session's system message is
                   assembled fresh by
                   <code>ai-context-system-message.ts</code> from customer and
@@ -1766,8 +1762,8 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
                     Multi-step operations that previously required manual
                     back-office coordination now complete in a single Slack
                     thread. Penny replaced the manual reporting and funding
-                    request process for HighFi's first enterprise customers —
-                    owned concept to live deployment.
+                    request process for HighFi's first enterprise customers. I
+                    owned it from concept to live deployment.
                   </p>
                 </div>
 
@@ -1803,8 +1799,8 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
                 The obvious solution to a growing spec backlog on a small
                 founding team is to have an AI agent write code overnight. The
                 non-obvious problem is that this is also a serious security
-                risk. A spec file is an untrusted input — written by humans,
-                stored in version control, read directly by the model. If a spec
+                risk. A spec file is untrusted input: written by humans, stored
+                in version control, read directly by the model. If a spec
                 contains a carefully crafted instruction and the agent executes
                 it without restriction, the autonomous pipeline becomes an
                 attack surface. The challenge here wasn't building the pipeline.
@@ -1815,7 +1811,7 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
               <p>
                 The answer was a four-stage pipeline with explicit time budgets,
                 typed handoffs between agents, and a security layer that
-                operates below the model — at the shell level — so no prompt can
+                operates below the model, at the shell level, so no prompt can
                 override it.
               </p>
 
@@ -1855,7 +1851,7 @@ decideFundingAction → <span class="cs">'new'</span> | <span class="cs">'roll'<
                 55-minute total budget. A shell-only preflight runs one hour
                 earlier to set up the work; three Claude Code instances then run
                 sequentially, each with a scoped role and an explicit timeout. A
-                partial result is better than a stalled pipeline — each stage is
+                partial result beats a stalled pipeline, so each stage is
                 designed to degrade gracefully if it runs out of time.
               </p>
 
