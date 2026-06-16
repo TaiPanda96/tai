@@ -3,80 +3,111 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tai Lin — Career Timeline</title>
+    <title>Tai Lin — Founding Engineer · AI Infrastructure</title>
+    <meta
+      name="description"
+      content="Tai Lin — founding engineer building the infrastructure layer between probabilistic AI models and deterministic financial systems. Agent harnesses, capability registries, and autonomous dev tooling for capital markets."
+    />
+    <link rel="canonical" href="https://tai-lin.dev/" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tai-lin.dev/" />
+    <meta property="og:title" content="Tai Lin — Founding Engineer · AI Infrastructure" />
+    <meta
+      property="og:description"
+      content="The infrastructure layer between probabilistic AI models and deterministic financial systems."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Tai Lin — Founding Engineer · AI Infrastructure" />
+    <meta
+      name="twitter:description"
+      content="The infrastructure layer between probabilistic AI models and deterministic financial systems."
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0A0B'/><rect x='8' y='8' width='16' height='16' fill='none' stroke='%23D8B26B' stroke-width='2'/><circle cx='16' cy='16' r='2.6' fill='%23D8B26B'/></svg>"
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles/tokens.css" />
-    <link rel="stylesheet" href="styles/timeline.css" />
-    <script src="js/timeline.js" defer></script>
+    <link rel="stylesheet" href="styles/home.css" />
+    <script src="js/home.js" defer></script>
+    <script src="js/thesis-diagram.js" defer></script>
   </head>
   <body>
-    <header class="page-header">
-      <span class="header-name">Tai Lin</span>
-      <div class="header-actions">
-        <a
-          class="header-link"
-          href="TAI_LIN_RESUME.pdf"
-          download="Tai_Lin_Resume.pdf"
-          >Resume ↓</a
-        >
-        <a class="header-cta" href="ebook.html">Read the chapters →</a>
-      </div>
+    <header class="hdr">
+      <span class="name mono">Tai Lin</span>
+      <nav class="hdr-actions">
+        <a href="TAI_LIN_RESUME.pdf" download="Tai_Lin_Resume.pdf">Résumé ↓</a>
+        <a class="cta" href="ebook.html">Case studies →</a>
+      </nav>
     </header>
 
     <main>
-      <!-- Hero strip -->
-      <section class="hero-strip">
-        <h1 class="hero-title">Tai Lin</h1>
-        <p class="hero-subtitle">
-          Founding Engineer · AI Infrastructure · Capital Markets
+      <!-- ── Hero ──────────────────────────────────────────────── -->
+      <section class="hero">
+        <p class="eyebrow mono">Founding Engineer · AI Infrastructure · Capital Markets</p>
+        <h1>Tai Lin</h1>
+        <p class="thesis">
+          I build the <span class="accent">infrastructure layer</span> between
+          <em>probabilistic</em> models and <em>deterministic</em> financial systems.
         </p>
-        <div class="hero-meta-row">
-          <span class="availability-tag">Available for consulting</span>
-          <a class="author-note-link" href="ebook.html#ch1"
-            >A note about the author →</a
-          >
+        <div class="hero-meta">
+          <span class="tag"><span class="dot"></span>Available for consulting</span>
+          <a class="tag" href="#highfi">$0 → $350K ARR ↗</a>
+          <a class="tag" href="#highfi">6+ agents in production ↗</a>
         </div>
       </section>
 
-      <!-- Intro -->
-      <section class="intro-block">
+      <!-- ── Fig. 01 — the interactive thesis diagram ──────────── -->
+      <section class="figure" aria-label="Thesis diagram">
+        <div class="figure-cap">
+          <span class="num mono">Fig. 01</span>
+          <span class="txt">The layer between two opposite worlds</span>
+          <span class="hint">Click to feed the layer</span>
+        </div>
+        <div
+          class="viz"
+          data-diagram="thesis"
+          role="img"
+          aria-label="An interactive visualization: probabilistic inputs stream from a scattered cloud on the left, are processed by an infrastructure layer in the middle, and settle as deterministic records in a ledger grid on the right."
+        >
+          <canvas></canvas>
+        </div>
+      </section>
+
+      <!-- ── Intro ─────────────────────────────────────────────── -->
+      <section class="intro">
         <p>
-          I find meaningful problems to solve from 0 to 1 while wearing multiple
-          hats. This is how I think about
-          <a
-            href="https://www.sequoiacap.com/article/pmf-framework/"
-            target="_blank"
-            rel="noopener"
-            class="intro-link"
-            >building products ↗</a
-          >
+          I find meaningful 0-to-1 problems and build the systems that make
+          autonomous agents safe in regulated domains — the harnesses,
+          capability registries, and audit layers that sit between a
+          <em>probabilistic model</em> and a <em>funded transaction</em>.
         </p>
       </section>
 
-      <!-- Timeline -->
-      <section class="timeline-section">
-        <!-- Vertical rail -->
-        <div class="timeline-rail">
-          <div class="rail-fill"></div>
-          <div class="era-node active" data-era="highfi"></div>
-          <div class="era-node" data-era="utradea"></div>
-          <div class="era-node" data-era="bmo"></div>
-          <div class="era-node" data-era="cdl"></div>
+      <!-- ── Work ──────────────────────────────────────────────── -->
+      <section aria-label="Work history">
+        <div class="section-head">
+          <h2>Selected work</h2>
+          <span class="mono">2017 — present</span>
         </div>
 
-        <!-- Era 1 — HighFi -->
-        <article class="era-section" data-era="highfi">
-          <header class="era-header">
-            <div class="era-meta">
-              <h2 class="era-company">HighFi</h2>
+        <!-- HighFi -->
+        <article class="era reveal" id="highfi">
+          <header class="era-head">
+            <div>
+              <h3 class="era-company">HighFi</h3>
               <p class="era-role">Founding Software Engineer</p>
               <p class="era-dates">Mar 2023 – Present</p>
-              <ul class="tech-chips" aria-label="Technologies">
+              <ul class="chips" aria-label="Technologies">
                 <li class="chip">TypeScript</li>
                 <li class="chip">PostgreSQL</li>
                 <li class="chip">Next.js</li>
@@ -86,135 +117,92 @@
               </ul>
             </div>
             <div class="era-stat">
-              <p
-                class="stat-num"
-                data-target="350"
-                data-prefix="$"
-                data-suffix="K"
-              >
-                $350K
-              </p>
+              <p class="stat-num" data-target="350" data-prefix="$" data-suffix="K">$350K</p>
               <p class="stat-label">ARR scaled</p>
             </div>
-            <p class="era-intro">
-              HighFi is agentic infrastructure for capital markets. It replaces
-              the manual, operations-heavy back-office work that lenders and
-              asset managers still run by hand with self-serve systems that
-              don't need a person in the loop. As founding engineer and the
-              primary technical contact for customers, I built the platform's
-              core systems end-to-end and grew HighFi's first two enterprise
-              accounts from $0 to $350K ARR.
-            </p>
           </header>
-
-          <div class="cards-grid">
-            <!-- Capital Markets OS -->
-            <a
-              class="project-card"
-              href="ebook.html#ch2"
-              data-chapter="Chapter II"
-              style="transition-delay: 0ms"
-            >
-              <div class="card-header-bar">
+          <p class="era-intro">
+            HighFi is agentic infrastructure for capital markets. It replaces the
+            manual, operations-heavy back-office work that lenders and asset
+            managers still run by hand with self-serve systems that don't need a
+            person in the loop. As founding engineer and the primary technical
+            contact for customers, I built the platform's core systems end-to-end
+            and grew HighFi's first two enterprise accounts from $0 to $350K ARR.
+          </p>
+          <div class="cards">
+            <a class="card" href="ebook.html#ch2">
+              <div class="card-top">
                 <span class="card-name">Capital Markets OS</span>
-                <span class="card-chapter-tag">Ch. II →</span>
+                <span class="card-link">Read →</span>
               </div>
-              <p class="card-desc">
+              <p>
                 A purpose-built operating system for the layer between a legal
                 agreement and a funded transaction: compliance, servicing,
-                reporting. Six components, one config registry. Onboarding
+                reporting. Six components, one config registry — onboarding
                 becomes a config task instead of a sprint.
               </p>
-              <div class="card-footer">
-                <span class="card-metric-num">6</span>
-                <span class="card-metric-label">components, config-driven</span>
+              <div class="ledger">
+                <span class="metric">6</span>
+                <span class="metric-label">components, config-driven</span>
               </div>
             </a>
-
-            <!-- AI Agent Harness -->
-            <a
-              class="project-card"
-              href="ebook.html#ch3"
-              data-chapter="Chapter III"
-              style="transition-delay: 80ms"
-            >
-              <div class="card-header-bar">
+            <a class="card" href="ebook.html#ch3">
+              <div class="card-top">
                 <span class="card-name">AI Agent Harness</span>
-                <span class="card-chapter-tag">Ch. III →</span>
+                <span class="card-link">Read →</span>
               </div>
-              <p class="card-desc">
-                BaseAgent&lt;TDeps,TInput,TOutput&gt; powering 6+ agents with
-                typed dependency injection, structured step tracing, and
-                per-step Slack observability. Stateful FSM design.
+              <p>
+                BaseAgent&lt;TDeps,TInput,TOutput&gt; powering 6+ agents with typed
+                dependency injection, structured step tracing, and per-step Slack
+                observability. Stateful FSM design.
               </p>
-              <div class="card-footer">
-                <span class="card-metric-num">6+</span>
-                <span class="card-metric-label">agents in production</span>
+              <div class="ledger">
+                <span class="metric">6+</span>
+                <span class="metric-label">agents in production</span>
               </div>
             </a>
-
-            <!-- Millie & Penny -->
-            <a
-              class="project-card"
-              href="ebook.html#ch4"
-              data-chapter="Chapter IV"
-              style="transition-delay: 160ms"
-            >
-              <div class="card-header-bar">
+            <a class="card" href="ebook.html#ch4">
+              <div class="card-top">
                 <span class="card-name">Millie &amp; Penny</span>
-                <span class="card-chapter-tag">Ch. IV →</span>
+                <span class="card-link">Read →</span>
               </div>
-              <p class="card-desc">
-                Capability-gated agents resolving authorized toolsets per
-                request. Millie executes funding draws and SOFR updates in
-                Slack. Penny streams amendment edits from a mode-scoped in-app
-                panel.
+              <p>
+                Capability-gated agents resolving authorized toolsets per request.
+                Millie executes funding draws and SOFR updates in Slack; Penny
+                streams amendment edits from a mode-scoped in-app panel.
               </p>
-              <div class="card-footer">
-                <span class="card-metric-num">5</span>
-                <span class="card-metric-label"
-                  >capabilities, authorized per request</span
-                >
+              <div class="ledger">
+                <span class="metric">5</span>
+                <span class="metric-label">capabilities, authorized per request</span>
               </div>
             </a>
-
-            <!-- The Night Agent -->
-            <a
-              class="project-card"
-              href="ebook.html#ch5"
-              data-chapter="Chapter V"
-              style="transition-delay: 240ms"
-            >
-              <div class="card-header-bar">
+            <a class="card" href="ebook.html#ch5">
+              <div class="card-top">
                 <span class="card-name">The Night Agent</span>
-                <span class="card-chapter-tag">Ch. V →</span>
+                <span class="card-link">Read →</span>
               </div>
-              <p class="card-desc">
+              <p>
                 Three-stage Claude Code pipeline on GitHub Actions. Safety lives
                 below the prompt layer: every shell command routes through a
                 whitelist. Specs go in by day, PRs come back by 8 AM.
               </p>
-              <div class="card-footer">
-                <span class="card-metric-num">55m</span>
-                <span class="card-metric-label">total pipeline budget</span>
+              <div class="ledger">
+                <span class="metric">55m</span>
+                <span class="metric-label">total pipeline budget</span>
               </div>
             </a>
           </div>
         </article>
 
-        <div class="era-divider"></div>
-
-        <!-- Era 2 — Utradea -->
-        <article class="era-section" data-era="utradea">
-          <header class="era-header">
-            <div class="era-meta">
-              <h2 class="era-company">Utradea</h2>
+        <!-- Utradea -->
+        <article class="era reveal" id="utradea">
+          <header class="era-head">
+            <div>
+              <h3 class="era-company">Utradea</h3>
               <p class="era-role">Software Engineer → Software Engineer II</p>
               <p class="era-dates">Mar 2021 – Feb 2023</p>
-              <a class="era-chapter-link" href="ebook.html#ch6"
-                >Ch. VI — Before HighFi →</a
-              >
-              <ul class="tech-chips" aria-label="Technologies">
+              <a class="era-chapter-link" href="ebook.html#ch6">Before HighFi →</a>
+              <ul class="chips" aria-label="Technologies">
                 <li class="chip">Node.js</li>
                 <li class="chip">MongoDB</li>
                 <li class="chip">PostgreSQL</li>
@@ -224,183 +212,138 @@
               </ul>
             </div>
             <div class="era-stat">
-              <p
-                class="stat-num"
-                data-target="50"
-                data-prefix=""
-                data-suffix="+"
-              >
-                50+
-              </p>
+              <p class="stat-num" data-target="50" data-prefix="" data-suffix="+">50+</p>
               <p class="stat-label">APIs migrated</p>
             </div>
-            <p class="era-intro">
-              Utradea, now Financial Modeling Prep, is a market data platform
-              serving free and enterprise API tiers to developers worldwide. I
-              was the first engineering hire, with no formal CS background. I
-              taught myself and shipped paid production features within months. I
-              built Stripe payments and the SEC Dashboard, and re-platformed the
-              MERN backend from Lightsail onto ECS with Fargate to support 50+
-              production APIs. I believed in the work enough to become a
-              shareholder.
-            </p>
           </header>
-
-          <div class="cards-grid">
-            <div class="project-card" style="transition-delay: 0ms">
-              <div class="card-header-bar">
-                <span class="card-name">FMP API Migration</span>
-              </div>
-              <p class="card-desc">
-                Led the post-merger migration of 50+ Financial Modeling Prep
-                APIs into Utradea's Node.js / MongoDB stack, owning the full
+          <p class="era-intro">
+            Utradea, now Financial Modeling Prep, is a market data platform serving
+            free and enterprise API tiers to developers worldwide. I was the first
+            engineering hire, with no formal CS background. I taught myself and
+            shipped paid production features within months — Stripe payments, the
+            SEC Dashboard, and a re-platform of the MERN backend from Lightsail onto
+            ECS with Fargate to support 50+ production APIs. I believed in the work
+            enough to become a shareholder.
+          </p>
+          <div class="cards">
+            <div class="card">
+              <div class="card-top"><span class="card-name">FMP API Migration</span></div>
+              <p>
+                Led the post-merger migration of 50+ Financial Modeling Prep APIs
+                into Utradea's Node.js / MongoDB stack, owning the full
                 infrastructure transition.
               </p>
             </div>
-
-            <div class="project-card" style="transition-delay: 80ms">
-              <div class="card-header-bar">
-                <span class="card-name">AWS Infrastructure</span>
-              </div>
-              <p class="card-desc">
+            <div class="card">
+              <div class="card-top"><span class="card-name">AWS Infrastructure</span></div>
+              <p>
                 Re-platformed from Lightsail onto ECS with Fargate and load
                 balancers; multi-node Redis cycle caching with subscription-tier
                 rate limiting for high-frequency price reads.
               </p>
             </div>
-
-            <div class="project-card" style="transition-delay: 160ms">
-              <div class="card-header-bar">
-                <span class="card-name">First AI Feature</span>
-              </div>
-              <p class="card-desc">
-                Piloted an early OpenAI API integration behind Financial Writer,
-                a tool that generated news articles from real-time market data.
+            <div class="card">
+              <div class="card-top"><span class="card-name">First AI Feature</span></div>
+              <p>
+                Piloted an early OpenAI API integration behind Financial Writer, a
+                tool that generated news articles from real-time market data.
                 Shipped before ChatGPT made the idea obvious.
               </p>
             </div>
-
-            <div class="project-card" style="transition-delay: 240ms">
-              <div class="card-header-bar">
-                <span class="card-name">SEC Dashboard &amp; Stripe</span>
-              </div>
-              <p class="card-desc">
-                Built the SEC Dashboard end-to-end: an NLP pipeline (winkNLP,
-                VADER) that parsed 8-K filings into investor-readable insights.
-                Integrated Stripe for Utradea's first paid users.
+            <div class="card">
+              <div class="card-top"><span class="card-name">SEC Dashboard &amp; Stripe</span></div>
+              <p>
+                Built the SEC Dashboard end-to-end: an NLP pipeline (winkNLP, VADER)
+                that parsed 8-K filings into investor-readable insights. Integrated
+                Stripe for Utradea's first paid users.
               </p>
             </div>
           </div>
         </article>
 
-        <div class="era-divider"></div>
-
-        <!-- Era 3 — BMO Financial Group -->
-        <article class="era-section" data-era="bmo">
-          <header class="era-header">
-            <div class="era-meta">
-              <h2 class="era-company">BMO Financial Group</h2>
+        <!-- BMO -->
+        <article class="era reveal" id="bmo">
+          <header class="era-head">
+            <div>
+              <h3 class="era-company">BMO Financial Group</h3>
               <p class="era-role">Business Analyst → Senior Business Analyst</p>
               <p class="era-dates">May 2018 – Mar 2021</p>
-              <a class="era-chapter-link" href="ebook.html#ch6"
-                >Ch. VI — Before HighFi →</a
-              >
-              <ul class="tech-chips" aria-label="Technologies">
+              <a class="era-chapter-link" href="ebook.html#ch6">Before HighFi →</a>
+              <ul class="chips" aria-label="Domains">
                 <li class="chip">Requirements</li>
                 <li class="chip">Systems Analysis</li>
                 <li class="chip">Regulatory Compliance</li>
               </ul>
             </div>
             <div class="era-stat">
-              <p
-                class="stat-num"
-                data-target="3"
-                data-prefix=""
-                data-suffix="yr"
-              >
-                3yr
-              </p>
+              <p class="stat-num" data-target="3" data-prefix="" data-suffix="yr">3yr</p>
               <p class="stat-label">Domain depth</p>
             </div>
           </header>
-
-          <div class="cards-grid">
-            <div class="project-card" style="transition-delay: 0ms">
-              <div class="card-header-bar">
-                <span class="card-name">Vendor Risk Decommissioning</span>
-              </div>
-              <p class="card-desc">
-                Led the decommissioning of a vendor risk management platform,
-                owning the business requirements and the migration to a leaner
-                in-house replacement.
+          <p class="era-intro">
+            Three years in capital markets and commercial banking gave me something
+            most engineers don't carry: I read the legal agreements and defined the
+            requirements for credit systems. I understood how financial
+            infrastructure actually works before I ever wrote a line of production
+            code.
+          </p>
+          <div class="cards">
+            <div class="card">
+              <div class="card-top"><span class="card-name">Vendor Risk Decommissioning</span></div>
+              <p>
+                Led the decommissioning of a vendor risk management platform, owning
+                the business requirements and the migration to a leaner in-house
+                replacement.
               </p>
             </div>
-
-            <div class="project-card" style="transition-delay: 80ms">
-              <div class="card-header-bar">
-                <span class="card-name">Credit Flow Transformation</span>
-              </div>
-              <p class="card-desc">
-                Defined E2E requirements and drove cross-functional delivery for
-                the Credit Flow for Commercial Banking transformation.
+            <div class="card">
+              <div class="card-top"><span class="card-name">Credit Flow Transformation</span></div>
+              <p>
+                Defined E2E requirements and drove cross-functional delivery for the
+                Credit Flow for Commercial Banking transformation.
               </p>
             </div>
-
-            <div class="project-card" style="transition-delay: 160ms">
-              <div class="card-header-bar">
-                <span class="card-name">Client Portal Integration</span>
-              </div>
-              <p class="card-desc">
-                Owned E2E Client Portal Integration — streamlined business
-                banking onboarding from prospecting to signing across legacy
-                systems via API, enhancing Online Banking for Business across
-                platform teams.
+            <div class="card">
+              <div class="card-top"><span class="card-name">Client Portal Integration</span></div>
+              <p>
+                Owned E2E Client Portal Integration — streamlined business banking
+                onboarding from prospecting to signing across legacy systems via API.
               </p>
             </div>
-
-            <div class="project-card" style="transition-delay: 240ms">
-              <div class="card-header-bar">
-                <span class="card-name">Compliance Reporting</span>
-              </div>
-              <p class="card-desc">
-                Introduced configurable credit compliance reporting templates
-                scaled across multiple lines of business to standardize
-                regulatory workflows.
+            <div class="card">
+              <div class="card-top"><span class="card-name">Compliance Reporting</span></div>
+              <p>
+                Introduced configurable credit compliance reporting templates scaled
+                across multiple lines of business to standardize regulatory
+                workflows.
               </p>
             </div>
           </div>
         </article>
 
-        <div class="era-divider"></div>
-
-        <!-- Era 4 — Creative Destruction Lab -->
-        <article class="era-section" data-era="cdl" style="margin-bottom: 0">
-          <header class="era-header">
-            <div class="era-meta">
-              <h2 class="era-company">Creative Destruction Lab</h2>
+        <!-- Creative Destruction Lab -->
+        <article class="era reveal" id="cdl">
+          <header class="era-head">
+            <div>
+              <h3 class="era-company">Creative Destruction Lab</h3>
               <p class="era-role">Venture Growth in Machine Learning Stream</p>
               <p class="era-dates">2017 – 2018</p>
-              <a class="era-chapter-link" href="ebook.html#ch6"
-                >Ch. VI — Before HighFi →</a
-              >
-              <ul class="tech-chips" aria-label="Technologies">
+              <a class="era-chapter-link" href="ebook.html#ch6">Before HighFi →</a>
+              <ul class="chips" aria-label="Domains">
                 <li class="chip">ML</li>
                 <li class="chip">Venture</li>
                 <li class="chip">University of Toronto</li>
               </ul>
             </div>
           </header>
-
-          <div class="cards-grid">
-            <div class="project-card" style="transition-delay: 0ms">
-              <div class="card-header-bar">
-                <span class="card-name">ML Venture Cohort</span>
-              </div>
-              <p class="card-desc">
-                Worked alongside ML-native founders and operators during the
-                early commercial wave of machine learning. Developed early
-                conviction: the bottleneck is infrastructure, not capability.
-                B.Com, University of Toronto.
+          <div class="cards">
+            <div class="card">
+              <div class="card-top"><span class="card-name">ML Venture Cohort</span></div>
+              <p>
+                Worked alongside ML-native founders and operators during the early
+                commercial wave of machine learning. Developed early conviction: the
+                bottleneck is infrastructure, not capability. B.Com, University of
+                Toronto.
               </p>
             </div>
           </div>
@@ -408,10 +351,13 @@
       </section>
     </main>
 
-    <footer class="timeline-footer">
-      <p class="footer-end-label">End of timeline</p>
-      <a class="footer-cta" href="ebook.html">Read the full chapters →</a>
-      <p class="footer-copy">Tai Lin · Toronto, ON · tai@highfi.com</p>
+    <footer class="foot">
+      <p class="mono">End of timeline</p>
+      <a class="foot-cta" href="ebook.html">Read the case studies →</a>
+      <p class="copy mono">
+        Tai Lin · Toronto, ON ·
+        <a class="copy-link" href="mailto:taishanlin1996@gmail.com">taishanlin1996@gmail.com</a>
+      </p>
     </footer>
   </body>
 </html>
