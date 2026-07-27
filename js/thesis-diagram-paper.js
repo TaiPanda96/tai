@@ -12,7 +12,7 @@
     var canvas = stage.querySelector("canvas");
     if (!canvas) return;
     var ctx = canvas.getContext("2d");
-
+    if (!ctx) return;
     /* paper palette: "gold" slots now carry the deep signal blue */
     var C = {
       gold: "#1B3BD8", goldHi: "#142C9E",
