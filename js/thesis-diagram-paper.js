@@ -293,10 +293,12 @@
         spawn(inCloud ? lx + rand(-12, 12) : null, inCloud ? ly + rand(-12, 12) : null, rand(0.05, 0.35));
     });
 
+    var inView = false;
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (rmq.matches) return;
-        if (e.isIntersecting) start(); else stop();
+        inView = !!e.isIntersecting;
+        if (inView) start(); else stop();
       });
     }, { threshold: 0.1 });
 
@@ -307,7 +309,8 @@
     }
     window.addEventListener("resize", function () { resize(); if (!running) draw(last || 0); });
     document.addEventListener("visibilitychange", function () {
-      if (document.hidden) stop(); else if (!rmq.matches && !running) start();
+      if (document.hidden) stop();
+      else if (!rmq.matches && inView && !running) start();
     });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(boot);
     else boot();
