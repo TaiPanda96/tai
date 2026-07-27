@@ -179,14 +179,13 @@
       ctx.scale(dpr * S, dpr * S);
       ctx.textBaseline = "alphabetic";
 
-      ctx.font = "11px 'IBM Plex Mono', monospace"; ctx.letterSpacing = "2px";
+      ctx.font = "11px 'IBM Plex Mono', monospace";
       ctx.fillStyle = C.faint; ctx.textAlign = "left";
       ctx.fillText("PROBABILISTIC", 40, 36);
       ctx.fillStyle = C.gold;
       ctx.fillText("THE INFRASTRUCTURE LAYER", panel.x, 36);
       ctx.fillStyle = C.faint; ctx.textAlign = "right";
       ctx.fillText("DETERMINISTIC", 880, 36);
-      ctx.letterSpacing = "0px";
 
       for (var bi = 0; bi < ambient.length; bi++) {
         var dd = ambient[bi];
