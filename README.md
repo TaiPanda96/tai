@@ -92,27 +92,3 @@ The index refactor was checked in desktop Chromium and mobile touch emulation fo
 The work-history expansion passed the production build and browser checks for all six entries, four company groups, role dates, breadcrumbs, previous/next navigation, browser history, direct section links, and return to the exposed card. Desktop and 390px mobile layouts were visually inspected, with no horizontal overflow at 390px or 320px. Fresh mobile captures confirmed the Utradea article and short Creative Destruction Lab page after layout settled. HighFi figures remain present; earlier experience pages omit figures, and Creative Destruction Lab has no empty section menu. The browser checks reported no JavaScript errors.
 
 The repository migration passed a fresh dependency install, production build, and the same six-entry browser checks against its own production preview. All 31 application and public asset files match the approved local site byte for byte. Git blob hashes and file modes confirm that all 42 legacy files, including the symlink, are preserved in the archive. The production output contains no archived pages.
-
-## Design references
-
-- [Patrick Bateman card](https://hobancards.com/products/patrick-bateman): stock, serif small caps, layout, and letterpress treatment. EB Garamond supplies the prototype typeface.
-- [Holo by Arlan](https://www.arlan.me/vault/holo): compact staging and normalized pointer-follow behavior, adapted for actual Three.js geometry. See `THIRD_PARTY_NOTICES.md`.
-- [Benji's Drawesome](https://benji.org/drawesome), the supplied writing index, and [Morphing Icons with Claude](https://benji.org/morphing-icons-with-claude): restrained table presentation, article measure, and navigation.
-- The supplied holder photograph: geometry, hinge, tray, clasp, and reflective metal.
-- [Rauno's interaction design](https://rauno.me/craft/interaction-design) and [depth](https://rauno.me/craft/depth): input feedback, continuous motion, and a layered studio setting.
-
-## MCP dogfooding
-
-The site remains the primary task. A real stdio call to `capture_ui_animation_from_url` against Holo failed before capturing evidence with:
-
-> It looks like you are using Playwright Sync API inside the asyncio loop. Please use the Async API instead.
-
-Follow-up in the separate `video-to-ui-mcp` checkout: reproduce URL capture through an actual MCP call using a localhost fixture, then check the sync/async boundary. The existing analysis tool remains usable for local recordings.
-
-The installed `analyze_ui_animation` tool successfully analyzed the local holder reveal, returning six ordered image frames and schema 0.3.0 motion evidence. The original wrapper saved metadata without forwarding the images to visual inspection, so this call did not inform the design. The recording and result are under ignored `output/playwright/`.
-
-For the cursor refinement, the tool analyzed the supplied Nachi recording before implementation. All eight images were saved and selected frames were visually inspected. The selection concentrated on the screen-recording toolbar and missed most early cursor movement, so direct browser inspection established the difference blending and hover behavior. Evidence is in ignored `output/references/nachi-mcp/`.
-
-For the reveal revision, the tool selected eight frames from the user's recording. Inspecting them, additional intermediate frames, and the existing code exposed the blank-card interval and incorrect hinge direction. A second call selected eight states from the revised reveal; visual inspection confirmed that the lettering remains attached as the lid opens and the holder exits. The tool's combined-motion easing estimate was low confidence and was not used to choose the animation curve. Evidence is in ignored `output/playwright/reveal-v3-mcp/`.
-
-For the index refactor, two stdio calls to `analyze_ui_animation` returned eight frames each from production-preview recordings. Visual inspection of the first set exposed a brief opacity dip when the returning HTML card handed off to Three.js. The live scene now appears at full opacity beneath the fading HTML card. The second set checked that handoff after the fix. The MCP did not choose the table layout, breadcrumbs, typography, or animation curve. Direct browser snapshots found the earlier projected-lettering alignment issue. The recordings did not reliably show every outbound compositor frame, so explicit animation-time snapshots and live frame measurements supplemented them. Evidence is in ignored `output/playwright/card-index-mcp/` and `output/playwright/card-index-v2-mcp/`.

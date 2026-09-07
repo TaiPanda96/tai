@@ -26,6 +26,7 @@ All notable changes to this project will be documented here.
 
 ### Changed
 
+- Removed design references and MCP dogfooding notes from the README.
 - Replaced the active static portfolio with the approved React, TypeScript, and Three.js site. Pinned the package manager and documented the Node.js runtime.
 - Expanded Work to six entries across four organizations, with year ranges in the table and full role and date context on each detail page.
 - Connected previous/next navigation across HighFi and earlier experience, made figures optional, and omitted section menus on brief pages.
