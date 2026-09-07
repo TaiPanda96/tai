@@ -1,7 +1,10 @@
-## Temporary files
-*.tmp
-/tmp
-
-
-### Specs
-/specs
+node_modules/
+dist/
+output/
+.playwright-cli/
+*.tsbuildinfo
+.DS_Store
+.vercel/
+.env
+.env.*
+!.env.example
