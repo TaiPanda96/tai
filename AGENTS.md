@@ -1,35 +1,22 @@
-<!-- BEGIN:project-agent-rules -->
+# Tai portfolio
 
-# portfolio — Agent Rules
+## Stack and commands
 
-Add project-specific rules here. This is the first file every agent reads in this repo; keep it short, specific, and up to date. Suggested sections below — delete the ones you don't need.
+- React 19, TypeScript, Vite 7, and Three.js.
+- Node.js 22 and pnpm 10.28.0.
+- Install: `pnpm install --frozen-lockfile`.
+- Local preview: `pnpm dev`.
+- Production verification: `pnpm build`, which includes TypeScript checking.
+- Deployment: the existing Vercel project builds `dist/` using `vercel.json`.
 
-## Stack (replace with actuals)
+## Working rules
 
-- Language / runtime: Static HTML (no build step)
-- Framework: none
-- Package manager: none
-- Run prefix: _not configured_
-- Tests: _not configured_
-- Lint: _not configured_
-- Typecheck: _not configured_
-- Format: _not configured_
-
-When build tooling is added, update this block and the placeholders in `.claude/skills/{plan,implement,qa}/SKILL.md` accordingly.
-
-## Hard rules
-
-- TODO: list rules that, if violated, should make the agent stop and ask. Example:
-  "Never modify the production schema without a migration file."
-- TODO: add patterns the team always avoids.
-
-<!-- END:project-agent-rules -->
-
-## Authoritative docs
-
-If this repo has any documents that take precedence over anything an agent would derive from the code alone, list them here. Example:
-
-> All UI work (components, styling, animation, tokens) MUST follow `docs/design-system.md`.
-> When the code and the doc disagree, one of them is wrong — update both in the same commit.
-
-When a doc like this exists, consider wiring it into `.claude/hooks/` so it gets injected into relevant prompts automatically. See `.claude/settings.json` for the hook config.
+- Keep changes focused on the requested work. Preserve approved landing motion, session behavior, and audio unless the task changes them.
+- Edit profile details in `src/profile.ts` and Work or Projects content in `src/content.ts`.
+- Use `README.md` for content sources and expected behavior. Notion remains authoritative for the HighFi narratives and approval boundaries.
+- `archive/legacy-site/` is the preserved previous repository, not active application code. Leave its files unchanged.
+- Do not use em dashes in new copy, comments, or documentation.
+- Update `CHANGELOG.md` under `[Unreleased]` when finishing changes.
+- Run `pnpm build` before merging. For UI changes, check the affected desktop and mobile routes.
+- Keep dependency installs, builds, recordings, local environment files, and tool artifacts out of Git.
+- Do not add coauthor trailers to commits.
